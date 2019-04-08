@@ -38,65 +38,6 @@
 \usepackage{float}
 \usepackage{timestamp}
 
-% create "+" rule type for thick vertical lines
-\newcolumntype{+}{!{\vrule width 2pt}}
-
-% create \thickcline for thick horizontal lines of variable length
-\newlength\savedwidth
-\newcommand\thickcline[1]{%
-  \noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
-  \cline{#1}%
-  \noalign{\vskip\arrayrulewidth}%
-  \noalign{\global\arrayrulewidth\savedwidth}%
-}
-
-% \thickhline command for thick horizontal lines that span the table
-\newcommand\thickhline{\noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
-\hline
-\noalign{\global\arrayrulewidth\savedwidth}}
-
-
-% Remove comment for double spacing
-%\usepackage{setspace}
-%\doublespacing
-
-% Text layout
-\raggedright
-\setlength{\parindent}{0.5cm}
-\textwidth 5.25in
-\textheight 8.75in
-
-% Bold the 'Figure #' in the caption and separate it from the title/caption with a period
-% Captions will be left justified
-\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=off]{caption}
-\renewcommand{\figurename}{Fig}
-
-% Use the PLoS provided BiBTeX style
-\bibliographystyle{plos2015}
-
-% Remove brackets from numbering in List of References
-\makeatletter
-\renewcommand{\@biblabel}[1]{\quad#1.}
-\makeatother
-
-% Leave date blank
-\date{}
-
-% Header and Footer with logo
-\usepackage{lastpage,fancyhdr,graphicx}
-
-\usepackage[outdir=./]{epstopdf}
-\pagestyle{myheadings}
-\pagestyle{fancy}
-\fancyhf{}
-\setlength{\headheight}{27.023pt}
-%\lhead{\includegraphics[width=2.0in]{PLOS-submission.eps}}
-\rfoot{\thepage/\pageref{LastPage}}
-\renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
-\fancyheadoffset[L]{2.25in}
-\fancyfootoffset[L]{2.25in}
-\lfoot{\sf PLOS}
-
 %% Include all macros below
 
 \newcommand{\lorem}{{\bf LOREM}}
@@ -111,12 +52,12 @@
 % Title must be 250 characters or less.
 \begin{flushleft}
 {\Large
-\textbf\newline{Inverse sensitivity analysis of mathematical models avoiding the curse of dimensionality}
+\textbf\newline{Using MCMC to perform inverse sensitivity analysis of mathematical models}
 }
 \newline
 \\
 Ben Lambert\textsuperscript{1,2}*,
-David J. Gavaghan\textsuperscript{3},
+%David J. Gavaghan\textsuperscript{3},
 Simon Tavener\textsuperscript{4}.
 \\
 \bigskip
@@ -153,7 +94,9 @@ Simon Tavener\textsuperscript{4}.
 \newpage
 \section{Abstract}
 
-Biological systems have evolved a degree of robustness with respect to perturbations in their environment and this capability is essential for their survival. In applications ranging from therapeutics to conservation, it is important to understand not only the sensitivity of biological systems to changes in their environments, but which features of these systems are necessary to achieve a given outcome. Mathematical models are increasingly employed to understand these mechanisms. Sensitivity analyses of such mathematical models provide insight into the responsiveness of the system when experimental manipulation is difficult. One common approach is to seek the probability distribution of the outputs of the system corresponding to a known distribution of inputs. By contrast,  inverse sensitivity analysis determines the probability distribution of model inputs which produces a known distribution of outputs. The computational complexity of the methods used to conduct inverse sensitivity analyses for deterministic systems has limited their application to models with relatively few parameters. Here we describe a novel Markov Chain Monte Carlo method we call ``Contour Monte Carlo'', which can be used to invert systems with a large number of parameters. We demonstrate the utility of this method by inverting a range of frequently-used deterministic models of biological systems, including the logistic growth equation, the Michaelis-Menten equation, and an SIR model of disease transmission with nine input parameters. We argue that the simplicity of our approach means it is amenable to a large class of problems of practical significance and, more generally, provides a probabilistic framework for understanding the inversion of deterministic models.
+Biological systems have evolved a degree of robustness with respect to perturbations in their environment and this capability is essential for their survival. In applications ranging from therapeutics to conservation, it is important to understand not only the sensitivity of biological systems to changes in their environments, but which features of these systems are necessary to achieve a given outcome. Mathematical models are increasingly employed to understand these mechanisms. Sensitivity analyses of such mathematical models provide insight into the responsiveness of the system when experimental manipulation is difficult. One common approach is to seek the probability distribution of the outputs of the system corresponding to a known distribution of parameter values. By contrast, inverse sensitivity analysis determines the probability distribution of parameter values which produces a known distribution of outputs. Inverse sensitivity analysis is distinct from Bayesian inference in that it is typically applied to deterministic systems where the dimension of outputs exceeds the number of model parameters.
+
+The computational complexity of the methods used to conduct inverse sensitivity analyses for deterministic systems has limited their application to models with relatively few parameters. Here we describe a novel Markov Chain Monte Carlo method we call ``Contour Monte Carlo'', which can be used to invert systems with a large number of parameters. We demonstrate the utility of this method by inverting a range of frequently-used deterministic models of biological systems, including the logistic growth equation, the Michaelis-Menten equation, and an SIR model of disease transmission with nine input parameters. We argue that the simplicity of our approach means it is amenable to a large class of problems of practical significance and, more generally, provides a probabilistic framework for understanding the inversion of deterministic models.
 
 
 
