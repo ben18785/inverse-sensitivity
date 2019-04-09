@@ -6,7 +6,7 @@
   * Can we represent the different in problems between standard  Bayes / MCMC and the current approach?
 * Lessen claims about computational burden increasing with number of outputs
 * Can the output distribution always be reached?
-* Change eq. 3 to the Dirac delta function
+* [x] Change eq. 3 to the Dirac delta function
 * Make explicit reference 17 to many-to-one Jacobian calculation. Also make clear that this calculation requires knowing the level sets of Q. So even if we can numerically determine the sensitivities, we are still stuck!
 * "Our approach, therefore, consists of two distinct steps..." refers to section $4.2 which is actually before this
 * Combine algorithm 2 with 1 since in the first case $p(\lambda) = const.$  
