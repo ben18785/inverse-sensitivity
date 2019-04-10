@@ -4,6 +4,8 @@
 % amsmath and amssymb packages, useful for mathematical formulas and symbols
 \usepackage{amsmath,amssymb}
 
+\usepackage{graphicx}
+
 % Use adjustwidth environment to exceed column width (see example table in text)
 \usepackage{changepage}
 
@@ -136,9 +138,11 @@ In Bayesian parameter estimation, the aim is to estimate probability distributio
 
 Due to the differing aims and assumed sources of stochasticity, the posterior parameter distributions that result from non-hierarchical Bayesian inference or inverse sensitivity have different interpretations. For these Bayesian models, the posterior distributions represent our underlying epidemic uncertainty over a single set of true parameter values. For inverse sensitivity analyses, they indicate the degree of ontological (that is, actually occurring) variation in parameter values across units of measurement.
 
-\vspace{0.5cm}
-
-Figure 1. \textbf{The difference between non-hierarchical Bayesian inference (top row) and inverse sensitivity analysis (bottom row).} 
+\begin{figure}[H]
+	\centerline{\includegraphics[width=1.25\textwidth]{../figures/comparing_bayes_sensitivity.pdf}}
+	\caption{\textbf{The difference between non-hierarchical Bayesian inference (top row) and inverse sensitivity analysis (bottom row).} The left hand column indicates the output information which is used to perform parameter inference in each case. The middle column indicates the source of output variation: for Bayesian state-space models this is often the measurement error process whereas for deterministic dynamic models this is stochasticity in the underlying parameter values. The right hand column shows example posterior distributions that would result from each analysis.}
+	\label{fig:difference_between_bayes_invsensitivity}
+\end{figure}
 
 For a large class of models of practical interest in biology, including ordinary differential equations (ODEs) and partial differential equations (PDEs), analytic methods for inverse sensitivity analysis  are unavailable. Further it is common for the dimension of the inputs to exceed that of the outputs. For deterministic systems, this means that there exist non-singular sets of inputs that can yield a given output and that any feasible output distribution may be caused by any member of a collection of possible input distributions. In Bayesian inference of stochastic systems, prior distributions are specified for parameters of the likelihood ensuring a unique input distribution for a given set of output data. For deterministic models, however, there is no uncertainty in the input-to-output map, meaning standard Bayesian techniques cannot be used without introducing an artificial error distribution. Here we describe a conceptual framework to understand the inversion of deterministic systems. We then describe a novel Markov Chain Monte Carlo method we call ``Contour Monte Carlo'' and use this approach to invert a number of systems, including the logistic growth equation, the Michaelis-Menten equation, and an SIR model of disease transmission. In contrast to methods that use a grid to discretize the parameter domain to determine a numerical output-to-input map \cite{butler2014measure}, our method uses stochastic sampling to instead approximate the multiplicity of a given output value; that is, the number of inputs that map to that value. By using random sampling, the computational complexity of our approach does not grow with parameter dimensions, meaning that it can be applied to large model systems. We also argue that the simplicity of our approach means it is amenable to a large class of problems of practical significance.
 
@@ -339,15 +343,18 @@ Q = \lambda^{2},
 %
 where $\lambda\in[0,1]$. Suppose that we seek a distribution over inputs $p(\lambda)$ such that the corresponding distribution over outputs follows $Q(\lambda) \sim beta(2,2)$ (see the black lines in the right hand column of Figure 1). A straightforward way to generate samples from $p(\lambda)$ is to first sample $Q_i \sim beta(2,2)$ then use the inverse map to yield samples of $\lambda_i = Q_i^{1/2}$. For most interesting models in mathematical biology however, including ODEs and PDEs, an inverse map cannot be calculated or does not exist. As such, we aim to generate samples from $p(\lambda)$ using only the forward map.
 
-\vspace{0.5cm}
 
-Figure 1. \textbf{Illustrative example \#1: Estimated posterior input distributions (left column) and corresponding output distributions (right column) for naive Metropolis (top row), modified Metropolis using the analytic Jacobian (middle row) and sampling-based Modified Metropolis (bottom row).} Target densities are indicated by black lines. For the analytic case, the Jacobian used corresponds to equation \eqref{eq:jacobianMetropolis}. In each case, 316,000 Metropolis samples across 8 Markov chains (40,000 iterations on each chain, with the first 500 samples discarded as warm-up) were used to produce the histograms. For the sampling-based Modified Metropolis, the Jacobian transformations were estimated as indicated in the caption to Figure 2, and are shown as the blue-dashed line in Figure 2B.
+\begin{figure}[H]
+	\centerline{\includegraphics[width=1.25\textwidth]{../figures/fig_1.png}}
+	\caption{\textbf{Illustrative example \#1: Estimated posterior input distributions (left column) and corresponding output distributions (right column) for naive Metropolis (top row), modified Metropolis using the analytic Jacobian (middle row) and sampling-based Modified Metropolis (bottom row).} Target densities are indicated by black lines. For the analytic case, the Jacobian used corresponds to equation \eqref{eq:jacobianMetropolis}. In each case, 316,000 Metropolis samples across 8 Markov chains (40,000 iterations on each chain, with the first 500 samples discarded as warm-up) were used to produce the histograms. For the sampling-based Modified Metropolis, the Jacobian transformations were estimated as indicated in the caption to Figure 2, and are shown as the blue-dashed line in Figure 2B.}
+	\label{fig:example_1}
+\end{figure}
 
-\vspace{0.5cm}
-
-Figure 2. \textbf{Illustrative example \#1: (A) Uniform sampling of input over $[0,1]$. (B) Corresponding output under map defined by equation \eqref{eq:quadratic_functional}.} Histograms were constructed using 100,000 random samples. The grey curves indicate the exact sampling distributions. The blue-dotted line in panel B shows the Gaussian kernel density estimate of the sampling distribution using a bandwidth of 0.01.
-
-\vspace{0.5cm}
+\begin{figure}[H]
+	\centerline{\includegraphics[width=1.25\textwidth]{../figures/fig_2.tif}}
+	\caption{\textbf{Illustrative example \#1: (A) Uniform sampling of input over $[0,1]$. (B) Corresponding output under map defined by equation \eqref{eq:quadratic_functional}.} Histograms were constructed using 100,000 random samples. The grey curves indicate the exact sampling distributions. The blue-dotted line in panel B shows the Gaussian kernel density estimate of the sampling distribution using a bandwidth of 0.01.
+	\label{fig:example_1_jacobian}
+\end{figure}
 
 It may appear that a valid approach to generate input samples from $p(\lambda)$ is to use a Markov chain Monte Carlo (MCMC) algorithm like random walk Metropolis \cite{metropolis1953equation}, where proposed $\lambda'$ are accepted as samples if,
 %
