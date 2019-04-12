@@ -1,0 +1,112 @@
+---
+title: "Contour Monte Carlo"
+output: html_notebook
+---
+
+
+```{r}
+rm(list=ls())
+library(tidyverse)
+library(deSolve)
+```
+
+Michaelis-Menten ODEs
+```{r}
+deriv_michaelis_menten <- function(t, state, parameters){
+  with(as.list(c(state, parameters)),{
+    dEdt <- -k_f * E * S + k_r * ES + k_cat * ES
+    dSdt <- -k_f * E * S + k_r * ES
+    dESdt <- k_f * E * S - k_r * ES - k_cat * ES
+    dPdt <- k_cat * ES
+    list(c(dEdt, dSdt, dESdt, dPdt))
+  })
+}
+
+times <- seq(0, 10, 0.1)
+parameters <- c(k_f=2, k_r=1, k_cat=1.5)
+state <- c(E=4, S=8, ES=0, P=0)
+time0 <- Sys.time()
+soln <- ode(y = state, times = times, func = deriv_michaelis_menten, parms = parameters, method="lsoda")
+time1 <- Sys.time()
+print(time1 - time0)
+soln %>% 
+  as.data.frame() %>% 
+  melt(id.vars="time") %>% 
+  ggplot(aes(x=time, y=value, colour=as.factor(variable))) +
+  geom_line()
+```
+
+Sample uniformly from parameters within bounds
+```{r}
+f_sample_solve_uniform <- function(num_samples, bounds, initial, population_sample, times_sample, f_solve_function, times_solve, parameter_names){
+  assertthat::are_equal(length(population_sample), times_sample)
+  mParameters <- map(seq(1, ncol(mBounds), 1), ~runif(num_samples, mBounds[1, .], mBounds[2, .]))
+  mParameters <- t(do.call(rbind, mParameters))
+  mOutputs <- matrix(nrow = num_samples, ncol = length(population_sample))
+  for(i in 1:num_samples){
+    parameters <- mParameters[i, ]
+    names(parameters) <- parameter_names
+    soln <- f_solve_function(initial, times_solve, parameters) %>% 
+      as.data.frame()
+    for(j in 1:length(population_sample))
+      mOutputs[i, j] <- approx(x=soln$time, y=soln[, (1 + population_sample[j])], times_sample[j])$y
+  }
+  return(mOutputs)
+}
+
+mBounds <- tibble(k_f=c(0.2, 15),
+                  k_r=c(0.2, 2),
+                  k_cat=c(0.5, 3)) %>% 
+  as.matrix()
+vTimes <- c(1, 2)
+vPopulation <- c(2, 1)
+
+
+f_solve_michaelis_menten <- function(initial, times, parameters){
+  return(ode(y = initial, times = times, func = deriv_michaelis_menten, parms = parameters))
+}
+
+mOutput <- f_sample_solve_uniform(100, mBounds, state,
+                                  vPopulation, vTimes, f_solve_michaelis_menten,
+                                  times, c("k_f", "k_r", "k_cat"))
+
+```
+
+Solving using ODIN
+```{r}
+generator <- odin::odin({
+  deriv(N) <- r * N * (1 - N / K)
+  initial(N) <- N0
+  N0 <- user(1)
+  K <- user(100)
+  r <- user()
+})
+mod <- generator(r = 1)
+tt <- seq(0, 30, length.out = 101)
+y3 <- mod$run(tt)
+
+generator <- odin::odin({
+  deriv(E) <- -k_f * E * S + k_r * ES + k_cat * ES
+  deriv(S) <- -k_f * E * S + k_r * ES
+  deriv(ES) <- k_f * E * S - k_r * ES - k_cat * ES
+  deriv(P) <- k_cat * ES
+  k_f <- user()
+  k_r <- user()
+  k_cat <- user()
+  initial(E) <- E0
+  initial(S) <- S0
+  initial(ES) <- ES0
+  initial(P) <- P0
+  E0 <- user(4)
+  S0 <- user(8)
+  ES0 <- user(0)
+  P0 <- user(0)
+})
+
+time0 <- Sys.time()
+mod <- generator(k_f=2, k_r=1, k_cat=1.5)
+soln <- mod$run(times)
+time1 <- Sys.time()
+print(time1 - time0)
+```
+
