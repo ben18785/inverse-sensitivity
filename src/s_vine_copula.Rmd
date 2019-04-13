@@ -9,18 +9,31 @@ library(kdevine)
 library(tidyverse)
 library(ks)
 library(mvtnorm)
+library(rvinecopulib)
 ```
 # 2D logistic example
 
 Load data
 ```{r}
-mContour <- read.csv('../Logistic - Simon/mContour_bivariate.csv',header = F)
+mContour <- read.csv('../data/mContour_bivariate.csv',header = F)
 ```
 
 
 Vines fit
 ```{r}
 fit <- kdevine(mContour)
+x <- seq(0, 20, 0.2)
+xx <- expand.grid(x, x)
+z <- map_dbl(seq(1, nrow(xx), 1), ~dkdevine(c(xx[., 1], xx[., 2]), fit))
+xx$pdf <- z
+xx %>% 
+  ggplot(aes(Var1, Var2, z=pdf)) +
+  geom_contour()
+```
+
+```{r}
+fit <- vine(mContour)
+dvinecop(c(10, 10), fit)
 x <- seq(0, 20, 0.2)
 xx <- expand.grid(x, x)
 z <- map_dbl(seq(1, nrow(xx), 1), ~dkdevine(c(xx[., 1], xx[., 2]), fit))
@@ -40,7 +53,7 @@ mPDF <- fHat$estimate
 plot(fHat)
 ```
 
-# 3D logistic example
+# 3D SIR example
 ```{r}
 mContour <- read.csv('../SIR_threeFixed/mContour_18.csv',header = F)
 ```
