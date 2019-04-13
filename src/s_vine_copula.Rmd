@@ -1,0 +1,204 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+rm(list=ls())
+library(kdevine)
+library(tidyverse)
+library(ks)
+library(mvtnorm)
+```
+# 2D logistic example
+
+Load data
+```{r}
+mContour <- read.csv('../Logistic - Simon/mContour_bivariate.csv',header = F)
+```
+
+
+Vines fit
+```{r}
+fit <- kdevine(mContour)
+x <- seq(0, 20, 0.2)
+xx <- expand.grid(x, x)
+z <- map_dbl(seq(1, nrow(xx), 1), ~dkdevine(c(xx[., 1], xx[., 2]), fit))
+xx$pdf <- z
+xx %>% 
+  ggplot(aes(Var1, Var2, z=pdf)) +
+  geom_contour()
+```
+
+Existing KDE fit
+```{r}
+# Estimate KDE with maxima of 20 in both directions
+fHat <- kde(mContour, xmin=c(0, 0), xmax=c(20,20), gridsize = c(100,100))
+mPDF <- fHat$estimate
+
+## Plot joint - don't do in higher dimensions as is very costly
+plot(fHat)
+```
+
+# 3D logistic example
+```{r}
+mContour <- read.csv('../SIR_threeFixed/mContour_18.csv',header = F)
+```
+
+Vine copula
+```{r}
+fit <- kdevine(mContour[,c(1,6,9)])
+x <- seq(0, 20, 0.2)
+```
+
+# 3D normal
+```{r}
+n <- 5000
+mContour <- rmvnorm(n, c(0, -3, 4),
+                 matrix(c(1, 0.5, -0.25, 0.5, 3, 0, -0.25, 0, 2),
+                        ncol = 3))
+```
+
+Fit vine copula
+```{r}
+fit <- kdevine(mContour)
+
+# test on m test points
+m <- 1000
+lPDF <- vector(length = m)
+lPDF_vine <- vector(length = m)
+for(i in 1:m){
+  a_test <- rmvnorm(1, c(0, -3, 4),
+                 matrix(c(1, 0.5, -0.25, 0.5, 3, 0, -0.25, 0, 2),
+                        ncol = 3))[1, ]
+  lPDF_vine[i] <- dkdevine(a_test, fit)
+  lPDF[i] <- dmvnorm(a_test, c(0, -3, 4),
+                 matrix(c(1, 0.5, -0.25, 0.5, 3, 0, -0.25, 0, 2),
+                        ncol = 3))
+}
+
+tibble(estimated=lPDF_vine, true=lPDF) %>%
+  ggplot(aes(x=estimated, y=true)) +
+  geom_point() +
+  geom_abline(slope = 1)
+```
+
+Use standard KDE technique
+```{r}
+fHat <- kde(mContour)
+mPDF <- fHat$estimate
+
+lQ1 <- fHat$eval.points[[1]]
+lQ2 <- fHat$eval.points[[2]]
+lQ3 <- fHat$eval.points[[3]]
+xi <- matrix(nrow = length(lQ1)*length(lQ2)*length(lQ3),ncol = 3)
+fL <- vector(length=length(lQ1)*length(lQ2)*length(lQ3))
+k <- 1
+for(i in seq_along(lQ1)){
+  print(i)
+  for(j in seq_along(lQ2)){
+    for(jj in seq_along(lQ3)){
+      xi[k,] <- c(lQ1[i], lQ2[j], lQ3[jj])
+      fL[k] <- mPDF[i, j, jj]
+      k <- k + 1
+    }
+  }
+}
+
+m <- 1000
+lPDF <- vector(length = m)
+lPDF_std <- vector(length = m)
+lPDF_vine <- vector(length = m)
+for(i in 1:m){
+  if(i%%200==0)
+    print(i)
+  a_test <- rmvnorm(1, c(0, -3, 4),
+                 matrix(c(1, 0.5, -0.25, 0.5, 3, 0, -0.25, 0, 2),
+                        ncol = 3))[1, ]
+  lPDF_std[i] <- fL[which.min(map_dbl(seq(1, nrow(xi), 1), ~sum((a_test-xi[., ])^2)))]
+  lPDF_vine[i] <- dkdevine(a_test, fit)
+  lPDF[i] <- dmvnorm(a_test, c(0, -3, 4),
+                 matrix(c(1, 0.5, -0.25, 0.5, 3, 0, -0.25, 0, 2),
+                        ncol = 3))
+}
+
+tibble(estimated=lPDF_std, true=lPDF) %>%
+  ggplot(aes(x=estimated, y=true)) +
+  geom_point() +
+  geom_abline(slope = 1)
+```
+
+```{r}
+aDF <- tibble(std=lPDF_std, vine=lPDF_vine, true=lPDF)
+aLM <- lm(true~std, data=aDF)
+summary(aLM)
+aLM <- lm(true~vine, data=aDF)
+summary(aLM)
+```
+
+# 4 dimensional example
+```{r}
+n <- 100000
+d <- 4
+Sigma <- rWishart(1, d, diag(rep(1, d)))[, , 1]
+mu <- rnorm(d, 0, 5)
+mContour <- rmvnorm(n, mu, Sigma)
+```
+
+```{r}
+fit <- kdevine(mContour)
+
+# test on m test points
+m <- 1000
+lPDF <- vector(length = m)
+lPDF_vine <- vector(length = m)
+for(i in 1:m){
+  a_test <- rmvnorm(n, rnorm(d, 0, 5), Sigma)[1, ]
+  lPDF_vine[i] <- dkdevine(a_test, fit)
+  lPDF[i] <- dmvnorm(a_test, mu, Sigma)
+}
+
+tibble(estimated=log(lPDF_vine), true=log(lPDF)) %>%
+  ggplot(aes(x=estimated, y=true)) +
+  geom_point() +
+  geom_abline(slope = 1)
+```
+
+# 5 dimensional example
+```{r}
+n <- 100000
+Sigma <- rWishart(1, 5, diag(rep(1, 5)))[, , 1]
+mu <- rnorm(5, 0, 5)
+mContour <- rmvnorm(n, mu, Sigma)
+```
+
+```{r}
+fit <- kdevine(mContour)
+
+# test on m test points
+m <- 1000
+lPDF <- vector(length = m)
+lPDF_vine <- vector(length = m)
+for(i in 1:m){
+  a_test <- rmvnorm(n, rnorm(5, 0, 5), Sigma)[1, ]
+  lPDF_vine[i] <- dkdevine(a_test, fit)
+  lPDF[i] <- dmvnorm(a_test, mu, Sigma)
+}
+
+tibble(estimated=log(lPDF_vine), true=log(lPDF)) %>%
+  ggplot(aes(x=estimated, y=true)) +
+  geom_point() +
+  geom_abline(slope = 1)
+```
+
+```{r}
+tibble(estimated=log10(lPDF_vine), true=log10(lPDF)) %>%
+  filter(true>-30) %>% 
+  mutate(estimated=exp(estimated), true=exp(true)) %>% 
+  ggplot(aes(x=estimated, y=true)) +
+  geom_point() +
+  geom_abline(slope = 1) +
+  scale_y_log10() +
+  scale_x_log10()
+```
+
