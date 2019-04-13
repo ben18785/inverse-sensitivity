@@ -8,6 +8,7 @@ output: html_notebook
 rm(list=ls())
 library(tidyverse)
 library(deSolve)
+library(reshape2)
 ```
 
 Michaelis-Menten ODEs
@@ -66,7 +67,7 @@ f_solve_michaelis_menten <- function(initial, times, parameters){
   return(ode(y = initial, times = times, func = deriv_michaelis_menten, parms = parameters))
 }
 
-mOutput <- f_sample_solve_uniform(100, mBounds, state,
+mOutput <- f_sample_solve_uniform(1000, mBounds, state,
                                   vPopulation, vTimes, f_solve_michaelis_menten,
                                   times, c("k_f", "k_r", "k_cat"))
 
