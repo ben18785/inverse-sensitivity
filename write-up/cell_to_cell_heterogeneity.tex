@@ -121,7 +121,7 @@ Hasenauer 2011 uses density functions for the output; and ansatz KDE for the inp
 
 Haseanauer 2014 uses ODE-MMs. This results in a non-convex problem which can be difficult to maximise, in part, owing to the difficulty of assigning cells to subpopulations. It isn't Bayesian so can't include prior information. Loos 2018 is wrong when it claims that this approach doesn't allow subpopulation variability.
 
-Loos 2018 allows for fitting joint distribution of multiple observables over time opposed to marginal distributions. Again, uses individual mixture components to represent subpopulations. Our method does not require the number of subpopulations to be stated a priori.
+Loos 2018 allows for fitting joint distribution of multiple observables over time opposed to marginal distributions. Our approach can do this. Again, uses individual mixture components to represent subpopulations. Our method does not require the number of subpopulations to be stated a priori.
 
 
 
@@ -132,12 +132,12 @@ Loos 2018 allows for fitting joint distribution of multiple observables over tim
 Figure showing workflow in using CMC to infer cell-to-cell variability.
 
 \section{Results}
-\subsection{Michaelis-Menten kinetics}
-Can I target a trimodal distribution here?
 
+\subsection{Michaelis-Menten kinetics}
+Target a bimodal target then a four-dimensional covariance target. No change in model details apart from target.
 
 \subsection{TNF signalling pathway}
-
+Target a unimodal then bimodal target.
 
 
 \section{Discussion}
