@@ -111,37 +111,31 @@ The approach we follow here is similar to that of \cite{dixit2018maximum}, where
 The difficulty of parameter inference for HODEs is partly due to experimental hurdles in generating data of sufficient quality to allow identification. Unlike models which represent a population by a single scalar ODE, since HODEs are individual-based they ideally require individual cell data for estimation. A widely-used method for generating data for individual cells is flow cytometry, where a large number of cells are streamed individually through a laser beam and, for example, abundance measurements are made of proteins labelled with fluorescent markers \cite{telford2012flow}. Alternatively, experimental techniques such as Western blotting and cytometric fluorescence microscopy can generate single cell measurements \cite{hughes2014single,hasenauer2011identification}. A property of these experimental methods is that they are destructive, meaning that individual cells are sacrificed as part of the measurement process. This means that the measurements of cell properties conducted at a certain point in time represent what are termed ``snapshots" of the underlying population \cite{hasenauer2011identification}. These snapshots are often described by histograms \cite{dixit2018maximum} or density functions \cite{waldherr2018estimation} fit to the underlying data at different points in time (Fig. X). Since HODEs represent the underlying state of individual cells as evolving continuously through time, corresponding data showing individual cell trajectories constitutes a richer data resource. The demands of obtaining this data are higher however and typically involve either tracking individual cells through imaging methods [citation] or trapping cells in a spatial position where their individual dynamics can be readily monitored [citation]. These techniques impose restrictions on experimental practices meaning that they cannot be realised in all circumstances, including for online monitoring of biotechnological processes or analysis of \textit{in vivo} studies. For this reason, snapshot data continues to play an important role for determining cell level variability in a wide variety of cases.
 
 
-A variety of approaches have been proposed to estimate cell-to-cell variability by fitting HODE models to snapshot data.
+A variety of approaches have been proposed to estimate cell-to-cell variability by fitting HODE models to snapshot data. In HODEs, parameter values vary across cells according to some underlying distribution meaning that in order to solve the exact inverse problem, the underlying ODE system needs to be simulated for each individual. Since the numbers of cells in these experiments are typically $>\sim10^4$ \cite{hasenauer2011identification}, this usually precludes exact inference due to its computational burden and instead the raw snapshot data is approximated by probability densities \cite{hasenauer2011identification,hasenauer2014ode,loos2018hierarchical,dixit2018maximum}. Hasenauer et al. (2011) presents a Bayesian approach to inference for HODEs, which models the input parameter space using mixtures of ansatz densities. Hasenauer et al. (2014) uses mixture-models to model the subpopulation structure in the snapshot data and uses multiple-start local optimisation to maximise the non-convex likelihood. Loos et al. (2018) uses also uses mixture models to represent subpopulation structure and a maximum likelihood approach that allows for estimation of within- and between-subpopulation variability which also allows fitting to multivariate dependent output distributions. Dixit et al. (2018) discretises cell abundances into bins, then uses a maximum entropy approach as part of a Bayesian framework to fit the distribution representing cell-to-cell variability.
 
+The framework we present here is Bayesian although is distinct from the traditional Bayesian inferential paradigm used to fit dynamic models since the source of stochasticity arises solely due to cell-to-cell parameter variation not measurement noise. Our approach is hence most suitable to experimental approaches when measurement error is a minor contributor to observed variability. Our computational method is a two-step Monte Carlo approach which, for reasons described in \S \ref{sec:method}, we term ``Contour Monte Carlo'' (CMC). Unlike many of the existing methods however, CMC is relatively computationally straightforward to implemen and does not require extensive computation time. CMC uses MCMC in its second step to sample from the posterior distribution over parameter values and hence does not require specification of ansatz densities. It also does not require \textit{a priori} representation of subpopulation structure using mixture components rather subpopulations appear naturally as modes in the posterior parameter distributions. Like \cite{loos2018hierarchical} CMC can fit multivariate snapshot data and unlike \cite{dixit2018maximum}, does not require this data to be discretised into bins. As more experimental techniques are developed which elucidate single cell behaviour, there is likely to be more interest in methods which can be used to recapitulate the observed snapshots. We argue that due to its simplicity and generality, CMC is a useful addition to the modeller's toolkit, allowing them to take advantage of the proliferation of this rich single cell data.
 
+\noindent\underline{Outline of the paper}: In \S \ref{sec:method}, we present the details of our methodological framework and detail the CMC algorithm we use to sample from the posterior parameter distribution. In \S \ref{sec:results}, we then use CMC to estimate cell population heterogeneity in three systems of biological interest.
 
-What are the existing approaches used for inference of HODEs? Mention Loos paper re: hierarchical. Figure where we explain why Bayesian hierarchical modelling is difficult for snapshot data. What are the issues with performing inference for such models? Dixit paper -- histogram when a density is perhaps more sensible. Hasenaur needs ansatz kernel densities -- our approach does not. The benefit of using densities rather than individual data points -- in a hierarchical framework, the individual cells each require simulating the model; computationally intensive given numbers of cells involved.
-
-Hasenauer 2011 uses density functions for the output; and ansatz KDE for the inputs. Computationally complex and intensive and are known (Hasenauer 2014) to understate the size of certain subpopulations.
-
-Haseanauer 2014 uses ODE-MMs. This results in a non-convex problem which can be difficult to maximise, in part, owing to the difficulty of assigning cells to subpopulations. It isn't Bayesian so can't include prior information. Loos 2018 is wrong when it claims that this approach doesn't allow subpopulation variability.
-
-Loos 2018 allows for fitting joint distribution of multiple observables over time opposed to marginal distributions. Our approach can do this. Again, uses individual mixture components to represent subpopulations. Our method does not require the number of subpopulations to be stated a priori.
-
-
-
-\bigskip
-\noindent\underline{Outline of the paper}: In \S 
-
-\section{Method}
+\section{Method}\label{sec:method}
 Figure showing workflow in using CMC to infer cell-to-cell variability.
 
-\section{Results}
+\section{Results}\label{sec:results}
+
+\subsection{Growth factor model}
+Dixit simplified growth factor model. Target a unimodal distribution and show using both uniform and non-uniform priors.
 
 \subsection{Michaelis-Menten kinetics}
 Target a bimodal target then a four-dimensional covariance target. No change in model details apart from target.
 
 \subsection{TNF signalling pathway}
-Target a unimodal then bimodal target.
+Target a bimodal target.
 
 
 \section{Discussion}
 \label{sec:discussion}
+
+When struggling to target a given distribution using this method, this indicates a) the contour estimates are not refined enough and b) that the generating model (without measurement uncertainty) is unable to recapitulate the target.
 
 Natural selection has dictated that organisms have often evolved redundancies for systems essential for life. By building mathematical models we aim to mimic these systems, meaning that these models should embody similar redundancies as their biological counterparts. Assessing the sensitivity of key characteristics of model outputs to perturbations in input parameters provides insight into the sensitivity of the system to each of its constituent elements. These so-called sensitivity analyses of mathematical models allow us to probe the biological system even when biological experiments are infeasible. Inverse sensitivity analysis inverts this process and instead of determining how model outputs vary in response to changes to the input parameter values, estimates a distribution over inputs which achieves a given distribution over outputs.
 
@@ -161,4 +155,4 @@ BL, DJG and SJT conceived the study. BL carried out the analysis. All authors he
 
 \bibliographystyle{unsrt}
 \bibliography{Bayes}
-
+\end{document}
