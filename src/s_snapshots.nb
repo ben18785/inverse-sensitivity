@@ -1,0 +1,2985 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    136774,       2977]
+NotebookOptionsPosition[    135276,       2945]
+NotebookOutlinePosition[    135624,       2960]
+CellTagsIndexPosition[    135581,       2957]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"options3", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Frame", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"True", ",", "True", ",", "False", ",", "False"}], "}"}]}], 
+     ",", 
+     RowBox[{"FrameStyle", "\[Rule]", "Black"}], ",", 
+     RowBox[{"BaseStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"FontSize", "\[Rule]", "20"}], "}"}]}], ",", 
+     RowBox[{"LabelStyle", "\[Rule]", "Black"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fNumericMean", "[", 
+   RowBox[{"aX_", ",", "\[Alpha]_", ",", "\[Beta]_", ",", "y0_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"y", ",", "x", ",", 
+      RowBox[{"f", "=", 
+       RowBox[{"NDSolveValue", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"y", "'"}], "[", "x", "]"}], "\[Equal]", 
+            RowBox[{"\[Alpha]", " ", 
+             RowBox[{"y", "[", "x", "]"}], 
+             RowBox[{"(", 
+              RowBox[{"1", "-", 
+               RowBox[{"\[Beta]", " ", 
+                RowBox[{"y", "[", "x", "]"}]}]}], ")"}]}]}], ",", 
+           RowBox[{
+            RowBox[{"y", "[", "0", "]"}], "\[Equal]", "y0"}]}], "}"}], ",", 
+         "y", ",", 
+         RowBox[{"{", 
+          RowBox[{"x", ",", "0", ",", "100"}], "}"}]}], "]"}]}]}], "}"}], ",", 
+    RowBox[{"f", "[", "aX", "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fMean", "[", 
+   RowBox[{"x_", ",", "\[Alpha]_", ",", "\[Beta]_", ",", "y0_"}], "]"}], ":=", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["\[ExponentialE]", 
+     RowBox[{"x", " ", "\[Alpha]"}]], " ", "y0"}], 
+   RowBox[{"1", "-", 
+    RowBox[{"y0", " ", "\[Beta]"}], "+", 
+    RowBox[{
+     SuperscriptBox["\[ExponentialE]", 
+      RowBox[{"x", " ", "\[Alpha]"}]], " ", "y0", " ", 
+     "\[Beta]"}]}]]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fYGenerate", "[", 
+   RowBox[{
+   "x_", ",", "\[Alpha]_", ",", "\[Beta]_", ",", "y0_", ",", "\[Sigma]_"}], 
+   "]"}], ":=", 
+  RowBox[{
+   RowBox[{"RandomVariate", "[", 
+    RowBox[{
+     RowBox[{"NormalDistribution", "[", 
+      RowBox[{
+       RowBox[{"fMean", "[", 
+        RowBox[{"x", ",", "\[Alpha]", ",", "\[Beta]", ",", "y0"}], "]"}], ",",
+        "\[Sigma]"}], "]"}], ",", 
+     RowBox[{"{", "1", "}"}]}], "]"}], "[", 
+   RowBox[{"[", "1", "]"}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fGenerateY", "[", "]"}], ":=", 
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"lX", " ", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{"x", ",", 
+         RowBox[{"{", 
+          RowBox[{"x", ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", 
+             RowBox[{"1", "+", "2.7"}], ",", 
+             RowBox[{"1", "+", 
+              RowBox[{"2", " ", "2.7"}]}], ",", " ", "9.5"}], "}"}]}], 
+          "}"}]}], "]"}]}], ",", "lY"}], "}"}], ",", 
+    RowBox[{
+     RowBox[{"lX", "=", 
+      RowBox[{"lX", "+", 
+       RowBox[{"RandomVariate", "[", 
+        RowBox[{
+         RowBox[{"NormalDistribution", "[", 
+          RowBox[{"0", ",", "0.1"}], "]"}], ",", 
+         RowBox[{"Length", "@", "lX"}]}], "]"}]}]}], ";", 
+     RowBox[{"Thread", "[", 
+      RowBox[{"{", 
+       RowBox[{"lX", ",", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"fYGenerate", "[", 
+           RowBox[{"#", ",", "0.5", ",", "0.05", ",", "5", ",", "3"}], "]"}], 
+          "&"}], "/@", "lX"}]}], "}"}], "]"}]}]}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.675185126688073*^9, 3.675185132200042*^9}, {
+  3.675198430416471*^9, 3.675198430646702*^9}, {3.765364806354375*^9, 
+  3.7653648102108183`*^9}, {3.7653650154850736`*^9, 
+  3.765365015574834*^9}},ExpressionUUID->"960c4510-1fe6-4957-b3a7-\
+d22ebd3bafb3"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"data", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"fGenerateY", "[", "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", "10", ",", "1"}], "}"}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.7638102103275075`*^9, 3.763810211724041*^9}, {
+  3.7653649031363773`*^9, 
+  3.765364912326189*^9}},ExpressionUUID->"c1c7888e-6cb1-4a1c-80b6-\
+798d709a5b04"],
+
+Cell[BoxData["\"\<BrightBands\>\""], "Input",ExpressionUUID->"fcf699c7-39a0-4cc9-8392-0ef1565e5d36"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Needs", "[", "\"\<PolygonPlotMarkers`\>\"", "]"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"allShapes", "=", 
+   RowBox[{"PolygonMarker", "[", "All", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"Tooltip", "[", 
+     RowBox[{
+      RowBox[{"Graphics", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"FaceForm", "[", 
+           RowBox[{"Hue", "@", 
+            RowBox[{"Random", "[", "]"}]}], "]"}], ",", 
+          RowBox[{"EdgeForm", "[", 
+           RowBox[{"{", 
+            RowBox[{"Black", ",", 
+             RowBox[{"Thickness", "[", "0.003", "]"}], ",", 
+             RowBox[{"JoinForm", "[", "\"\<Miter\>\"", "]"}]}], "}"}], "]"}], 
+          ",", 
+          RowBox[{"PolygonMarker", "[", 
+           RowBox[{"#", ",", "1"}], "]"}]}], "}"}], ",", 
+        RowBox[{"ImageSize", "\[Rule]", "30"}], ",", 
+        RowBox[{"PlotRange", "\[Rule]", "1.5"}], ",", 
+        RowBox[{"PlotRangePadding", "\[Rule]", "0"}], ",", 
+        RowBox[{"ImagePadding", "\[Rule]", "0"}]}], "]"}], ",", "#"}], "]"}], 
+    "&"}], "/@", "allShapes"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"allShapes", " ", "=", " ", 
+   RowBox[{"RandomSample", "[", 
+    RowBox[{"allShapes", "[", 
+     RowBox[{"[", 
+      RowBox[{"1", ";;", "30"}], "]"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"graphs", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Graphics", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"FaceForm", "[", "Blue", "]"}], ",", 
+         RowBox[{"PolygonMarker", "[", 
+          RowBox[{
+           RowBox[{"ToString", "@", "#"}], ",", 
+           RowBox[{"Scaled", "[", "0.04", "]"}]}], "]"}]}], "}"}], ",", 
+       RowBox[{"AlignmentPoint", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", "0"}], "}"}]}]}], "]"}], "&"}], "/@", 
+    RowBox[{"allShapes", "[", 
+     RowBox[{"[", 
+      RowBox[{"3", ";;", "13"}], "]"}], "]"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.763719099020027*^9, 3.763719099021317*^9}, {
+  3.76536522446457*^9, 3.765365226274256*^9}, {3.7653654907824793`*^9, 
+  3.7653654936802197`*^9}, {3.765365649091816*^9, 3.765365709788087*^9}, {
+  3.7653658375655766`*^9, 
+  3.7653658545150805`*^9}},ExpressionUUID->"1f2ea6b1-012b-4eb1-ad17-\
+8d639e4d9c82"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ga1", "=", 
+  RowBox[{"Labeled", "[", 
+   RowBox[{
+    RowBox[{"ListLinePlot", "[", 
+     RowBox[{"data", ",", 
+      RowBox[{"PlotStyle", "\[Rule]", "Black"}], ",", 
+      RowBox[{"PlotRange", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", "10"}], "}"}], ",", "Full"}], "}"}]}], ",", 
+      RowBox[{"Joined", "->", "True"}], ",", 
+      RowBox[{"PlotMarkers", " ", "\[Rule]", "graphs"}], ",", 
+      RowBox[{"ImageSize", "\[Rule]", "600"}], ",", 
+      RowBox[{"FrameTicks", "\[Rule]", "None"}], ",", 
+      RowBox[{"FrameStyle", "\[Rule]", 
+       RowBox[{"Directive", "[", 
+        RowBox[{"Black", ",", "20", ",", "Thick"}], "]"}]}], ",", 
+      RowBox[{"Frame", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"True", ",", "True", ",", "False", ",", "False"}], "}"}]}], 
+      ",", 
+      RowBox[{"FrameLabel", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Time\>\"", ",", "\"\<Quantity\>\""}], "}"}]}], ",", 
+      RowBox[{"ImagePadding", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"30", ",", "None"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"30", ",", "None"}], "}"}]}], "}"}]}]}], "]"}], ",", 
+    "\"\<A. Time series\>\"", ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{"Top", ",", "Left"}], "}"}], "}"}], ",", 
+    RowBox[{"LabelStyle", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{"Black", ",", 
+       RowBox[{"FontSize", "\[Rule]", "20"}]}], "}"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.7638098362165384`*^9, 3.763809934383032*^9}, {
+  3.7638100061334305`*^9, 3.763810012283799*^9}, {3.76381005683823*^9, 
+  3.7638100834712224`*^9}, {3.763810197231986*^9, 3.7638102150691795`*^9}, {
+  3.7653648457896047`*^9, 3.76536489165051*^9}, {3.7653649630391507`*^9, 
+  3.765364993467741*^9}, {3.7653650284241467`*^9, 3.765365047337415*^9}, {
+  3.765365092373382*^9, 3.765365110183148*^9}, {3.7653652362253656`*^9, 
+  3.7653653245685263`*^9}, {3.7653653648032827`*^9, 3.765365522330711*^9}, {
+  3.765365559093174*^9, 3.765365560692733*^9}, {3.765365930770526*^9, 
+  3.7653659987076664`*^9}},ExpressionUUID->"96a4d401-6d5f-450b-a561-\
+82719d96762c"],
+
+Cell[BoxData[
+ TemplateBox[{GraphicsBox[{{}, {{{}, {}, {
+        Hue[0.67, 0.6, 0.6], 
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0]], 
+        LineBox[{{0.9380661328237545, 3.7277089244873545`}, {
+         3.8278471563858125`, 15.548487502804672`}, {6.380919646924694, 
+         24.365470186770732`}, {9.573447251692102, 16.35971975856831}}]}, {
+        Hue[0.9060679774997897, 0.6, 0.6], 
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0]], 
+        LineBox[{{1.0883898070024278`, 8.797156708050009}, {
+         3.6510122912682896`, 11.943561158541891`}, {6.343214676928914, 
+         18.139553144373778`}, {9.693114275224138, 18.23964108684848}}]}, {
+        Hue[0.1421359549995791, 0.6, 0.6], 
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0]], 
+        LineBox[{{1.0276761587138865`, 5.229121212530005}, {3.926020817637319,
+          17.164295212790257`}, {6.48222468140099, 19.598711705814573`}, {
+         9.670257259950914, 17.15981817674322}}]}, {
+        Hue[0.37820393249936934`, 0.6, 0.6], 
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0]], 
+        LineBox[{{0.9066115517964035, 2.6825262963890895`}, {
+         3.6942870222614888`, 14.48514102214767}, {6.324144574813336, 
+         17.286170687685495`}, {9.609610313425836, 21.023784397602196`}}]}, {
+        Hue[0.6142719099991583, 0.6, 0.6], 
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0]], 
+        LineBox[{{0.8977244442278054, 11.948924060658419`}, {
+         3.6742378650025262`, 11.901101845628915`}, {6.494406883844546, 
+         20.26084563799998}, {9.758423456111082, 19.17129994330914}}]}, {
+        Hue[0.8503398874989481, 0.6, 0.6], 
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0]], 
+        LineBox[{{1.081677994420309, 9.163069081899007}, {3.7135357695863163`,
+          10.853003617521885`}, {6.3394570003920805`, 13.79389889565422}, {
+         9.435262666084713, 17.42124000687022}}]}, {
+        Hue[0.08640786499873876, 0.6, 0.6], 
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0]], 
+        LineBox[{{0.8898211322463391, 12.623901552717872`}, {
+         3.7299160251809456`, 9.997134375284862}, {6.415257132466575, 
+         15.388345037551753`}, {9.456956256443997, 21.228284943393362`}}]}, {
+        Hue[0.3224758424985268, 0.6, 0.6], 
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0]], 
+        LineBox[{{1.02255546845476, 8.674045027752264}, {3.8091049656049702`, 
+         18.040516778944145`}, {6.538455847815776, 11.545379330852345`}, {
+         9.464330172011678, 19.333451559669516`}}]}, {
+        Hue[0.5585438199983166, 0.6, 0.6], 
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0]], 
+        LineBox[{{1.019420328844963, 4.965476933383272}, {3.682158046042099, 
+         10.57717350168394}, {6.276531856050245, 17.583391568172473`}, {
+         9.527287956901503, 19.624900774754398`}}]}, {
+        Hue[0.7946117974981064, 0.6, 0.6], 
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0]], 
+        LineBox[{{1.145091382478549, 10.40836607034283}, {3.640217206513352, 
+         15.258735880313235`}, {6.201297426609636, 16.297295192413834`}, {
+         9.64828731774863, 17.644508629135956`}}]}}, {{
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              
+              Scaled[{-0.0038206694748410854`, 0.038206694748410854`}, {0, 
+               0}], 
+              Scaled[{0.0038206694748410854`, 0.038206694748410854`}, {0, 0}], 
+              Scaled[{0.0038206694748410854`, 0.00661759364935226}, {0, 0}], 
+              Scaled[{0.031177633509340757`, 0.022412144198881555`}, {0, 0}], 
+              Scaled[{0.03499830298418184, 0.015794550549529295`}, {0, 0}], 
+              Scaled[{0.007641338949682171, 0.}, {0, 0}], 
+              Scaled[{0.03499830298418184, -0.015794550549529295`}, {0, 0}], 
+              Scaled[{0.031177633509340757`, -0.022412144198881555`}, {0, 0}], 
+              Scaled[{0.0038206694748410854`, -0.00661759364935226}, {0, 0}], 
+              
+              Scaled[{0.0038206694748410854`, -0.038206694748410854`}, {0, 
+               0}], 
+              
+              Scaled[{-0.0038206694748410854`, -0.038206694748410854`}, {0, 
+               0}], 
+              Scaled[{-0.0038206694748410854`, -0.00661759364935226}, {0, 0}], 
+              
+              Scaled[{-0.031177633509340757`, -0.022412144198881555`}, {0, 
+               0}], 
+              Scaled[{-0.03499830298418184, -0.015794550549529295`}, {0, 0}], 
+              Scaled[{-0.007641338949682171, 0.}, {0, 0}], 
+              Scaled[{-0.03499830298418184, 0.015794550549529295`}, {0, 0}], 
+              Scaled[{-0.031177633509340757`, 0.022412144198881555`}, {0, 0}], 
+              
+              Scaled[{-0.0038206694748410854`, 0.00661759364935226}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         0.9380661328237545, 3.7277089244873545`}}, {{3.8278471563858125`, 
+         15.548487502804672`}}, {{6.380919646924694, 24.365470186770732`}}, {{
+         9.573447251692102, 16.35971975856831}}}]}, {
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{-0.017547653506033233`, 0.030393427426063702`}, {0, 0}], 
+              Scaled[{0.035095307012066465`, 0.}, {0, 0}], 
+              
+              Scaled[{-0.017547653506033233`, -0.030393427426063702`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         1.0883898070024278`, 8.797156708050009}}, {{3.6510122912682896`, 
+         11.943561158541891`}}, {{6.343214676928914, 18.139553144373778`}}, {{
+         9.693114275224138, 18.23964108684848}}}]}, {
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0.02613125929752753, 0.02613125929752753}, {0, 0}], 
+              Scaled[{0.015307337294603592`, 0.}, {0, 0}], 
+              Scaled[{0.02613125929752753, -0.02613125929752753}, {0, 0}], 
+              Scaled[{0., -0.015307337294603592`}, {0, 0}], 
+              Scaled[{-0.02613125929752753, -0.02613125929752753}, {0, 0}], 
+              Scaled[{-0.015307337294603592`, 0.}, {0, 0}], 
+              Scaled[{-0.02613125929752753, 0.02613125929752753}, {0, 0}], 
+              Scaled[{0., 0.015307337294603592`}, {0, 0}]}]}, 
+           AlignmentPoint -> {0, 0}], {0., 0.}], {{{1.0276761587138865`, 
+         5.229121212530005}}, {{3.926020817637319, 17.164295212790257`}}, {{
+         6.48222468140099, 19.598711705814573`}}, {{9.670257259950914, 
+         17.15981817674322}}}]}, {
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{-0.009194016867619661, -0.023696201848693494`}, {0, 0}], 
+              Scaled[{0.009194016867619661, -0.023696201848693494`}, {0, 0}], 
+              Scaled[{0.025118521207982174`, 0.0038858487541654904`}, {0, 0}], 
+              Scaled[{0.015924504340362515`, 0.019810353094528003`}, {0, 0}], 
+              Scaled[{-0.015924504340362515`, 0.019810353094528003`}, {0, 0}], 
+              
+              Scaled[{-0.025118521207982174`, 0.0038858487541654904`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         0.9066115517964035, 2.6825262963890895`}}, {{3.6942870222614888`, 
+         14.48514102214767}}, {{6.324144574813336, 17.286170687685495`}}, {{
+         9.609610313425836, 21.023784397602196`}}}]}, {
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.02481612957605599}, {0, 0}], 
+              Scaled[{0.02149139863647084, 0.012408064788027995`}, {0, 0}], 
+              Scaled[{0.02149139863647084, -0.012408064788027995`}, {0, 0}], 
+              Scaled[{0., -0.02481612957605599}, {0, 0}], 
+              Scaled[{-0.02149139863647084, -0.012408064788027995`}, {0, 0}], 
+              
+              Scaled[{-0.02149139863647084, 0.012408064788027995`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         0.8977244442278054, 11.948924060658419`}}, {{3.6742378650025262`, 
+         11.901101845628915`}}, {{6.494406883844546, 20.26084563799998}}, {{
+         9.758423456111082, 19.17129994330914}}}]}, {
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{-0.009194016867619661, 0.023696201848693494`}, {0, 0}], 
+              Scaled[{0.009194016867619661, 0.023696201848693494`}, {0, 0}], 
+              
+              Scaled[{0.025118521207982174`, -0.0038858487541654904`}, {0, 
+               0}], 
+              Scaled[{0.015924504340362515`, -0.019810353094528003`}, {0, 0}], 
+              Scaled[{-0.015924504340362515`, -0.019810353094528003`}, {0, 
+               0}], 
+              
+              Scaled[{-0.025118521207982174`, -0.0038858487541654904`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         1.081677994420309, 9.163069081899007}}, {{3.7135357695863163`, 
+         10.853003617521885`}}, {{6.3394570003920805`, 13.79389889565422}}, {{
+         9.435262666084713, 17.42124000687022}}}]}, {
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0.02, 0.02}, {0, 0}], 
+              Scaled[{0.02, -0.02}, {0, 0}], 
+              Scaled[{-0.02, -0.02}, {0, 0}], 
+              Scaled[{-0.02, 0.02}, {0, 0}]}]}, AlignmentPoint -> {0, 0}], {
+          0., 0.}], {{{0.8898211322463391, 12.623901552717872`}}, {{
+         3.7299160251809456`, 9.997134375284862}}, {{6.415257132466575, 
+         15.388345037551753`}}, {{9.456956256443997, 
+         21.228284943393362`}}}]}, {
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{-0.019810353094528003`, 0.015924504340362515`}, {0, 0}], 
+              Scaled[{-0.0038858487541654904`, 0.025118521207982174`}, {0, 
+               0}], 
+              Scaled[{0.023696201848693494`, 0.009194016867619661}, {0, 0}], 
+              Scaled[{0.023696201848693494`, -0.009194016867619661}, {0, 0}], 
+              
+              Scaled[{-0.0038858487541654904`, -0.025118521207982174`}, {0, 
+               0}], 
+              
+              Scaled[{-0.019810353094528003`, -0.015924504340362515`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         1.02255546845476, 8.674045027752264}}, {{3.8091049656049702`, 
+         18.040516778944145`}}, {{6.538455847815776, 11.545379330852345`}}, {{
+         9.464330172011678, 19.333451559669516`}}}]}, {
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.035095307012066465`}, {0, 0}], 
+              Scaled[{0.030393427426063702`, -0.017547653506033233`}, {0, 0}], 
+              
+              Scaled[{-0.030393427426063702`, -0.017547653506033233`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         1.019420328844963, 4.965476933383272}}, {{3.682158046042099, 
+         10.57717350168394}}, {{6.276531856050245, 17.583391568172473`}}, {{
+         9.527287956901503, 19.624900774754398`}}}]}, {
+        Directive[
+         PointSize[0.019444444444444445`], 
+         AbsoluteThickness[1.6], 
+         GrayLevel[0], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{-0.003372361327929311, 0.03372361327929311}, {0, 0}], 
+              Scaled[{0.003372361327929311, 0.03372361327929311}, {0, 0}], 
+              Scaled[{0.003372361327929311, 0.008141600455109484}, {0, 0}], 
+              Scaled[{0.021461576072310775`, 0.026230815199490946`}, {0, 0}], 
+              Scaled[{0.026230815199490946`, 0.021461576072310775`}, {0, 0}], 
+              Scaled[{0.008141600455109484, 0.003372361327929311}, {0, 0}], 
+              Scaled[{0.03372361327929311, 0.003372361327929311}, {0, 0}], 
+              Scaled[{0.03372361327929311, -0.003372361327929311}, {0, 0}], 
+              Scaled[{0.008141600455109484, -0.003372361327929311}, {0, 0}], 
+              Scaled[{0.026230815199490946`, -0.021461576072310775`}, {0, 0}], 
+              Scaled[{0.021461576072310775`, -0.026230815199490946`}, {0, 0}], 
+              Scaled[{0.003372361327929311, -0.008141600455109484}, {0, 0}], 
+              Scaled[{0.003372361327929311, -0.03372361327929311}, {0, 0}], 
+              Scaled[{-0.003372361327929311, -0.03372361327929311}, {0, 0}], 
+              Scaled[{-0.003372361327929311, -0.008141600455109484}, {0, 0}], 
+              
+              Scaled[{-0.021461576072310775`, -0.026230815199490946`}, {0, 
+               0}], 
+              
+              Scaled[{-0.026230815199490946`, -0.021461576072310775`}, {0, 
+               0}], 
+              Scaled[{-0.008141600455109484, -0.003372361327929311}, {0, 0}], 
+              Scaled[{-0.03372361327929311, -0.003372361327929311}, {0, 0}], 
+              Scaled[{-0.03372361327929311, 0.003372361327929311}, {0, 0}], 
+              Scaled[{-0.008141600455109484, 0.003372361327929311}, {0, 0}], 
+              Scaled[{-0.026230815199490946`, 0.021461576072310775`}, {0, 0}], 
+              Scaled[{-0.021461576072310775`, 0.026230815199490946`}, {0, 0}], 
+              
+              Scaled[{-0.003372361327929311, 0.008141600455109484}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         1.145091382478549, 10.40836607034283}}, {{3.640217206513352, 
+         15.258735880313235`}}, {{6.201297426609636, 16.297295192413834`}}, {{
+         9.64828731774863, 17.644508629135956`}}}]}, {}}}, {}, {}, {}, {}}, {
+    DisplayFunction -> Identity, PlotRangePadding -> {{0, 0}, {
+        Scaled[0.02], 
+        Scaled[0.05]}}, AxesOrigin -> {0, 0}, 
+     PlotRange -> {{0, 10}, {0, 24.365470186770732`}}, PlotRangeClipping -> 
+     True, ImagePadding -> {{30, None}, {30, None}}, DisplayFunction -> 
+     Identity, AspectRatio -> NCache[GoldenRatio^(-1), 0.6180339887498948], 
+     Axes -> {True, True}, AxesLabel -> {None, None}, AxesOrigin -> {0, 0}, 
+     DisplayFunction :> Identity, Frame -> {{True, False}, {True, False}}, 
+     FrameLabel -> {{
+        FormBox["\"Quantity\"", TraditionalForm], None}, {
+        FormBox["\"Time\"", TraditionalForm], None}}, FrameStyle -> Directive[
+       GrayLevel[0], 20, 
+       Thickness[Large]], FrameTicks -> {{None, None}, {None, None}}, 
+     GridLines -> {None, None}, GridLinesStyle -> Directive[
+       GrayLevel[0.5, 0.4]], ImagePadding -> {{30, None}, {30, None}}, 
+     ImageSize -> 600, 
+     Method -> {"CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+           (Identity[#]& )[
+            Part[#, 1]], 
+           (Identity[#]& )[
+            Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+           (Identity[#]& )[
+            Part[#, 1]], 
+           (Identity[#]& )[
+            Part[#, 2]]}& )}}, 
+     PlotRange -> {{0, 10}, {0, 24.365470186770732`}}, PlotRangeClipping -> 
+     True, PlotRangePadding -> {{0, 0}, {
+        Scaled[0.02], 
+        Scaled[0.05]}}, Ticks -> {Automatic, Automatic}}],
+   "\"A. Time series\""},
+  "Labeled",
+  DisplayFunction->(GridBox[{{
+      ItemBox[#2, Alignment -> {Left, Inherited}, BaseStyle -> {
+         GrayLevel[0], FontSize -> 20}, DefaultBaseStyle -> "LabeledLabel"]}, {
+      TagBox[
+       ItemBox[
+        PaneBox[
+         TagBox[#, "SkipImageSizeLevel"], Alignment -> {Center, Baseline}, 
+         BaselinePosition -> Baseline], DefaultBaseStyle -> "Labeled"], 
+       "SkipImageSizeLevel"]}}, 
+    GridBoxAlignment -> {"Columns" -> {{Center}}, "Rows" -> {{Center}}}, 
+    AutoDelete -> False, 
+    GridBoxItemSize -> {"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+    BaselinePosition -> {2, 1}]& ),
+  InterpretationFunction->(RowBox[{"Labeled", "[", 
+     RowBox[{#, ",", #2, ",", 
+       RowBox[{"{", 
+         RowBox[{"{", 
+           RowBox[{"Top", ",", "Left"}], "}"}], "}"}], ",", 
+       RowBox[{"LabelStyle", "\[Rule]", 
+         RowBox[{"{", 
+           RowBox[{
+             InterpretationBox[
+              ButtonBox[
+               TooltipBox[
+                GraphicsBox[{{
+                   GrayLevel[0], 
+                   RectangleBox[{0, 0}]}, {
+                   GrayLevel[0], 
+                   RectangleBox[{1, -1}]}, {
+                   GrayLevel[0], 
+                   RectangleBox[{0, -1}, {2, 1}]}}, DefaultBaseStyle -> 
+                 "ColorSwatchGraphics", AspectRatio -> 1, Frame -> True, 
+                 FrameStyle -> GrayLevel[0.], FrameTicks -> None, 
+                 PlotRangePadding -> None, ImageSize -> 
+                 Dynamic[{
+                   Automatic, 1.35 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}]], "GrayLevel[0]"], 
+               Appearance -> None, BaseStyle -> {}, BaselinePosition -> 
+               Baseline, DefaultBaseStyle -> {}, ButtonFunction :> 
+               With[{Typeset`box$ = EvaluationBox[]}, 
+                 If[
+                  Not[
+                   AbsoluteCurrentValue["Deployed"]], 
+                  SelectionMove[Typeset`box$, All, Expression]; 
+                  FrontEnd`Private`$ColorSelectorInitialAlpha = 1; 
+                  FrontEnd`Private`$ColorSelectorInitialColor = GrayLevel[0]; 
+                  FrontEnd`Private`$ColorSelectorUseMakeBoxes = True; 
+                  MathLink`CallFrontEnd[
+                    FrontEnd`AttachCell[Typeset`box$, 
+                    FrontEndResource["GrayLevelColorValueSelector"], {
+                    0, {Left, Bottom}}, {Left, Top}, 
+                    "ClosingActions" -> {
+                    "SelectionDeparture", "ParentChanged", 
+                    "EvaluatorQuit"}]]]], BaseStyle -> Inherited, Evaluator -> 
+               Automatic, Method -> "Preemptive"], 
+              GrayLevel[0], Editable -> False, Selectable -> False], ",", 
+             RowBox[{"FontSize", "\[Rule]", "20"}]}], "}"}]}]}], 
+     "]"}]& )]], "Output",
+ CellChangeTimes->{
+  3.765365294786439*^9, 3.76536532520582*^9, 3.7653653681497974`*^9, {
+   3.7653654024186172`*^9, 3.7653655100179486`*^9}, 3.7653655614726477`*^9, 
+   3.765365621362218*^9, {3.765365678650837*^9, 3.765365712189228*^9}, {
+   3.765365839404801*^9, 3.7653658560477724`*^9}, {3.7653659404959292`*^9, 
+   3.7653659992983184`*^9}},ExpressionUUID->"52bb67c2-2ce9-4ab2-a6f6-\
+8e0661bfb9f0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ga2", "=", 
+  RowBox[{"Labeled", "[", 
+   RowBox[{
+    RowBox[{"ListPlot", "[", 
+     RowBox[{"data", ",", 
+      RowBox[{"PlotStyle", "->", "\"\<BrightBands\>\""}], ",", 
+      RowBox[{"PlotRange", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", "10"}], "}"}], ",", "Full"}], "}"}]}], ",", 
+      RowBox[{"PlotMarkers", " ", "\[Rule]", 
+       RowBox[{"Graphics", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"FaceForm", "[", "Blue", "]"}], ",", 
+           RowBox[{"PolygonMarker", "[", 
+            RowBox[{
+             RowBox[{"ToString", "@", "\"\<Disk\>\""}], ",", 
+             RowBox[{"Scaled", "[", "0.04", "]"}]}], "]"}]}], "}"}], ",", 
+         RowBox[{"AlignmentPoint", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0"}], "}"}]}]}], "]"}]}], ",", 
+      RowBox[{"ImageSize", "\[Rule]", "600"}], ",", 
+      RowBox[{"FrameTicks", "\[Rule]", "None"}], ",", 
+      RowBox[{"FrameStyle", "\[Rule]", 
+       RowBox[{"Directive", "[", 
+        RowBox[{"Black", ",", "20", ",", "Thick"}], "]"}]}], ",", 
+      RowBox[{"Frame", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"True", ",", "True", ",", "False", ",", "False"}], "}"}]}], 
+      ",", 
+      RowBox[{"FrameLabel", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Time\>\"", ",", "\"\<Quantity\>\""}], "}"}]}], ",", 
+      RowBox[{"ImagePadding", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"30", ",", "None"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"30", ",", "None"}], "}"}]}], "}"}]}]}], "]"}], ",", 
+    "\"\<B. Snapshots\>\"", ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{"Top", ",", "Left"}], "}"}], "}"}], ",", 
+    RowBox[{"LabelStyle", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{"Black", ",", 
+       RowBox[{"FontSize", "\[Rule]", "20"}]}], "}"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.76381023484035*^9, 3.76381024795994*^9}, {
+   3.7653649459407587`*^9, 3.7653649489643583`*^9}, {3.765365058242198*^9, 
+   3.765365115643241*^9}, {3.765365728744152*^9, 3.7653657298777647`*^9}, {
+   3.7653657787141557`*^9, 3.765365807566923*^9}, {3.765365945831514*^9, 
+   3.765365946091818*^9}, 
+   3.765366011107913*^9},ExpressionUUID->"53705e65-ba70-4e50-8153-\
+cbbff261f9ea"],
+
+Cell[BoxData[
+ TemplateBox[{GraphicsBox[{{}, {{{
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[0.90222, 0.101808, 0.198306], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[0.90222, 0.101808, 0.198306], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+              Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 0}], 
+              Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+              Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              
+              Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0, 
+               0}], 
+              Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              
+              Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0, 
+               0}], 
+              Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              
+              Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         0.9380661328237545, 3.7277089244873545`}}, {{3.8278471563858125`, 
+         15.548487502804672`}}, {{6.380919646924694, 24.365470186770732`}}, {{
+         9.573447251692102, 16.35971975856831}}}]}, {
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[0.97325683410233, 0.4655495735479695, 0.5996612066919051], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[
+             0.97325683410233, 0.4655495735479695, 0.5996612066919051], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+              Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 0}], 
+              Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+              Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              
+              Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0, 
+               0}], 
+              Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              
+              Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0, 
+               0}], 
+              Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              
+              Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         1.0883898070024278`, 8.797156708050009}}, {{3.6510122912682896`, 
+         11.943561158541891`}}, {{6.343214676928914, 18.139553144373778`}}, {{
+         9.693114275224138, 18.23964108684848}}}]}, {
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[0.56494213159868, 0.48570814894521275`, 0.9998368915884538], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[
+             0.56494213159868, 0.48570814894521275`, 0.9998368915884538], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+              Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 0}], 
+              Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+              Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              
+              Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0, 
+               0}], 
+              Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              
+              Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0, 
+               0}], 
+              Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              
+              Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         1.0276761587138865`, 5.229121212530005}}, {{3.926020817637319, 
+         17.164295212790257`}}, {{6.48222468140099, 19.598711705814573`}}, {{
+         9.670257259950914, 17.15981817674322}}}]}, {
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[0.14287214708202123`, 0.7165497398815136, 1.], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[0.14287214708202123`, 0.7165497398815136, 1.], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+              Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 0}], 
+              Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+              Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              
+              Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0, 
+               0}], 
+              Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              
+              Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0, 
+               0}], 
+              Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              
+              Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         0.9066115517964035, 2.6825262963890895`}}, {{3.6942870222614888`, 
+         14.48514102214767}}, {{6.324144574813336, 17.286170687685495`}}, {{
+         9.609610313425836, 21.023784397602196`}}}]}, {
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[0.504049973487836, 0.8694671255908009, 1.], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[0.504049973487836, 0.8694671255908009, 1.], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+              Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 0}], 
+              Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+              Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              
+              Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0, 
+               0}], 
+              Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              
+              Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0, 
+               0}], 
+              Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              
+              Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         0.8977244442278054, 11.948924060658419`}}, {{3.6742378650025262`, 
+         11.901101845628915`}}, {{6.494406883844546, 20.26084563799998}}, {{
+         9.758423456111082, 19.17129994330914}}}]}, {
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[
+         0.4012795903244232, 0.9786626231518132, 0.26669139102966566`], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[
+             0.4012795903244232, 0.9786626231518132, 0.26669139102966566`], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+              Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 0}], 
+              Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+              Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0, 
+               0}], 
+              Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              
+              Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0, 
+               0}], 
+              Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              
+              Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         1.081677994420309, 9.163069081899007}}, {{3.7135357695863163`, 
+         10.853003617521885`}}, {{6.3394570003920805`, 13.79389889565422}}, {{
+         9.435262666084713, 17.42124000687022}}}]}, {
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[0.9729188047180777, 0.9391259962046635, 0.201748879675973], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[
+             0.9729188047180777, 0.9391259962046635, 0.201748879675973], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+              Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 0}], 
+              Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+              Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              
+              Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0, 
+               0}], 
+              Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              
+              Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0, 
+               0}], 
+              Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              
+              Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         0.8898211322463391, 12.623901552717872`}}, {{3.7299160251809456`, 
+         9.997134375284862}}, {{6.415257132466575, 15.388345037551753`}}, {{
+         9.456956256443997, 21.228284943393362`}}}]}, {
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[0.991187815005021, 0.9644835880636667, 0.4692054507476022], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[
+             0.991187815005021, 0.9644835880636667, 0.4692054507476022], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+              Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 0}], 
+              Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+              Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              
+              Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0, 
+               0}], 
+              Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              
+              Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0, 
+               0}], 
+              Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              
+              Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         1.02255546845476, 8.674045027752264}}, {{3.8091049656049702`, 
+         18.040516778944145`}}, {{6.538455847815776, 11.545379330852345`}}, {{
+         9.464330172011678, 19.333451559669516`}}}]}, {
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[1., 0.5855229948914203, 0.1711061268486724], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[1., 0.5855229948914203, 0.1711061268486724], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+              Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 0}], 
+              Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+              Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              
+              Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0, 
+               0}], 
+              Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              
+              Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0, 
+               0}], 
+              Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              
+              Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         1.019420328844963, 4.965476933383272}}, {{3.682158046042099, 
+         10.57717350168394}}, {{6.276531856050245, 17.583391568172473`}}, {{
+         9.527287956901503, 19.624900774754398`}}}]}, {
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[1., 0.749752, 0.501183], 
+         AbsolutePointSize[6]], 
+        GeometricTransformationBox[
+         InsetBox[
+          GraphicsBox[{
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[1., 0.749752, 0.501183], 
+             AbsolutePointSize[6]], 
+            FaceForm[
+             RGBColor[0, 0, 1]], 
+            PolygonBox[{
+              Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+              Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 0}], 
+              Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 0}], 
+              Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 0}], 
+              Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+              Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 0}], 
+              
+              Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0, 
+               0}], 
+              Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+              
+              Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0, 
+               0}], 
+              Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+              Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 0}], 
+              Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 0}], 
+              Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+              Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 0}], 
+              Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+               0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+         1.145091382478549, 10.40836607034283}}, {{3.640217206513352, 
+         15.258735880313235`}}, {{6.201297426609636, 16.297295192413834`}}, {{
+         9.64828731774863, 17.644508629135956`}}}]}, {}}}, {}, {}, {}, {}}, {
+    DisplayFunction -> Identity, PlotRangePadding -> {{0, 0}, {
+        Scaled[0.02], 
+        Scaled[0.05]}}, AxesOrigin -> {0, 0}, 
+     PlotRange -> {{0, 10}, {0, 24.365470186770732`}}, PlotRangeClipping -> 
+     True, ImagePadding -> {{30, None}, {30, None}}, DisplayFunction -> 
+     Identity, AspectRatio -> NCache[GoldenRatio^(-1), 0.6180339887498948], 
+     Axes -> {True, True}, AxesLabel -> {None, None}, AxesOrigin -> {0, 0}, 
+     DisplayFunction :> Identity, Frame -> {{True, False}, {True, False}}, 
+     FrameLabel -> {{
+        FormBox["\"Quantity\"", TraditionalForm], None}, {
+        FormBox["\"Time\"", TraditionalForm], None}}, FrameStyle -> Directive[
+       GrayLevel[0], 20, 
+       Thickness[Large]], FrameTicks -> {{None, None}, {None, None}}, 
+     GridLines -> {None, None}, GridLinesStyle -> Directive[
+       GrayLevel[0.5, 0.4]], ImagePadding -> {{30, None}, {30, None}}, 
+     ImageSize -> 600, 
+     Method -> {"CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+           (Identity[#]& )[
+            Part[#, 1]], 
+           (Identity[#]& )[
+            Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+           (Identity[#]& )[
+            Part[#, 1]], 
+           (Identity[#]& )[
+            Part[#, 2]]}& )}}, 
+     PlotRange -> {{0, 10}, {0, 24.365470186770732`}}, PlotRangeClipping -> 
+     True, PlotRangePadding -> {{0, 0}, {
+        Scaled[0.02], 
+        Scaled[0.05]}}, Ticks -> {Automatic, Automatic}}],"\"B. Snapshots\""},
+  "Labeled",
+  DisplayFunction->(GridBox[{{
+      ItemBox[#2, Alignment -> {Left, Inherited}, BaseStyle -> {
+         GrayLevel[0], FontSize -> 20}, DefaultBaseStyle -> "LabeledLabel"]}, {
+      TagBox[
+       ItemBox[
+        PaneBox[
+         TagBox[#, "SkipImageSizeLevel"], Alignment -> {Center, Baseline}, 
+         BaselinePosition -> Baseline], DefaultBaseStyle -> "Labeled"], 
+       "SkipImageSizeLevel"]}}, 
+    GridBoxAlignment -> {"Columns" -> {{Center}}, "Rows" -> {{Center}}}, 
+    AutoDelete -> False, 
+    GridBoxItemSize -> {"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+    BaselinePosition -> {2, 1}]& ),
+  InterpretationFunction->(RowBox[{"Labeled", "[", 
+     RowBox[{#, ",", #2, ",", 
+       RowBox[{"{", 
+         RowBox[{"{", 
+           RowBox[{"Top", ",", "Left"}], "}"}], "}"}], ",", 
+       RowBox[{"LabelStyle", "\[Rule]", 
+         RowBox[{"{", 
+           RowBox[{
+             InterpretationBox[
+              ButtonBox[
+               TooltipBox[
+                GraphicsBox[{{
+                   GrayLevel[0], 
+                   RectangleBox[{0, 0}]}, {
+                   GrayLevel[0], 
+                   RectangleBox[{1, -1}]}, {
+                   GrayLevel[0], 
+                   RectangleBox[{0, -1}, {2, 1}]}}, DefaultBaseStyle -> 
+                 "ColorSwatchGraphics", AspectRatio -> 1, Frame -> True, 
+                 FrameStyle -> GrayLevel[0.], FrameTicks -> None, 
+                 PlotRangePadding -> None, ImageSize -> 
+                 Dynamic[{
+                   Automatic, 1.35 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}]], "GrayLevel[0]"], 
+               Appearance -> None, BaseStyle -> {}, BaselinePosition -> 
+               Baseline, DefaultBaseStyle -> {}, ButtonFunction :> 
+               With[{Typeset`box$ = EvaluationBox[]}, 
+                 If[
+                  Not[
+                   AbsoluteCurrentValue["Deployed"]], 
+                  SelectionMove[Typeset`box$, All, Expression]; 
+                  FrontEnd`Private`$ColorSelectorInitialAlpha = 1; 
+                  FrontEnd`Private`$ColorSelectorInitialColor = GrayLevel[0]; 
+                  FrontEnd`Private`$ColorSelectorUseMakeBoxes = True; 
+                  MathLink`CallFrontEnd[
+                    FrontEnd`AttachCell[Typeset`box$, 
+                    FrontEndResource["GrayLevelColorValueSelector"], {
+                    0, {Left, Bottom}}, {Left, Top}, 
+                    "ClosingActions" -> {
+                    "SelectionDeparture", "ParentChanged", 
+                    "EvaluatorQuit"}]]]], BaseStyle -> Inherited, Evaluator -> 
+               Automatic, Method -> "Preemptive"], 
+              GrayLevel[0], Editable -> False, Selectable -> False], ",", 
+             RowBox[{"FontSize", "\[Rule]", "20"}]}], "}"}]}]}], 
+     "]"}]& )]], "Output",
+ CellChangeTimes->{{3.7638102428779516`*^9, 3.763810248385038*^9}, {
+   3.765364929329151*^9, 3.7653649495499663`*^9}, {3.7653650758336325`*^9, 
+   3.7653651371468515`*^9}, 3.765365739700489*^9, {3.765365784245447*^9, 
+   3.7653658083745365`*^9}, {3.7653658409525366`*^9, 3.7653658613567677`*^9}, 
+   3.7653659468748655`*^9, 
+   3.7653660125221415`*^9},ExpressionUUID->"675f81ee-f02a-4f05-bc1f-\
+9fe4bddff9fa"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"gFinal", "=", 
+  RowBox[{"GraphicsRow", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"ga1", ",", "ga2"}], "}"}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "1300"}], ",", 
+    RowBox[{"Spacings", "\[Rule]", "0"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.765365751256837*^9, 3.7653657571643314`*^9}, {
+  3.765365811973358*^9, 3.7653658145150642`*^9}, {3.7653658692903137`*^9, 
+  3.7653658823946686`*^9}, {3.7653659156129894`*^9, 3.7653659173059072`*^9}, {
+  3.765366025967475*^9, 3.7653660370756865`*^9}, {3.76536610426612*^9, 
+  3.7653661062110357`*^9}},ExpressionUUID->"13e27af4-5d95-4ed3-82b4-\
+7d0d19d33248"],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {InsetBox[
+     TemplateBox[{GraphicsBox[{{}, {{{}, {}, {
+            Hue[0.67, 0.6, 0.6], 
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0]], 
+            
+            LineBox[{{0.9380661328237545, 3.7277089244873545`}, {
+             3.8278471563858125`, 15.548487502804672`}, {6.380919646924694, 
+             24.365470186770732`}, {9.573447251692102, 16.35971975856831}}]}, {
+            Hue[0.9060679774997897, 0.6, 0.6], 
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0]], 
+            
+            LineBox[{{1.0883898070024278`, 8.797156708050009}, {
+             3.6510122912682896`, 11.943561158541891`}, {6.343214676928914, 
+             18.139553144373778`}, {9.693114275224138, 18.23964108684848}}]}, {
+            Hue[0.1421359549995791, 0.6, 0.6], 
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0]], 
+            
+            LineBox[{{1.0276761587138865`, 5.229121212530005}, {
+             3.926020817637319, 17.164295212790257`}, {6.48222468140099, 
+             19.598711705814573`}, {9.670257259950914, 17.15981817674322}}]}, {
+            Hue[0.37820393249936934`, 0.6, 0.6], 
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0]], 
+            
+            LineBox[{{0.9066115517964035, 2.6825262963890895`}, {
+             3.6942870222614888`, 14.48514102214767}, {6.324144574813336, 
+             17.286170687685495`}, {9.609610313425836, 
+             21.023784397602196`}}]}, {
+            Hue[0.6142719099991583, 0.6, 0.6], 
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0]], 
+            
+            LineBox[{{0.8977244442278054, 11.948924060658419`}, {
+             3.6742378650025262`, 11.901101845628915`}, {6.494406883844546, 
+             20.26084563799998}, {9.758423456111082, 19.17129994330914}}]}, {
+            Hue[0.8503398874989481, 0.6, 0.6], 
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0]], 
+            
+            LineBox[{{1.081677994420309, 9.163069081899007}, {
+             3.7135357695863163`, 10.853003617521885`}, {6.3394570003920805`, 
+             13.79389889565422}, {9.435262666084713, 17.42124000687022}}]}, {
+            Hue[0.08640786499873876, 0.6, 0.6], 
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0]], 
+            
+            LineBox[{{0.8898211322463391, 12.623901552717872`}, {
+             3.7299160251809456`, 9.997134375284862}, {6.415257132466575, 
+             15.388345037551753`}, {9.456956256443997, 
+             21.228284943393362`}}]}, {
+            Hue[0.3224758424985268, 0.6, 0.6], 
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0]], 
+            
+            LineBox[{{1.02255546845476, 8.674045027752264}, {
+             3.8091049656049702`, 18.040516778944145`}, {6.538455847815776, 
+             11.545379330852345`}, {9.464330172011678, 
+             19.333451559669516`}}]}, {
+            Hue[0.5585438199983166, 0.6, 0.6], 
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0]], 
+            
+            LineBox[{{1.019420328844963, 4.965476933383272}, {
+             3.682158046042099, 10.57717350168394}, {6.276531856050245, 
+             17.583391568172473`}, {9.527287956901503, 
+             19.624900774754398`}}]}, {
+            Hue[0.7946117974981064, 0.6, 0.6], 
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0]], 
+            LineBox[{{1.145091382478549, 10.40836607034283}, {
+             3.640217206513352, 15.258735880313235`}, {6.201297426609636, 
+             16.297295192413834`}, {9.64828731774863, 
+             17.644508629135956`}}]}}, {{
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.019444444444444445`], 
+                 AbsoluteThickness[1.6], 
+                 GrayLevel[0], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  
+                  Scaled[{-0.0038206694748410854`, 0.038206694748410854`}, {0,
+                    0}], 
+                  
+                  Scaled[{0.0038206694748410854`, 0.038206694748410854`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.0038206694748410854`, 0.00661759364935226}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.031177633509340757`, 0.022412144198881555`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.03499830298418184, 0.015794550549529295`}, {0, 
+                   0}], 
+                  Scaled[{0.007641338949682171, 0.}, {0, 0}], 
+                  
+                  Scaled[{0.03499830298418184, -0.015794550549529295`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.031177633509340757`, -0.022412144198881555`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.0038206694748410854`, -0.00661759364935226}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.0038206694748410854`, -0.038206694748410854`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.0038206694748410854`, -0.038206694748410854`}, {
+                   0, 0}], 
+                  
+                  Scaled[{-0.0038206694748410854`, -0.00661759364935226}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.031177633509340757`, -0.022412144198881555`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.03499830298418184, -0.015794550549529295`}, {0, 
+                   0}], 
+                  Scaled[{-0.007641338949682171, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.03499830298418184, 0.015794550549529295`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.031177633509340757`, 0.022412144198881555`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.0038206694748410854`, 0.00661759364935226}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             0.9380661328237545, 3.7277089244873545`}}, {{3.8278471563858125`,
+              15.548487502804672`}}, {{6.380919646924694, 
+             24.365470186770732`}}, {{9.573447251692102, 
+             16.35971975856831}}}]}, {
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.019444444444444445`], 
+                 AbsoluteThickness[1.6], 
+                 GrayLevel[0], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  
+                  Scaled[{-0.017547653506033233`, 0.030393427426063702`}, {0, 
+                   0}], 
+                  Scaled[{0.035095307012066465`, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.017547653506033233`, -0.030393427426063702`}, {0,
+                    0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             1.0883898070024278`, 8.797156708050009}}, {{3.6510122912682896`, 
+             11.943561158541891`}}, {{6.343214676928914, 
+             18.139553144373778`}}, {{9.693114275224138, 
+             18.23964108684848}}}]}, {
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.019444444444444445`], 
+                 AbsoluteThickness[1.6], 
+                 GrayLevel[0], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0.02613125929752753, 0.02613125929752753}, {0, 0}], 
+                  Scaled[{0.015307337294603592`, 0.}, {0, 0}], 
+                  Scaled[{0.02613125929752753, -0.02613125929752753}, {0, 0}], 
+                  Scaled[{0., -0.015307337294603592`}, {0, 0}], 
+                  
+                  Scaled[{-0.02613125929752753, -0.02613125929752753}, {0, 
+                   0}], 
+                  Scaled[{-0.015307337294603592`, 0.}, {0, 0}], 
+                  Scaled[{-0.02613125929752753, 0.02613125929752753}, {0, 0}], 
+                  Scaled[{0., 0.015307337294603592`}, {0, 0}]}]}, 
+               AlignmentPoint -> {0, 0}], {0., 0.}], {{{1.0276761587138865`, 
+             5.229121212530005}}, {{3.926020817637319, 
+             17.164295212790257`}}, {{6.48222468140099, 
+             19.598711705814573`}}, {{9.670257259950914, 
+             17.15981817674322}}}]}, {
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.019444444444444445`], 
+                 AbsoluteThickness[1.6], 
+                 GrayLevel[0], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  
+                  Scaled[{-0.009194016867619661, -0.023696201848693494`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.009194016867619661, -0.023696201848693494`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.025118521207982174`, 0.0038858487541654904`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.015924504340362515`, 0.019810353094528003`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.015924504340362515`, 0.019810353094528003`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.025118521207982174`, 0.0038858487541654904`}, {0,
+                    0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             0.9066115517964035, 2.6825262963890895`}}, {{3.6942870222614888`,
+              14.48514102214767}}, {{6.324144574813336, 
+             17.286170687685495`}}, {{9.609610313425836, 
+             21.023784397602196`}}}]}, {
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.019444444444444445`], 
+                 AbsoluteThickness[1.6], 
+                 GrayLevel[0], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.02481612957605599}, {0, 0}], 
+                  
+                  Scaled[{0.02149139863647084, 0.012408064788027995`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.02149139863647084, -0.012408064788027995`}, {0, 
+                   0}], 
+                  Scaled[{0., -0.02481612957605599}, {0, 0}], 
+                  
+                  Scaled[{-0.02149139863647084, -0.012408064788027995`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.02149139863647084, 0.012408064788027995`}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             0.8977244442278054, 11.948924060658419`}}, {{3.6742378650025262`,
+              11.901101845628915`}}, {{6.494406883844546, 
+             20.26084563799998}}, {{9.758423456111082, 
+             19.17129994330914}}}]}, {
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.019444444444444445`], 
+                 AbsoluteThickness[1.6], 
+                 GrayLevel[0], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  
+                  Scaled[{-0.009194016867619661, 0.023696201848693494`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.009194016867619661, 0.023696201848693494`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.025118521207982174`, -0.0038858487541654904`}, {0,
+                    0}], 
+                  
+                  Scaled[{0.015924504340362515`, -0.019810353094528003`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.015924504340362515`, -0.019810353094528003`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.025118521207982174`, -0.0038858487541654904`}, {
+                   0, 0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             1.081677994420309, 9.163069081899007}}, {{3.7135357695863163`, 
+             10.853003617521885`}}, {{6.3394570003920805`, 
+             13.79389889565422}}, {{9.435262666084713, 
+             17.42124000687022}}}]}, {
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.019444444444444445`], 
+                 AbsoluteThickness[1.6], 
+                 GrayLevel[0], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0.02, 0.02}, {0, 0}], 
+                  Scaled[{0.02, -0.02}, {0, 0}], 
+                  Scaled[{-0.02, -0.02}, {0, 0}], 
+                  Scaled[{-0.02, 0.02}, {0, 0}]}]}, 
+               AlignmentPoint -> {0, 0}], {0., 0.}], {{{0.8898211322463391, 
+             12.623901552717872`}}, {{3.7299160251809456`, 
+             9.997134375284862}}, {{6.415257132466575, 
+             15.388345037551753`}}, {{9.456956256443997, 
+             21.228284943393362`}}}]}, {
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.019444444444444445`], 
+                 AbsoluteThickness[1.6], 
+                 GrayLevel[0], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  
+                  Scaled[{-0.019810353094528003`, 0.015924504340362515`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.0038858487541654904`, 0.025118521207982174`}, {0,
+                    0}], 
+                  
+                  Scaled[{0.023696201848693494`, 0.009194016867619661}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.023696201848693494`, -0.009194016867619661}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.0038858487541654904`, -0.025118521207982174`}, {
+                   0, 0}], 
+                  
+                  Scaled[{-0.019810353094528003`, -0.015924504340362515`}, {0,
+                    0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             1.02255546845476, 8.674045027752264}}, {{3.8091049656049702`, 
+             18.040516778944145`}}, {{6.538455847815776, 
+             11.545379330852345`}}, {{9.464330172011678, 
+             19.333451559669516`}}}]}, {
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.019444444444444445`], 
+                 AbsoluteThickness[1.6], 
+                 GrayLevel[0], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.035095307012066465`}, {0, 0}], 
+                  
+                  Scaled[{0.030393427426063702`, -0.017547653506033233`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.030393427426063702`, -0.017547653506033233`}, {0,
+                    0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             1.019420328844963, 4.965476933383272}}, {{3.682158046042099, 
+             10.57717350168394}}, {{6.276531856050245, 
+             17.583391568172473`}}, {{9.527287956901503, 
+             19.624900774754398`}}}]}, {
+            Directive[
+             PointSize[0.019444444444444445`], 
+             AbsoluteThickness[1.6], 
+             GrayLevel[0], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.019444444444444445`], 
+                 AbsoluteThickness[1.6], 
+                 GrayLevel[0], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  
+                  Scaled[{-0.003372361327929311, 0.03372361327929311}, {0, 
+                   0}], 
+                  Scaled[{0.003372361327929311, 0.03372361327929311}, {0, 0}], 
+                  
+                  Scaled[{0.003372361327929311, 0.008141600455109484}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021461576072310775`, 0.026230815199490946`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.026230815199490946`, 0.021461576072310775`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.008141600455109484, 0.003372361327929311}, {0, 
+                   0}], 
+                  Scaled[{0.03372361327929311, 0.003372361327929311}, {0, 0}], 
+                  Scaled[{0.03372361327929311, -0.003372361327929311}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.008141600455109484, -0.003372361327929311}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.026230815199490946`, -0.021461576072310775`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021461576072310775`, -0.026230815199490946`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.003372361327929311, -0.008141600455109484}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.003372361327929311, -0.03372361327929311}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.003372361327929311, -0.03372361327929311}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.003372361327929311, -0.008141600455109484}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.021461576072310775`, -0.026230815199490946`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.026230815199490946`, -0.021461576072310775`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.008141600455109484, -0.003372361327929311}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.03372361327929311, -0.003372361327929311}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.03372361327929311, 0.003372361327929311}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.008141600455109484, 0.003372361327929311}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.026230815199490946`, 0.021461576072310775`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.021461576072310775`, 0.026230815199490946`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.003372361327929311, 0.008141600455109484}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             1.145091382478549, 10.40836607034283}}, {{3.640217206513352, 
+             15.258735880313235`}}, {{6.201297426609636, 
+             16.297295192413834`}}, {{9.64828731774863, 
+             17.644508629135956`}}}]}, {}}}, {}, {}, {}, {}}, {
+        DisplayFunction -> Identity, PlotRangePadding -> {{0, 0}, {
+            Scaled[0.02], 
+            Scaled[0.05]}}, AxesOrigin -> {0, 0}, 
+         PlotRange -> {{0, 10}, {0, 24.365470186770732`}}, PlotRangeClipping -> 
+         True, ImagePadding -> {{30, None}, {30, None}}, DisplayFunction -> 
+         Identity, AspectRatio -> 
+         NCache[GoldenRatio^(-1), 0.6180339887498948], Axes -> {True, True}, 
+         AxesLabel -> {None, None}, AxesOrigin -> {0, 0}, DisplayFunction :> 
+         Identity, Frame -> {{True, False}, {True, False}}, FrameLabel -> {{
+            FormBox["\"Quantity\"", TraditionalForm], None}, {
+            FormBox["\"Time\"", TraditionalForm], None}}, FrameStyle -> 
+         Directive[
+           GrayLevel[0], 20, 
+           Thickness[Large]], FrameTicks -> {{None, None}, {None, None}}, 
+         GridLines -> {None, None}, GridLinesStyle -> Directive[
+           GrayLevel[0.5, 0.4]], ImagePadding -> {{30, None}, {30, None}}, 
+         ImageSize -> 600, 
+         Method -> {"CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+               (Identity[#]& )[
+                Part[#, 1]], 
+               (Identity[#]& )[
+                Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+               (Identity[#]& )[
+                Part[#, 1]], 
+               (Identity[#]& )[
+                Part[#, 2]]}& )}}, 
+         PlotRange -> {{0, 10}, {0, 24.365470186770732`}}, PlotRangeClipping -> 
+         True, PlotRangePadding -> {{0, 0}, {
+            Scaled[0.02], 
+            Scaled[0.05]}}, Ticks -> {Automatic, Automatic}}],
+       "\"A. Time series\""},
+      "Labeled",
+      DisplayFunction->(FormBox[
+        GridBox[{{
+           ItemBox[#2, Alignment -> {Left, Inherited}, BaseStyle -> {
+              GrayLevel[0], FontSize -> 20}, DefaultBaseStyle -> 
+            "LabeledLabel"]}, {
+           TagBox[
+            ItemBox[
+             PaneBox[
+              TagBox[#, "SkipImageSizeLevel"], 
+              Alignment -> {Center, Baseline}, BaselinePosition -> Baseline], 
+             DefaultBaseStyle -> "Labeled"], "SkipImageSizeLevel"]}}, 
+         GridBoxAlignment -> {"Columns" -> {{Center}}, "Rows" -> {{Center}}}, 
+         AutoDelete -> False, 
+         GridBoxItemSize -> {
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+         BaselinePosition -> {2, 1}], TraditionalForm]& ),
+      InterpretationFunction->(RowBox[{"Labeled", "[", 
+         RowBox[{#, ",", #2, ",", 
+           RowBox[{"(", "\[NoBreak]", 
+             
+             GridBox[{{"Top", "Left"}}, RowSpacings -> 1, ColumnSpacings -> 1,
+               RowAlignments -> Baseline, ColumnAlignments -> Center], 
+             "\[NoBreak]", ")"}], ",", 
+           RowBox[{"LabelStyle", "\[Rule]", 
+             RowBox[{"{", 
+               RowBox[{
+                 InterpretationBox[
+                  ButtonBox[
+                   TooltipBox[
+                    GraphicsBox[{{
+                    GrayLevel[0], 
+                    RectangleBox[{0, 0}]}, {
+                    GrayLevel[0], 
+                    RectangleBox[{1, -1}]}, {
+                    GrayLevel[0], 
+                    RectangleBox[{0, -1}, {2, 1}]}}, DefaultBaseStyle -> 
+                    "ColorSwatchGraphics", AspectRatio -> 1, Frame -> True, 
+                    FrameStyle -> GrayLevel[0.], FrameTicks -> None, 
+                    PlotRangePadding -> None, ImageSize -> 
+                    Dynamic[{
+                    Automatic, 1.35 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}]], "GrayLevel[0]"], 
+                   Appearance -> None, BaseStyle -> {}, BaselinePosition -> 
+                   Baseline, DefaultBaseStyle -> {}, ButtonFunction :> 
+                   With[{Typeset`box$ = EvaluationBox[]}, 
+                    If[
+                    Not[
+                    AbsoluteCurrentValue["Deployed"]], 
+                    SelectionMove[Typeset`box$, All, Expression]; 
+                    FrontEnd`Private`$ColorSelectorInitialAlpha = 1; 
+                    FrontEnd`Private`$ColorSelectorInitialColor = 
+                    GrayLevel[0]; 
+                    FrontEnd`Private`$ColorSelectorUseMakeBoxes = True; 
+                    MathLink`CallFrontEnd[
+                    FrontEnd`AttachCell[Typeset`box$, 
+                    FrontEndResource["GrayLevelColorValueSelector"], {
+                    0, {Left, Bottom}}, {Left, Top}, 
+                    "ClosingActions" -> {
+                    "SelectionDeparture", "ParentChanged", 
+                    "EvaluatorQuit"}]]]], BaseStyle -> Inherited, Evaluator -> 
+                   Automatic, Method -> "Preemptive"], 
+                  GrayLevel[0], Editable -> False, Selectable -> False], ",", 
+                 RowBox[{"FontSize", "\[Rule]", "20"}]}], "}"}]}]}], 
+         "]"}]& )], {180, -189.}, {Center, Center}, {360, 360.}], InsetBox[
+     TemplateBox[{GraphicsBox[{{}, {{{
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[0.90222, 0.101808, 0.198306], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[1.6], 
+                 RGBColor[0.90222, 0.101808, 0.198306], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 
+                   0}], 
+                  Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             0.9380661328237545, 3.7277089244873545`}}, {{3.8278471563858125`,
+              15.548487502804672`}}, {{6.380919646924694, 
+             24.365470186770732`}}, {{9.573447251692102, 
+             16.35971975856831}}}]}, {
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[
+             0.97325683410233, 0.4655495735479695, 0.5996612066919051], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[1.6], 
+                 RGBColor[
+                 0.97325683410233, 0.4655495735479695, 0.5996612066919051], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             1.0883898070024278`, 8.797156708050009}}, {{3.6510122912682896`, 
+             11.943561158541891`}}, {{6.343214676928914, 
+             18.139553144373778`}}, {{9.693114275224138, 
+             18.23964108684848}}}]}, {
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[
+             0.56494213159868, 0.48570814894521275`, 0.9998368915884538], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[1.6], 
+                 RGBColor[
+                 0.56494213159868, 0.48570814894521275`, 0.9998368915884538], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+                  Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             1.0276761587138865`, 5.229121212530005}}, {{3.926020817637319, 
+             17.164295212790257`}}, {{6.48222468140099, 
+             19.598711705814573`}}, {{9.670257259950914, 
+             17.15981817674322}}}]}, {
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[0.14287214708202123`, 0.7165497398815136, 1.], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[1.6], 
+                 RGBColor[0.14287214708202123`, 0.7165497398815136, 1.], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             0.9066115517964035, 2.6825262963890895`}}, {{3.6942870222614888`,
+              14.48514102214767}}, {{6.324144574813336, 
+             17.286170687685495`}}, {{9.609610313425836, 
+             21.023784397602196`}}}]}, {
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[0.504049973487836, 0.8694671255908009, 1.], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[1.6], 
+                 RGBColor[0.504049973487836, 0.8694671255908009, 1.], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             0.8977244442278054, 11.948924060658419`}}, {{3.6742378650025262`,
+              11.901101845628915`}}, {{6.494406883844546, 
+             20.26084563799998}}, {{9.758423456111082, 
+             19.17129994330914}}}]}, {
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[
+             0.4012795903244232, 0.9786626231518132, 0.26669139102966566`], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[1.6], 
+                 RGBColor[
+                 0.4012795903244232, 0.9786626231518132, 
+                  0.26669139102966566`], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             1.081677994420309, 9.163069081899007}}, {{3.7135357695863163`, 
+             10.853003617521885`}}, {{6.3394570003920805`, 
+             13.79389889565422}}, {{9.435262666084713, 
+             17.42124000687022}}}]}, {
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[
+             0.9729188047180777, 0.9391259962046635, 0.201748879675973], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[1.6], 
+                 RGBColor[
+                 0.9729188047180777, 0.9391259962046635, 0.201748879675973], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+                  Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             0.8898211322463391, 12.623901552717872`}}, {{3.7299160251809456`,
+              9.997134375284862}}, {{6.415257132466575, 
+             15.388345037551753`}}, {{9.456956256443997, 
+             21.228284943393362`}}}]}, {
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[
+             0.991187815005021, 0.9644835880636667, 0.4692054507476022], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[1.6], 
+                 RGBColor[
+                 0.991187815005021, 0.9644835880636667, 0.4692054507476022], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             1.02255546845476, 8.674045027752264}}, {{3.8091049656049702`, 
+             18.040516778944145`}}, {{6.538455847815776, 
+             11.545379330852345`}}, {{9.464330172011678, 
+             19.333451559669516`}}}]}, {
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[1., 0.5855229948914203, 0.1711061268486724], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[1.6], 
+                 RGBColor[1., 0.5855229948914203, 0.1711061268486724], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             1.019420328844963, 4.965476933383272}}, {{3.682158046042099, 
+             10.57717350168394}}, {{6.276531856050245, 
+             17.583391568172473`}}, {{9.527287956901503, 
+             19.624900774754398`}}}]}, {
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[1.6], 
+             RGBColor[1., 0.749752, 0.501183], 
+             AbsolutePointSize[6]], 
+            GeometricTransformationBox[
+             InsetBox[
+              GraphicsBox[{
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[1.6], 
+                 RGBColor[1., 0.749752, 0.501183], 
+                 AbsolutePointSize[6]], 
+                FaceForm[
+                 RGBColor[0, 0, 1]], 
+                PolygonBox[{
+                  Scaled[{0., 0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.019656305108428373`, -0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{0.01604930591470396, -0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{0.011348573045624538`, -0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  Scaled[{0., -0.022697146091249076`}, {0, 0}], 
+                  
+                  Scaled[{-0.005874453677889496, -0.021923759592593458`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.011348573045624538`, -0.019656305108428373`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.01604930591470396, -0.01604930591470396}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, -0.011348573045624538`}, {0,
+                    0}], 
+                  
+                  Scaled[{-0.021923759592593458`, -0.005874453677889496}, {0, 
+                   0}], 
+                  Scaled[{-0.022697146091249076`, 0.}, {0, 0}], 
+                  
+                  Scaled[{-0.021923759592593458`, 0.005874453677889496}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.019656305108428373`, 0.011348573045624538`}, {0, 
+                   0}], 
+                  Scaled[{-0.01604930591470396, 0.01604930591470396}, {0, 0}], 
+                  
+                  Scaled[{-0.011348573045624538`, 0.019656305108428373`}, {0, 
+                   0}], 
+                  
+                  Scaled[{-0.005874453677889496, 0.021923759592593458`}, {0, 
+                   0}]}]}, AlignmentPoint -> {0, 0}], {0., 0.}], {{{
+             1.145091382478549, 10.40836607034283}}, {{3.640217206513352, 
+             15.258735880313235`}}, {{6.201297426609636, 
+             16.297295192413834`}}, {{9.64828731774863, 
+             17.644508629135956`}}}]}, {}}}, {}, {}, {}, {}}, {
+        DisplayFunction -> Identity, PlotRangePadding -> {{0, 0}, {
+            Scaled[0.02], 
+            Scaled[0.05]}}, AxesOrigin -> {0, 0}, 
+         PlotRange -> {{0, 10}, {0, 24.365470186770732`}}, PlotRangeClipping -> 
+         True, ImagePadding -> {{30, None}, {30, None}}, DisplayFunction -> 
+         Identity, AspectRatio -> 
+         NCache[GoldenRatio^(-1), 0.6180339887498948], Axes -> {True, True}, 
+         AxesLabel -> {None, None}, AxesOrigin -> {0, 0}, DisplayFunction :> 
+         Identity, Frame -> {{True, False}, {True, False}}, FrameLabel -> {{
+            FormBox["\"Quantity\"", TraditionalForm], None}, {
+            FormBox["\"Time\"", TraditionalForm], None}}, FrameStyle -> 
+         Directive[
+           GrayLevel[0], 20, 
+           Thickness[Large]], FrameTicks -> {{None, None}, {None, None}}, 
+         GridLines -> {None, None}, GridLinesStyle -> Directive[
+           GrayLevel[0.5, 0.4]], ImagePadding -> {{30, None}, {30, None}}, 
+         ImageSize -> 600, 
+         Method -> {"CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+               (Identity[#]& )[
+                Part[#, 1]], 
+               (Identity[#]& )[
+                Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+               (Identity[#]& )[
+                Part[#, 1]], 
+               (Identity[#]& )[
+                Part[#, 2]]}& )}}, 
+         PlotRange -> {{0, 10}, {0, 24.365470186770732`}}, PlotRangeClipping -> 
+         True, PlotRangePadding -> {{0, 0}, {
+            Scaled[0.02], 
+            Scaled[0.05]}}, Ticks -> {Automatic, Automatic}}],
+       "\"B. Snapshots\""},
+      "Labeled",
+      DisplayFunction->(FormBox[
+        GridBox[{{
+           ItemBox[#2, Alignment -> {Left, Inherited}, BaseStyle -> {
+              GrayLevel[0], FontSize -> 20}, DefaultBaseStyle -> 
+            "LabeledLabel"]}, {
+           TagBox[
+            ItemBox[
+             PaneBox[
+              TagBox[#, "SkipImageSizeLevel"], 
+              Alignment -> {Center, Baseline}, BaselinePosition -> Baseline], 
+             DefaultBaseStyle -> "Labeled"], "SkipImageSizeLevel"]}}, 
+         GridBoxAlignment -> {"Columns" -> {{Center}}, "Rows" -> {{Center}}}, 
+         AutoDelete -> False, 
+         GridBoxItemSize -> {
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+         BaselinePosition -> {2, 1}], TraditionalForm]& ),
+      InterpretationFunction->(RowBox[{"Labeled", "[", 
+         RowBox[{#, ",", #2, ",", 
+           RowBox[{"(", "\[NoBreak]", 
+             
+             GridBox[{{"Top", "Left"}}, RowSpacings -> 1, ColumnSpacings -> 1,
+               RowAlignments -> Baseline, ColumnAlignments -> Center], 
+             "\[NoBreak]", ")"}], ",", 
+           RowBox[{"LabelStyle", "\[Rule]", 
+             RowBox[{"{", 
+               RowBox[{
+                 InterpretationBox[
+                  ButtonBox[
+                   TooltipBox[
+                    GraphicsBox[{{
+                    GrayLevel[0], 
+                    RectangleBox[{0, 0}]}, {
+                    GrayLevel[0], 
+                    RectangleBox[{1, -1}]}, {
+                    GrayLevel[0], 
+                    RectangleBox[{0, -1}, {2, 1}]}}, DefaultBaseStyle -> 
+                    "ColorSwatchGraphics", AspectRatio -> 1, Frame -> True, 
+                    FrameStyle -> GrayLevel[0.], FrameTicks -> None, 
+                    PlotRangePadding -> None, ImageSize -> 
+                    Dynamic[{
+                    Automatic, 1.35 CurrentValue["FontCapHeight"]/
+                    AbsoluteCurrentValue[Magnification]}]], "GrayLevel[0]"], 
+                   Appearance -> None, BaseStyle -> {}, BaselinePosition -> 
+                   Baseline, DefaultBaseStyle -> {}, ButtonFunction :> 
+                   With[{Typeset`box$ = EvaluationBox[]}, 
+                    If[
+                    Not[
+                    AbsoluteCurrentValue["Deployed"]], 
+                    SelectionMove[Typeset`box$, All, Expression]; 
+                    FrontEnd`Private`$ColorSelectorInitialAlpha = 1; 
+                    FrontEnd`Private`$ColorSelectorInitialColor = 
+                    GrayLevel[0]; 
+                    FrontEnd`Private`$ColorSelectorUseMakeBoxes = True; 
+                    MathLink`CallFrontEnd[
+                    FrontEnd`AttachCell[Typeset`box$, 
+                    FrontEndResource["GrayLevelColorValueSelector"], {
+                    0, {Left, Bottom}}, {Left, Top}, 
+                    "ClosingActions" -> {
+                    "SelectionDeparture", "ParentChanged", 
+                    "EvaluatorQuit"}]]]], BaseStyle -> Inherited, Evaluator -> 
+                   Automatic, Method -> "Preemptive"], 
+                  GrayLevel[0], Editable -> False, Selectable -> False], ",", 
+                 RowBox[{"FontSize", "\[Rule]", "20"}]}], "}"}]}]}], 
+         "]"}]& )], {540, -189.}, {Center, Center}, {360, 360.}]}, {}},
+  ContentSelectable->True,
+  ImageSize->1300,
+  PlotRangePadding->{6, 5}]], "Output",
+ CellChangeTimes->{{3.765365815127426*^9, 3.765365882963149*^9}, 
+   3.7653659178265247`*^9, 3.76536594942099*^9, {3.7653660154066534`*^9, 
+   3.7653660375992947`*^9}, 
+   3.765366106891697*^9},ExpressionUUID->"5019f38a-cb75-4f20-be65-\
+423e296d5d03"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<../figures/time_series_v_snapshots.pdf\>\"", ",", "gFinal"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.7653661088729935`*^9, 
+  3.7653661271097016`*^9}},ExpressionUUID->"85dc9697-8783-4b24-b4fc-\
+de595baaa1e6"],
+
+Cell[BoxData["\<\"../figures/time_series_v_snapshots.pdf\"\>"], "Output",
+ CellChangeTimes->{
+  3.7653661283525867`*^9},ExpressionUUID->"6e4274e1-9f65-46ea-854e-\
+8fd514be9696"]
+}, Open  ]]
+},
+WindowSize->{1536, 781},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+FrontEndVersion->"11.2 for Microsoft Windows (64-bit) (September 10, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 3926, 111, 176, "Input",ExpressionUUID->"960c4510-1fe6-4957-b3a7-d22ebd3bafb3"],
+Cell[4487, 133, 419, 12, 28, "Input",ExpressionUUID->"c1c7888e-6cb1-4a1c-80b6-798d709a5b04"],
+Cell[4909, 147, 100, 0, 28, "Input",ExpressionUUID->"fcf699c7-39a0-4cc9-8392-0ef1565e5d36"],
+Cell[5012, 149, 2355, 63, 143, "Input",ExpressionUUID->"1f2ea6b1-012b-4eb1-ad17-8d639e4d9c82"],
+Cell[CellGroupData[{
+Cell[7392, 216, 2222, 50, 48, "Input",ExpressionUUID->"96a4d401-6d5f-450b-a561-82719d96762c"],
+Cell[9617, 268, 22806, 487, 424, "Output",ExpressionUUID->"52bb67c2-2ce9-4ab2-a6f6-8e0661bfb9f0"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[32460, 760, 2372, 58, 67, "Input",ExpressionUUID->"53705e65-ba70-4e50-8153-cbbff261f9ea"],
+Cell[34835, 820, 32244, 590, 424, "Output",ExpressionUUID->"675f81ee-f02a-4f05-bc1f-9fe4bddff9fa"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[67116, 1415, 641, 13, 28, "Input",ExpressionUUID->"13e27af4-5d95-4ed3-82b4-7d0d19d33248"],
+Cell[67760, 1430, 67018, 1496, 718, "Output",ExpressionUUID->"5019f38a-cb75-4f20-be65-423e296d5d03"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[134815, 2931, 265, 6, 28, "Input",ExpressionUUID->"85dc9697-8783-4b24-b4fc-de595baaa1e6"],
+Cell[135083, 2939, 177, 3, 32, "Output",ExpressionUUID->"6e4274e1-9f65-46ea-854e-8fd514be9696"]
+}, Open  ]]
+}
+]
+*)
+

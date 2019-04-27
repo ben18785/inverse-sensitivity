@@ -118,7 +118,43 @@ The framework we present here is Bayesian although is distinct from the traditio
 \underline{Outline of the paper}: In \S \ref{sec:method}, we present the details of our methodological framework and detail the CMC algorithm we use to sample from the posterior parameter distribution. In \S \ref{sec:results}, we then use CMC to estimate cell population heterogeneity in three systems of biological interest.
 
 \section{Method}\label{sec:method}
+In this section, we describe the first describe the probabilistic framework that underlies the CMC algorithm, before introducing CMC in pseudocode (Algorthm X). We also detail the workflow we have found useful in applying this approach to analyse cell snapshot data as well as suggest practical remedies to issues we have encountered in using CMC.
+
+Experimental methods such as flow cytometry can measure single cell characteristics at a given point in time. Cells are typically destroyed by the measurement process and so rather than providing time series for each individual cell, the data is in the form of cross-sections or ``snapshots'' of sampled individuals from the population (Figure \ref{fig:time_series_v_snapshots}).
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=\textwidth]{../figures/time_series_v_snapshots.pdf}}
+	\caption{\textbf{Time series data (A.) versus snapshot data (B.) typical of single cell experiments.} In A. that the cell identities are retained at each measurement point (indicated by given plot markers) whereas in the snapshot data in B., this information is lost.}
+	\label{fig:time_series_v_snapshots}
+\end{figure}
+
+We suppose an individual cell's processes can be modelled using a system of ordinary differential equations (ODEs), where each element of the system describes the governing dynamics of a particular quantity of interest (for example, protein levels, RNA and so on),
+%
+\begin{equation}
+\dot{\boldsymbol{X}}(t) = f(\dot{\boldsymbol{X}(t)}; \boldsymbol{\theta}).
+\end{equation}
+%
+Here $\boldsymbol{X}(t) = (X_1(t), X_2(t), ..., X_k(t))$ is a vector of states for each compartment in the system and $f(.)$ is a function of these states and parameters $\boldsymbol{\theta}\in\mathbb{R}^p$. Note that in most circumstances, the initial state of the system, $\boldsymbol{X}(0)$, is unknown and it is convenient to include these as elements of $\boldsymbol{\theta}$ to be estimated.
+
+In this paper, we assume variation characterised by snapshot data arises due to between-cell heterogeneity in the underlying parameters $\theta$. Therefore, the evolution of the underlying state of cell $i$ is described by an idiosyncratic ODE,
+%
+\begin{equation}
+\dot{\boldsymbol{X}^i}(t) = f(\dot{\boldsymbol{X}^i(t)}; \boldsymbol{\theta}^i).
+\end{equation}
+%
+Raw snapshot data consists of measurements of individual cells with exact inference requiring simulating the underlying ODE system for each individual. This is cumbersome and impractical for the numbers of cells sampled in typical experimental setups and so, instead, we follow previous work and instead represent snapshot data using probability distributions \cite{hasenauer2011identification,hasenauer2014ode,loos2018hierarchical,dixit2018maximum}. The snapshots themselves can either be distributions of a single species or multiple species, which can be approximated by univariate and multivariate probability distributions respectively (Figure X).
+
+Two panels: one shows independent snapshots at different points in time; the other, a multivariate snapshot.
+
+
+\subsection{Generative model}
+Contrast traditional Bayesian approach to ODE models (via figure already done).
+
+\subsection{Bayes' rule for HODEs}
+
+\subsection{Contour Monte Carlo (CMC) and workflow}
 Figure showing workflow in using CMC to infer cell-to-cell variability.
+
 
 \section{Results}\label{sec:results}
 
