@@ -124,7 +124,7 @@ Experimental methods such as flow cytometry can measure single cell characterist
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/time_series_v_snapshots.pdf}}
-	\caption{\textbf{Time series data (A.) versus snapshot data (B.) typical of single cell experiments.} In A. that the cell identities are retained at each measurement point (indicated by given plot markers) whereas in the snapshot data in B., either this information is lost or, more often, cells are destroyed by the measurement process and so each observation corresponds to a distinct cell.}
+	\caption{\textbf{Time series data (A) versus snapshot data (B) typical of single cell experiments.} In A that the cell identities are retained at each measurement point (indicated by given plot markers) whereas in the snapshot data in B, either this information is lost or, more often, cells are destroyed by the measurement process and so each observation corresponds to a distinct cell.}
 	\label{fig:time_series_v_snapshots}
 \end{figure}
 
@@ -155,6 +155,13 @@ The generative model used to produce observations for a single cell in our model
 Raw snapshot data consists of measurements of individual cells with exact inference requiring simulating the underlying ODE system for each individual. This is cumbersome and impractical for the numbers of cells sampled in typical experimental setups and so, instead, we follow previous work and instead represent snapshot data using probability distributions \cite{hasenauer2011identification,hasenauer2014ode,loos2018hierarchical,dixit2018maximum}. The snapshots themselves can either be distributions of a single species or multiple species, which can be approximated by univariate and multivariate probability distributions respectively. These probability distributions are characterised by parameter estimates $\hat{\boldsymbol{\phi}}$ determined by the output observations $\boldsymbol{Y}(\boldsymbol{t})$.
 
 The goal of our inference process is to  characterise the probability distribution $p(\theta|\boldsymbol{Y}(\boldsymbol{t}))$ representing heterogeneity in cellular processes. The first step in our inference workflow is to fit the output distributions using probability distributions (Figure X). We assume that the volume of observational data means the estimated probability distributions are approximate sufficient statistics of the outputs, meaning $p(\theta|\hat{\boldsymbol{\phi}}) \approx p(\theta|\boldsymbol{Y}(\boldsymbol{t}))$.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=\textwidth]{../figures/contour_volumes.pdf}}
+	\caption{\textbf{The non-linear mapping from parameter values (left panel) to outputs (right panel) means different sized regions of parameter space (orange and blue surfaces; left panel) correspond to distinct outputs (orange triangle and blue square; right panel).}}
+	\label{fig:contour_volumes}
+\end{figure}
+
 
 
 \subsection{Bayes' rule for HODEs}
