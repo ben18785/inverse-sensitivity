@@ -120,7 +120,7 @@ The framework we present here is Bayesian although is distinct from the traditio
 \underline{Outline of the paper}: In \S \ref{sec:method}, we present the details of our methodological framework and detail the CMC algorithm we use to sample from the posterior parameter distribution. In \S \ref{sec:results}, we then use CMC to estimate cell population heterogeneity in three systems of biological interest.
 
 \section{Method}\label{sec:method}
-In this section, we describe the first describe the probabilistic framework that underlies the CMC algorithm, before introducing CMC in pseudocode (Algorthm X). We also detail the workflow we have found useful in applying this approach to analyse cell snapshot data and suggest practical remedies to issues we have encountered in using CMC.
+In this section, we describe the first describe the probabilistic framework that underlies the CMC algorithm, before introducing CMC in pseudocode (Algorithm \ref{alg:cmc}). We also detail the workflow we have found useful in applying this approach to analyse cell snapshot data and suggest practical remedies to issues we have encountered in using CMC.
 
 Experimental methods such as flow cytometry can measure single cell characteristics at a given point in time. Cells are typically destroyed by the measurement process and so rather than providing time series for each individual cell, the data consists of cross-sections or ``snapshots'' of sampled individuals from the population (Figure \ref{fig:time_series_v_snapshots}).
 
@@ -154,9 +154,9 @@ with solution $\boldsymbol{x}^i(t) = g(t; \boldsymbol{\theta}^i)$. The tradition
 
 The generative model used to produce observations for a single cell in our model consists of two stages: (i) sample $\boldsymbol{\theta}^i\sim p(\boldsymbol{\theta})$, where $p(\boldsymbol{\theta})$ is a probability distribution characterising heterogeneity in cellular processes and, (ii) $\boldsymbol{x}_j^i(t') = g(t'; \boldsymbol{\theta})$ where, for each cell, a measurement of a subset of output states $\boldsymbol{x}_j^i(t')\in\boldsymbol{x}^i$ is made at a single point in time $t'\in (t_1, t_2, ..., t_o)$. The experimental observations for a single time point then consists of the collection of individual cell measurements $\boldsymbol{X}_j(t') = (\boldsymbol{x}_j^1(t'), \boldsymbol{x}_j^2(t'), ..., \boldsymbol{x}_j^n(t'))$, where $n$ is the number of cells measured at time $t'$. The entire set of observations is the union of each of the sets across all measured time points $\boldsymbol{X}(\boldsymbol{t}) = (\boldsymbol{X}_{j_1}(t_1), \boldsymbol{X}_{j_2}(t_2), ..., \boldsymbol{X}_{j_o}(t_o))$, where $\boldsymbol{t}=(t_1, t_2, ..., t_o)$ is the vector of observation times and the subscript $a$ on each $j_a$ allows for measurement of different elements of the system at distinct timepoints.
 
-Raw snapshot data consists of measurements of individual cells with exact inference requiring simulating the underlying ODE system for each individual. This is cumbersome and impractical for the numbers of cells sampled in typical experimental setups and so, instead, we follow previous work and instead represent snapshot data using probability distributions \cite{hasenauer2011identification,hasenauer2014ode,loos2018hierarchical,dixit2018maximum}. The snapshots themselves can either be distributions of a single species or multiple species, which can be approximated by univariate and multivariate probability distributions respectively. These probability distributions are characterised by parameter estimates $\hat{\boldsymbol{\phi}}$ determined by the output observations $\boldsymbol{X}(\boldsymbol{t})$. The dimensionality of these probability distributions depends on the set of $m$ measurements $\tilde{\boldsymbol{x}}(\boldsymbol{t})=(x_{j_1}(t_1), x_{j_2}(t_2), ..., x_{j_m}(t_m))$ made on the system. Note that, $\tilde{\boldsymbol{x}}(\boldsymbol{t})$ corresponds to a particular set of measurements from a hypothetical cell and is distinct from $\boldsymbol{X}(\boldsymbol{t})$, which represents the full set of experimental outputs. The vector $\tilde{\boldsymbol{x}}(\boldsymbol{t})$ is hypothetical because in reality each cell is measured at a single timepoint (although we suppose measurements of different cellular attributes are possible contemporaneously).
+Raw snapshot data consists of measurements of individual cells with exact inference requiring simulating the underlying ODE system for each individual. This is cumbersome and impractical for the numbers of cells sampled in typical experimental setups and so, instead, we follow previous work and instead represent snapshot data using probability distributions \cite{hasenauer2011identification,hasenauer2014ode,loos2018hierarchical,dixit2018maximum}. The snapshots themselves can either be distributions of a single species or multiple species, which can be approximated by univariate and multivariate probability distributions respectively. These probability distributions are characterised by parameter estimates $\hat{\boldsymbol{\Phi}}$ determined by the output observations $\boldsymbol{X}(\boldsymbol{t})$. The dimensionality of these probability distributions depends on the set of $m$ measurements $\tilde{\boldsymbol{x}}(\boldsymbol{t})=(x_{j_1}(t_1), x_{j_2}(t_2), ..., x_{j_m}(t_m))$ made on the system. Note that, $\tilde{\boldsymbol{x}}(\boldsymbol{t})$ corresponds to a particular set of measurements from a hypothetical cell and is distinct from $\boldsymbol{X}(\boldsymbol{t})$, which represents the full set of experimental outputs. The vector $\tilde{\boldsymbol{x}}(\boldsymbol{t})$ is hypothetical because in reality each cell is measured at a single timepoint (although we suppose measurements of different cellular attributes are possible contemporaneously).
 
-The goal of our inference process is to  characterise the probability distribution $p(\theta|\boldsymbol{X}(\boldsymbol{t}))$ representing heterogeneity in cellular processes. The first step in our inference workflow is to fit the output distributions using probability distributions (Figure X). We assume that the volume of observational data means the estimated probability distributions are approximate sufficient statistics of the outputs, meaning $p(\theta|\hat{\boldsymbol{\phi}}) \approx p(\theta|\boldsymbol{X}(\boldsymbol{t}))$.
+The goal of our inference process is to  characterise the probability distribution $p(\theta|\boldsymbol{X}(\boldsymbol{t}))$ representing heterogeneity in cellular processes. The first step in our inference workflow is to fit the output distributions using probability distributions (Figure X). We assume that the volume of observational data means the estimated probability distributions are approximate sufficient statistics of the outputs, meaning $p(\theta|\hat{\boldsymbol{\Phi}}) \approx p(\theta|\boldsymbol{X}(\boldsymbol{t}))$.
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/contour_volumes.pdf}}
@@ -165,39 +165,91 @@ The goal of our inference process is to  characterise the probability distributi
 \end{figure}
 
 
-The models we seek to fit to snapshot data mostly cannot be identified from the observations. This is often because the number of model parameters exceeds the dimensionality of the output distribution (that is, $m>k$) meaning there typically exist non-singular sets of parameter values $\boldsymbol{\theta} \in \boldsymbol{\Theta}$ mapping to a single set of output values. That is, each vector of $m$ observed outputs $\tilde{\boldsymbol{x}}(\boldsymbol{t})$, can often be caused by many combinations of inputs although, due to the non-linearity of the map from parameters to outputs, the size of these regions of parameter space is a function of output $\mathcal{V}(\tilde{\boldsymbol{x}})$ (Figure \ref{fig:contour_volumes}).
+The models we seek to fit to snapshot data mostly cannot be identified from the observations. This is often because the number of model parameters exceeds the dimensionality of the output distribution (that is, $m>k$) meaning there typically exist non-singular sets of parameter values $\boldsymbol{\theta} \in \boldsymbol{\Theta}$ mapping to a single set of output values. That is, each vector of observed outputs $\tilde{\boldsymbol{x}}\in\mathbb{R}^m$, can often be caused by many combinations of inputs although, due to the non-linearity of the map from parameters to outputs, the size of these regions of parameter space is a function of output $\mathcal{V}(\tilde{\boldsymbol{x}})$ (Figure \ref{fig:contour_volumes}). In what follows, we make clear the distinction between observables $\tilde{\boldsymbol{x}}(\boldsymbol{t})$ and the vector-valued function representing modelled outputs $\boldsymbol{g}(\boldsymbol{t}; \boldsymbol{\theta})\in\mathbb{R}^m$ since the latter is a function whereas that latter is a numeric value; we also drop the $\boldsymbol{t}$ notation from following expressions to minimise clutter.
 
-A consequence of this geometry is that any target output distribution $p(\tilde{\boldsymbol{x}}|\hat{\phi})$ does not correspond to a unique parameter distribution. For example, suppose $\tilde{\boldsymbol{x}} = \theta_1 + \theta_2$: the target distribution $\tilde{\boldsymbol{x}}\sim \mathcal{N}(0, 1)$ can be generated by any member of the set of parameter distributions $\sqrt{\eta} \theta_1 + \sqrt{1 - \eta} \theta_2$, where $\eta\in [0, 1]$ and $\theta_1, \theta_2 \sim \mathcal{N}(0, 1)$. This means that in order to ensure uniqueness of the ``posterior'' parameter distributions, we are required to specify ``prior'' distributions for the parameters, as in more traditional Bayesian inference. An additional consequence of the degeneracy of the mapping from parameters to outputs is that any sampling algorithm aimed at exploring posterior input space must account for the differential volumes of iso-output contours. Whilst we refer the interested reader to our companion paper on this subject [citation for tutorial paper published in Open Science], we provide a quick derivation of the posterior input distribution which accounts for the non-linear mapping.
+A consequence of this geometry is that any target output distribution $p(\tilde{\boldsymbol{x}}|\hat{\Phi})$ does not correspond to a unique parameter distribution. For example, suppose $g(\theta_1, \theta_2) = \theta_1 + \theta_2$: the target distribution $\tilde{\boldsymbol{x}}\sim \mathcal{N}(0, 1)$ can be generated by any member of the set of parameter distributions $\sqrt{\eta} \theta_1 + \sqrt{1 - \eta} \theta_2$, where $\eta\in [0, 1]$ and $\theta_1, \theta_2 \sim \mathcal{N}(0, 1)$. This means that in order to ensure uniqueness of the ``posterior'' parameter distributions, we are required to specify ``prior'' distributions for the parameters, as in more traditional Bayesian inference. An additional consequence of the degeneracy of the mapping from parameters to outputs is that any sampling algorithm aimed at exploring posterior input space must account for the differential volumes of iso-output contours. Whilst we refer the interested reader to our companion paper on this subject [citation for tutorial paper published in Open Science], we provide a quick derivation of the posterior input distribution which accounts for the non-linear mapping.
 
-To derive the posterior distribution of inputs $p(\boldsymbol{\theta}|\hat{\phi})$, we consider the joint density of parameters and outputs $p(\boldsymbol{\theta},\tilde{\boldsymbol{x}}|\hat{\phi})$. This can be decomposed in two ways, 
+To derive the posterior distribution of inputs $p(\boldsymbol{\theta}|\hat{\Phi})$, we consider the joint density of parameters and outputs $p(\boldsymbol{\theta},\tilde{\boldsymbol{x}}|\hat{\Phi})$. This can be decomposed in two ways, 
 %
 \begin{equation}\label{eq:joint}
-p(\boldsymbol{\theta}|\tilde{\boldsymbol{x}}, \hat{\phi}) \times p(\tilde{\boldsymbol{x}}|\hat{\phi}) = p(\boldsymbol{\theta},\tilde{\boldsymbol{x}}|\hat{\phi}) =  p(\tilde{\boldsymbol{x}}| \boldsymbol{\theta}, \hat{\phi}) \times p(\boldsymbol{\theta}|\hat{\phi}).
+p(\boldsymbol{\theta}|\tilde{\boldsymbol{x}}, \hat{\Phi}) \times p(\tilde{\boldsymbol{x}}|\hat{\Phi}) = p(\boldsymbol{\theta},\tilde{\boldsymbol{x}}|\hat{\Phi}) =  p(\tilde{\boldsymbol{x}}| \boldsymbol{\theta}, \hat{\Phi}) \times p(\boldsymbol{\theta}|\hat{\Phi}).
 \end{equation}
 %
-The left and right hand sides of eq. (\ref{eq:joint}) can be rearranged to obtain a form for the posterior input distribution,
+The left and right hand sides of eq. (\ref{eq:joint}) can be equated and rearranged to obtain the posterior input distribution,
 %
 \begin{equation}
-p(\boldsymbol{\theta}|\hat{\phi}) = \frac{p(\boldsymbol{\theta}|\tilde{\boldsymbol{x}}, \hat{\phi}) \times p(\tilde{\boldsymbol{x}}|\hat{\phi})}{p(\tilde{\boldsymbol{x}}| \boldsymbol{\theta}, \hat{\phi})}.
+p(\boldsymbol{\theta}|\hat{\Phi}) = \frac{p(\boldsymbol{\theta}|\tilde{\boldsymbol{x}}, \hat{\Phi}) \times p(\tilde{\boldsymbol{x}}|\hat{\Phi})}{p(\tilde{\boldsymbol{x}}| \boldsymbol{\theta}, \hat{\Phi})}.
 \end{equation}
 %
-Given parameters $\boldsymbol{\theta}$, the mapping from parameters to outputs is deterministic meaning $p(\tilde{\boldsymbol{x}}| \boldsymbol{\theta}, \hat{\phi})=\delta(\tilde{\boldsymbol{x}}(\boldsymbol{\theta}))$. In what follows, we assume that the conditional distribution $p(\boldsymbol{\theta}|\tilde{\boldsymbol{x}}, \hat{\phi})$ is independent of the data, meaning it represents a conditional ``prior'', which can be manipulated by Bayes' rule,
+Given parameters $\boldsymbol{\theta}$, the mapping from parameters to outputs is deterministic meaning $p(\tilde{\boldsymbol{x}}| \boldsymbol{\theta}, \hat{\Phi})=\delta(\boldsymbol{g}(\boldsymbol{\theta}))$ is the Dirac delta function centred at $\tilde{\boldsymbol{x}}=\boldsymbol{g}(\boldsymbol{\theta})$. In what follows, we assume that the conditional distribution $p(\boldsymbol{\theta}|\tilde{\boldsymbol{x}}, \hat{\Phi})$ is independent of the data, meaning it represents a conditional ``prior'', which can be manipulated by Bayes' rule,
 %
-\begin{equation}
-p(\boldsymbol{\theta}|\tilde{\boldsymbol{x}}(\boldsymbol{\theta})) = \frac{p(\boldsymbol{\theta})}{p(\tilde{\boldsymbol{x}}(\boldsymbol{\theta}))},
+\begin{equation}\label{eq:prior}
+p(\boldsymbol{\theta}|\boldsymbol{g}(\boldsymbol{\theta})) = \frac{p(\boldsymbol{\theta})}{p(\boldsymbol{g}(\boldsymbol{\theta}))},
 \end{equation}
 %
 where we have used the Dirac delta function for $p(\tilde{\boldsymbol{x}}|\boldsymbol{\theta})$. This results in the form of the posterior input distribution used in our sampling algorithm,
 %
 \begin{equation}\label{eq:posterior_input}
-p(\boldsymbol{\theta}|\hat{\phi}) = \frac{p(\boldsymbol{\theta})}{p(\tilde{\boldsymbol{x}}(\boldsymbol{\theta}))} p(\tilde{\boldsymbol{x}}(\boldsymbol{\theta})|\hat{\phi}).
+p(\boldsymbol{\theta}|\hat{\Phi}) = \frac{p(\boldsymbol{\theta})}{p(\boldsymbol{g}(\boldsymbol{\theta}))} p(\boldsymbol{g}(\boldsymbol{\theta})|\hat{\Phi}).
 \end{equation}
 %
-Again, we refer to our companion piece [citation] for detailed explanation of eq. (\ref{eq:posterior_input}) and instead here provide brief interpretation when considering a uniform prior on parameter space. In this case, $p(\boldsymbol{\theta}) = \frac{1}{V}$, where $V$ is the total volume of parameter space. 
+Again, we refer to our companion piece [citation] for detailed explanation of eqs. (\ref{eq:prior}) \& (\ref{eq:posterior_input}) and instead here provide brief interpretation when considering a uniform prior on parameter space. In this case, $p(\boldsymbol{\theta}) = \frac{1}{V}$, where $V$ is the total volume of parameter space. The denominator term of eq. (\ref{eq:prior}) is the prior induced on output space by the prior over parameter space. For a uniform prior on parameter values, this is just proportion of parameter space where $\boldsymbol{g}(\boldsymbol{\theta}) = \tilde{\boldsymbol{x}}$, meaning,
+%
+\begin{equation}\label{eq:contour_volume}
+p(\boldsymbol{\theta}|\boldsymbol{g}(\boldsymbol{\theta})) = \frac{1}{\mathcal{V}(\boldsymbol{g}(\boldsymbol{\theta}))},
+\end{equation}
+%
+where $\mathcal{V}(\boldsymbol{g}(\boldsymbol{\theta}))$ is the volume of parameter space occupied by the iso-output region $\Omega(\tilde{\boldsymbol{x}}) = \{\boldsymbol{\theta}: \boldsymbol{g}(\boldsymbol{\theta}) = \tilde{\boldsymbol{x}}\}$. Therefore a uniform prior over parameter space implies a prior structure where all  parameter values resulting in the same output $\tilde{\boldsymbol{x}}$ are given equal weighting.
+
+The denominator term of eq. (\ref{eq:prior}) cannot be calculated apart from for some toy examples, meaning that exact sampling from the posterior input distribution of eq. (\ref{eq:posterior_input}) is not, in general, possible. We propose instead a computationally efficient sampling method to estimate $p(\boldsymbol{g}(\boldsymbol{\theta}))$, which forms the first step of our so-called ``Contour Monte Carlo'' (CMC) algorithm (Algorithm \ref{alg:cmc}), where we estimate the volume of iso-output contours with output value $\boldsymbol{g}(\boldsymbol{\theta})$. The second step in our algorithm then uses Markov chain Monte Carlo (MCMC) to sample from an approximate version of eq. (\ref{eq:posterior_input}) with the estimated density $\hat{p}(\boldsymbol{g}(\boldsymbol{\theta}))$ replacing its corresponding estimand.
+
+
+\begin{algorithm}[H]
+	\small
+	\texttt{\\}
+	\begin{algorithmic}
+		\Procedure{CMC}{$\hat{\Phi}, \Xi$}\Comment{Sample from posterior input distribution}
+		\State $\hat{\Psi} = \Call{ContourVolumeEstimator}{\Xi}$
+		\State $(\boldsymbol{\theta}_1,...,\boldsymbol{\theta}_{N_2}) = \Call{MCMC}{\hat{\Phi},\Xi, \hat{\Psi}}$
+		\EndProcedure
+	\end{algorithmic}
+	
+	\texttt{\\}
+	\begin{algorithmic}
+		\Procedure{ContourVolumeEstimator}{$ \Xi$}\Comment{Estimate volume of contours}
+		\For{$i$ in $1:N_1$}
+		\State $\boldsymbol{\theta}_i\sim p(\boldsymbol{\theta}|\Xi)$ \Comment{Sample from prior density}
+		\State $\tilde{\boldsymbol{x}}_i = \boldsymbol{G}(\boldsymbol{\theta}_i)$ \Comment{Calculate corresponding output value}
+		\EndFor
+		\State $(\tilde{\boldsymbol{x}}_1,\tilde{\boldsymbol{x}}_2,...,\tilde{\boldsymbol{x}}_{N_1}) \sim p(\tilde{\boldsymbol{x}}|\hat{\Psi})$ \Comment{Fit vine copula kernel density estimator to output values.}
+		\State \Return $\hat{\Psi}$
+		\EndProcedure
+	\end{algorithmic}
+
+	\texttt{\\}
+	\begin{algorithmic}
+		\Procedure{MCMC}{$\hat{\Phi},\Xi, \hat{\Psi}$}\Comment{Random Walk Metropolis algorithm targeting posterior parameter distribution.}
+		\State $\boldsymbol{\theta}_0 \sim \pi(.)$ \Comment{Sample from arbitrary initialisation distribution}
+		\For{$i$ in $1:N_2$}
+		\State $\boldsymbol{\theta}_i'\sim \mathcal{N}(\boldsymbol{\theta}_{i-1},\boldsymbol{\Sigma})$ \Comment{Propose new parameter values for inputs}
+		\State $r = \left[p(\boldsymbol{\theta}'|\Xi) p(\boldsymbol{G}(\boldsymbol{\theta})|\hat{\Psi})p(\boldsymbol{G}(\boldsymbol{\theta}')|\hat{\Phi})\right] / \left[p(\boldsymbol{\theta}|\Xi) p(\boldsymbol{G}(\boldsymbol{\theta}')|\hat{\Psi})p(\boldsymbol{G}(\boldsymbol{\theta})|\hat{\Phi})\right]$\Comment{Metropolis acceptance ratio.}
+		\State $u\sim U(0,1)$ \Comment{Sample from uniform distribution}
+		\If{$r > u$}
+		\State $\boldsymbol{\theta}_i = \boldsymbol{\theta}_i'$ \Comment{Accept proposal}
+		\Else
+		\State $\boldsymbol{\theta}_i = \boldsymbol{\theta}_{i-1}$ \Comment{Reject proposal}
+		\EndIf
+		\EndFor
+		\State \Return $(\boldsymbol{\theta}_1,...,\boldsymbol{\theta}_{N_2})$
+		\EndProcedure
+	\end{algorithmic}
+
+	\caption{Pseudocode for the Contour Monte Carlo algorithm for sampling from the posterior input distribution of eq. (\ref{eq:posterior_input}). Parameters that may be vectors are shown in bold. Here we provide code for the Random Walk Metropolis algorithm for the MCMC sampling but for the examples in \S \ref{sec:results}, we use an adaptive MCMC algorithm [cite Ross paper].}\label{alg:cmc}
+\end{algorithm}
+
 
 Include table with variable definitions.
 
-\subsection{Contour Monte Carlo (CMC) and workflow}
 Figure showing workflow in using CMC to infer cell-to-cell variability.
 
 
@@ -215,6 +267,8 @@ Target a bimodal target.
 
 \section{Discussion}
 \label{sec:discussion}
+
+Make clear that inference is not circular here typically, since we are in an unidentified region.
 
 When struggling to target a given distribution using this method, this indicates a) the contour estimates are not refined enough and b) that the generating model (without measurement uncertainty) is unable to recapitulate the target.
 
