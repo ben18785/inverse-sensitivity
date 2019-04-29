@@ -589,7 +589,26 @@ Figure 7. \textbf{Illustrative example \#3(b): (A) Samples from the prior distri
 
 When uniform priors are specified over inputs, the estimated output distribution $\widehat{\mathcal{V}}(\boldsymbol{Q})$ represents estimates of the proportion of total input volume that map to a value of $\boldsymbol{Q}$. However with non-uniform priors this is no longer true. In this case, we interpret this estimated distribution as representing our \textit{a priori} output distribution that results from our prior weighting over inputs. Here $\widehat{\mathcal{V}}(\boldsymbol{Q})$ is the estimated probability of obtaining an output $\boldsymbol{Q}$ given our input priors.
 
+The denominator term of eq. (\ref{eq:posterior_input}) is the prior induced on outputs by the prior over inputs \cite{yang2018infinite},
+%
+\begin{equation}
+p(\tilde{\boldsymbol{x}}(\boldsymbol{\theta})) = \int_{\theta\in \Omega(\boldsymbol{x})} \frac{p(\boldsymbol{\theta})}{\sqrt{|J_x(\boldsymbol{\theta}) J_x(\boldsymbol{\theta})'|}} \mathrm{d}\boldsymbol{\theta},
+\end{equation}
+%
+where $\Omega(a) = \{\boldsymbol{\theta}: \boldsymbol{x}(\boldsymbol{\theta}) = a\}$ is the iso-output contour region of volume $\mathcal{V}(a)$ and,
 
+\begin{equation}
+J_x(\boldsymbol{\theta}) = 
+\begin{bmatrix}
+\frac{\partial g_1}{\partial \theta_1}       & \frac{\partial g_1}{\partial \theta_2} & \dots & \frac{\partial g_1}{\partial \theta_p}\\
+\frac{\partial g_2}{\partial \theta_1}       & \frac{\partial g_2}{\partial \theta_2} & \dots & \frac{\partial g_2}{\partial \theta_p}\\
+\hdotsfor{4} \\
+\frac{\partial g_m}{\partial \theta_1}       & \frac{\partial g_m}{\partial \theta_2} & \dots & \frac{\partial g_m}{\partial \theta_p}
+\end{bmatrix}
+\in \mathbb{R}^{m\times p},
+\end{equation}
+%
+is the Jacobian matrix of outputs with respect to parameters.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                                                                      %

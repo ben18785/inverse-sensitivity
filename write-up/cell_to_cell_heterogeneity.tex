@@ -39,6 +39,8 @@
 
 \usepackage{float}
 \usepackage{timestamp}
+\usepackage{xfrac}
+\usepackage{mathtools}
 
 %% Include all macros below
 
@@ -152,23 +154,48 @@ with solution $\boldsymbol{x}^i(t) = g(t; \boldsymbol{\theta}^i)$. The tradition
 
 The generative model used to produce observations for a single cell in our model consists of two stages: (i) sample $\boldsymbol{\theta}^i\sim p(\boldsymbol{\theta})$, where $p(\boldsymbol{\theta})$ is a probability distribution characterising heterogeneity in cellular processes and, (ii) $\boldsymbol{x}_j^i(t') = g(t'; \boldsymbol{\theta})$ where, for each cell, a measurement of a subset of output states $\boldsymbol{x}_j^i(t')\in\boldsymbol{x}^i$ is made at a single point in time $t'\in (t_1, t_2, ..., t_o)$. The experimental observations for a single time point then consists of the collection of individual cell measurements $\boldsymbol{X}_j(t') = (\boldsymbol{x}_j^1(t'), \boldsymbol{x}_j^2(t'), ..., \boldsymbol{x}_j^n(t'))$, where $n$ is the number of cells measured at time $t'$. The entire set of observations is the union of each of the sets across all measured time points $\boldsymbol{X}(\boldsymbol{t}) = (\boldsymbol{X}_{j_1}(t_1), \boldsymbol{X}_{j_2}(t_2), ..., \boldsymbol{X}_{j_o}(t_o))$, where $\boldsymbol{t}=(t_1, t_2, ..., t_o)$ is the vector of observation times and the subscript $a$ on each $j_a$ allows for measurement of different elements of the system at distinct timepoints.
 
-Raw snapshot data consists of measurements of individual cells with exact inference requiring simulating the underlying ODE system for each individual. This is cumbersome and impractical for the numbers of cells sampled in typical experimental setups and so, instead, we follow previous work and instead represent snapshot data using probability distributions \cite{hasenauer2011identification,hasenauer2014ode,loos2018hierarchical,dixit2018maximum}. The snapshots themselves can either be distributions of a single species or multiple species, which can be approximated by univariate and multivariate probability distributions respectively. These probability distributions are characterised by parameter estimates $\hat{\boldsymbol{\phi}}$ determined by the output observations $\boldsymbol{X}(\boldsymbol{t})$.
+Raw snapshot data consists of measurements of individual cells with exact inference requiring simulating the underlying ODE system for each individual. This is cumbersome and impractical for the numbers of cells sampled in typical experimental setups and so, instead, we follow previous work and instead represent snapshot data using probability distributions \cite{hasenauer2011identification,hasenauer2014ode,loos2018hierarchical,dixit2018maximum}. The snapshots themselves can either be distributions of a single species or multiple species, which can be approximated by univariate and multivariate probability distributions respectively. These probability distributions are characterised by parameter estimates $\hat{\boldsymbol{\phi}}$ determined by the output observations $\boldsymbol{X}(\boldsymbol{t})$. The dimensionality of these probability distributions depends on the set of $m$ measurements $\tilde{\boldsymbol{x}}(\boldsymbol{t})=(x_{j_1}(t_1), x_{j_2}(t_2), ..., x_{j_m}(t_m))$ made on the system. Note that, $\tilde{\boldsymbol{x}}(\boldsymbol{t})$ corresponds to a particular set of measurements from a hypothetical cell and is distinct from $\boldsymbol{X}(\boldsymbol{t})$, which represents the full set of experimental outputs. The vector $\tilde{\boldsymbol{x}}(\boldsymbol{t})$ is hypothetical because in reality each cell is measured at a single timepoint (although we suppose measurements of different cellular attributes are possible contemporaneously).
 
 The goal of our inference process is to  characterise the probability distribution $p(\theta|\boldsymbol{X}(\boldsymbol{t}))$ representing heterogeneity in cellular processes. The first step in our inference workflow is to fit the output distributions using probability distributions (Figure X). We assume that the volume of observational data means the estimated probability distributions are approximate sufficient statistics of the outputs, meaning $p(\theta|\hat{\boldsymbol{\phi}}) \approx p(\theta|\boldsymbol{X}(\boldsymbol{t}))$.
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/contour_volumes.pdf}}
-	\caption{\textbf{The non-linear mapping from parameter values (left panel) to outputs (black lines; right panel) means different sized regions of parameter space (orange and blue surfaces; left panel) correspond to distinct outputs (orange triangle and blue square; right panel).} In the right panel, each black line represents a distinct model simulation $g(t; \theta_1, \theta_2, \theta_3)$.}
+	\caption{\textbf{The non-linear mapping from parameter values (left panel) to outputs (black lines; right panel) means different sized regions of parameter space (orange and blue surfaces; left panel) correspond to distinct output values (orange triangle and blue square; right panel).} In the right panel, each black line represents a distinct model simulation $g(t; \theta_1, \theta_2, \theta_3)$ and the triangle and square indicate outputs at a given point in time.}
 	\label{fig:contour_volumes}
 \end{figure}
 
 
-The models we seek to fit to the snapshot data mostly won't be identified from the observations. This is often because the number of model parameters exceeds the dimensionality of the output distribution meaning typically there exist non-singular sets of parameter values $\boldsymbol{\theta} \in \boldsymbol{\Theta}$ mapping to a single set of output values. That is, each vector of $m$ observed outputs $\tilde{\boldsymbol{x}}(\boldsymbol{\tau})=(x_{j_1}(\tau_1), x_{j_2}(\tau_2), ..., x_{j_m}(\tau_m))$, can typically be caused by many combinations of inputs although, due to the non-linearity of the map from parameters to outputs, the size of these regions of parameter space is a function of output $\mathcal{V}(\tilde{\boldsymbol{x}})$ (Figure \ref{fig:contour_volumes}). Note that, $\tilde{\boldsymbol{x}}(\boldsymbol{\tau})$ corresponds to a particular set of measurements from a hypothetical cell and is distinct from $\boldsymbol{X}(\boldsymbol{t})$, which represents the full set of experimental outputs. The vector $\tilde{\boldsymbol{x}}(\boldsymbol{\tau})$ is hypothetical because in reality each cell is measured only once.
+The models we seek to fit to snapshot data mostly cannot be identified from the observations. This is often because the number of model parameters exceeds the dimensionality of the output distribution (that is, $m>k$) meaning there typically exist non-singular sets of parameter values $\boldsymbol{\theta} \in \boldsymbol{\Theta}$ mapping to a single set of output values. That is, each vector of $m$ observed outputs $\tilde{\boldsymbol{x}}(\boldsymbol{t})$, can often be caused by many combinations of inputs although, due to the non-linearity of the map from parameters to outputs, the size of these regions of parameter space is a function of output $\mathcal{V}(\tilde{\boldsymbol{x}})$ (Figure \ref{fig:contour_volumes}).
 
-A consequence of this geometry is that any distribution of outputs, for example, the target $p(\tilde{\boldsymbol{x}}|\hat{\phi})$ does not correspond to a unique parameter distribution. For example, suppose $\tilde{\boldsymbol{x}} = \theta_1 + \theta_2$: a target distribution $\tilde{\boldsymbol{x}}\sim \mathcal{N}(0, 1)$ can be generated by any member of the set of parameter distributions $\sqrt{\eta} \theta_1 + \sqrt{1 - \eta} \theta_2$, where $\eta\in [0, 1]$ and $\theta_1, \theta_2 \sim \mathcal{N}(0, 1)$. This means that in order to ensure uniqueness of the ``posterior'' parameter distributions, we are required to specify ``prior'' distributions for the parameters, as in more traditional Bayesian inference.
+A consequence of this geometry is that any target output distribution $p(\tilde{\boldsymbol{x}}|\hat{\phi})$ does not correspond to a unique parameter distribution. For example, suppose $\tilde{\boldsymbol{x}} = \theta_1 + \theta_2$: the target distribution $\tilde{\boldsymbol{x}}\sim \mathcal{N}(0, 1)$ can be generated by any member of the set of parameter distributions $\sqrt{\eta} \theta_1 + \sqrt{1 - \eta} \theta_2$, where $\eta\in [0, 1]$ and $\theta_1, \theta_2 \sim \mathcal{N}(0, 1)$. This means that in order to ensure uniqueness of the ``posterior'' parameter distributions, we are required to specify ``prior'' distributions for the parameters, as in more traditional Bayesian inference. An additional consequence of the degeneracy of the mapping from parameters to outputs is that any sampling algorithm aimed at exploring posterior input space must account for the differential volumes of iso-output contours. Whilst we refer the interested reader to our companion paper on this subject [citation for tutorial paper published in Open Science], we provide a quick derivation of the posterior input distribution which accounts for the non-linear mapping.
 
+To derive the posterior distribution of inputs $p(\boldsymbol{\theta}|\hat{\phi})$, we consider the joint density of parameters and outputs $p(\boldsymbol{\theta},\tilde{\boldsymbol{x}}|\hat{\phi})$. This can be decomposed in two ways, 
+%
+\begin{equation}\label{eq:joint}
+p(\boldsymbol{\theta}|\tilde{\boldsymbol{x}}, \hat{\phi}) \times p(\tilde{\boldsymbol{x}}|\hat{\phi}) = p(\boldsymbol{\theta},\tilde{\boldsymbol{x}}|\hat{\phi}) =  p(\tilde{\boldsymbol{x}}| \boldsymbol{\theta}, \hat{\phi}) \times p(\boldsymbol{\theta}|\hat{\phi}).
+\end{equation}
+%
+The left and right hand sides of eq. (\ref{eq:joint}) can be rearranged to obtain a form for the posterior input distribution,
+%
+\begin{equation}
+p(\boldsymbol{\theta}|\hat{\phi}) = \frac{p(\boldsymbol{\theta}|\tilde{\boldsymbol{x}}, \hat{\phi}) \times p(\tilde{\boldsymbol{x}}|\hat{\phi})}{p(\tilde{\boldsymbol{x}}| \boldsymbol{\theta}, \hat{\phi})}.
+\end{equation}
+%
+Given parameters $\boldsymbol{\theta}$, the mapping from parameters to outputs is deterministic meaning $p(\tilde{\boldsymbol{x}}| \boldsymbol{\theta}, \hat{\phi})=\delta(\tilde{\boldsymbol{x}}(\boldsymbol{\theta}))$. In what follows, we assume that the conditional distribution $p(\boldsymbol{\theta}|\tilde{\boldsymbol{x}}, \hat{\phi})$ is independent of the data, meaning it represents a conditional ``prior'', which can be manipulated by Bayes' rule,
+%
+\begin{equation}
+p(\boldsymbol{\theta}|\tilde{\boldsymbol{x}}(\boldsymbol{\theta})) = \frac{p(\boldsymbol{\theta})}{p(\tilde{\boldsymbol{x}}(\boldsymbol{\theta}))},
+\end{equation}
+%
+where we have used the Dirac delta function for $p(\tilde{\boldsymbol{x}}|\boldsymbol{\theta})$. This results in the form of the posterior input distribution used in our sampling algorithm,
+%
+\begin{equation}\label{eq:posterior_input}
+p(\boldsymbol{\theta}|\hat{\phi}) = \frac{p(\boldsymbol{\theta})}{p(\tilde{\boldsymbol{x}}(\boldsymbol{\theta}))} p(\tilde{\boldsymbol{x}}(\boldsymbol{\theta})|\hat{\phi}).
+\end{equation}
+%
+Again, we refer to our companion piece [citation] for detailed explanation of eq. (\ref{eq:posterior_input}) and instead here provide brief interpretation when considering a uniform prior on parameter space. In this case, $p(\boldsymbol{\theta}) = \frac{1}{V}$, where $V$ is the total volume of parameter space. 
 
-\subsection{Bayes' rule for HODEs}
+Include table with variable definitions.
 
 \subsection{Contour Monte Carlo (CMC) and workflow}
 Figure showing workflow in using CMC to infer cell-to-cell variability.
