@@ -158,10 +158,14 @@ The goal of our inference process is to  characterise the probability distributi
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/contour_volumes.pdf}}
-	\caption{\textbf{The non-linear mapping from parameter values (left panel) to outputs (right panel) means different sized regions of parameter space (orange and blue surfaces; left panel) correspond to distinct outputs (orange triangle and blue square; right panel).}}
+	\caption{\textbf{The non-linear mapping from parameter values (left panel) to outputs (black lines; right panel) means different sized regions of parameter space (orange and blue surfaces; left panel) correspond to distinct outputs (orange triangle and blue square; right panel).} In the right panel, each black line represents a distinct model simulation $g(t; \theta_1, \theta_2, \theta_3)$.}
 	\label{fig:contour_volumes}
 \end{figure}
 
+
+The models we seek to fit to the snapshot data mostly won't be identified from the observations. This is often because the number of model parameters exceeds the dimensionality of the output distribution meaning typically there exist non-singular sets of parameter values $\boldsymbol{\theta} \in \boldsymbol{\Theta}$ mapping to a single set of output values. That is, each vector of $m$ observed outputs $\tilde{\boldsymbol{Y}}(\boldsymbol{\tau})=(y_{j_1}(\tau_1), y_{j_2}(\tau_2), ..., y_{j_m}(\tau_m))$, can typically be caused by many combinations of inputs although, due to the non-linearity of the map from parameters to outputs, the size of these regions of parameter space is a function of output $\mathcal{V}(\tilde{\boldsymbol{Y}})$ (Figure \ref{fig:contour_volumes}). Note that, $\tilde{\boldsymbol{Y}}(\boldsymbol{\tau})$ corresponds to a particular set of measurements from a hypothetical cell and is distinct from $\boldsymbol{Y}(\boldsymbol{t})$, which represents the full set of experimental outputs. The vector $\tilde{\boldsymbol{Y}}(\boldsymbol{\tau})$ is hypothetical because in reality each cell is measured only once.
+
+A consequence of this geometry is that any distribution of outputs, for example, the target $p(\tilde{\boldsymbol{Y}}|\hat{\phi})$ does not correspond to a unique parameter distribution.
 
 
 \subsection{Bayes' rule for HODEs}
