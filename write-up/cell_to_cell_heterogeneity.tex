@@ -5,9 +5,11 @@
 \usepackage{amsmath,amssymb}
 
 \usepackage{graphicx}
+\usepackage{booktabs}
 
 % Use adjustwidth environment to exceed column width (see example table in text)
 \usepackage{changepage}
+\usepackage{tabularx}
 
 % Use Unicode characters when possible
 \usepackage{inputenc}
@@ -120,7 +122,7 @@ The framework we present here is Bayesian although is distinct from the traditio
 \underline{Outline of the paper}: In \S \ref{sec:method}, we present the details of our methodological framework and detail the CMC algorithm we use to sample from the posterior parameter distribution. In \S \ref{sec:results}, we then use CMC to estimate cell population heterogeneity in three systems of biological interest.
 
 \section{Method}\label{sec:method}
-In this section, we describe the first describe the probabilistic framework that underlies the CMC algorithm, before introducing CMC in pseudocode (Algorithm \ref{alg:cmc}). We also detail the workflow we have found useful in applying this approach to analyse cell snapshot data and suggest practical remedies to issues we have encountered in using CMC.
+In this section, we describe the first describe the probabilistic framework that underlies the CMC algorithm, before introducing CMC in pseudocode (Algorithm \ref{alg:cmc}). We also detail the workflow we have found useful in applying this approach to analyse cell snapshot data and suggest practical remedies to issues we have encountered in using CMC. A glossary of all the variables used in this paper is included as Table \ref{tab:variable_glossary}.
 
 Experimental methods such as flow cytometry can measure single cell characteristics at a given point in time. Cells are typically destroyed by the measurement process and so rather than providing time series for each individual cell, the data consists of cross-sections or ``snapshots'' of sampled individuals from the population (Figure \ref{fig:time_series_v_snapshots}).
 
@@ -152,11 +154,44 @@ with solution $\boldsymbol{x}^i(t) = g(t; \boldsymbol{\theta}^i)$. The tradition
 	\label{fig:data_generation}
 \end{figure}
 
-The generative model used to produce observations for a single cell in our model consists of two stages: (i) sample $\boldsymbol{\theta}^i\sim p(\boldsymbol{\theta})$, where $p(\boldsymbol{\theta})$ is a probability distribution characterising heterogeneity in cellular processes and, (ii) $\boldsymbol{x}_j^i(t') = g(t'; \boldsymbol{\theta})$ where, for each cell, a measurement of a subset of output states $\boldsymbol{x}_j^i(t')\in\boldsymbol{x}^i$ is made at a single point in time $t'\in (t_1, t_2, ..., t_o)$. The experimental observations for a single time point then consists of the collection of individual cell measurements $\boldsymbol{X}_j(t') = (\boldsymbol{x}_j^1(t'), \boldsymbol{x}_j^2(t'), ..., \boldsymbol{x}_j^n(t'))$, where $n$ is the number of cells measured at time $t'$. The entire set of observations is the union of each of the sets across all measured time points $\boldsymbol{X}(\boldsymbol{t}) = (\boldsymbol{X}_{j_1}(t_1), \boldsymbol{X}_{j_2}(t_2), ..., \boldsymbol{X}_{j_o}(t_o))$, where $\boldsymbol{t}=(t_1, t_2, ..., t_o)$ is the vector of observation times and the subscript $a$ on each $j_a$ allows for measurement of different elements of the system at distinct timepoints.
+The generative model used to produce observations for a single cell in our model consists of two stages: (i) sample $\boldsymbol{\theta}^i\sim p(\boldsymbol{\theta})$, where $p(\boldsymbol{\theta})$ is a probability distribution characterising heterogeneity in cellular processes and, (ii) $\boldsymbol{x}_j^i(t') = g(t'; \boldsymbol{\theta})$ where, for each cell, a measurement of a subset $j$ of output states $\boldsymbol{x}_j^i(t')\in\boldsymbol{x}^i$ is made at a single point in time $t'\in (t_1, t_2, ..., t_o)$. The experimental observations for a single time point then consists of the collection of individual cell measurements $\boldsymbol{X}_j(t') = (\boldsymbol{x}_j^1(t'), \boldsymbol{x}_j^2(t'), ..., \boldsymbol{x}_j^n(t'))$, where $n$ is the number of cells measured at time $t'$. The entire set of observations is the union of each of the sets across all measured time points $\boldsymbol{X}(\boldsymbol{t}) = (\boldsymbol{X}_{j_1}(t_1), \boldsymbol{X}_{j_2}(t_2), ..., \boldsymbol{X}_{j_o}(t_o))$, where $\boldsymbol{t}=(t_1, t_2, ..., t_o)$ is the vector of observation times and the subscript $a$ on each $j_a$ allows for measurement of different elements of the system at distinct timepoints.
 
-Raw snapshot data consists of measurements of individual cells with exact inference requiring simulating the underlying ODE system for each individual. This is cumbersome and impractical for the numbers of cells sampled in typical experimental setups and so, instead, we follow previous work and instead represent snapshot data using probability distributions \cite{hasenauer2011identification,hasenauer2014ode,loos2018hierarchical,dixit2018maximum}. The snapshots themselves can either be distributions of a single species or multiple species, which can be approximated by univariate and multivariate probability distributions respectively. These probability distributions are characterised by parameter estimates $\hat{\boldsymbol{\Phi}}$ determined by the output observations $\boldsymbol{X}(\boldsymbol{t})$. The dimensionality of these probability distributions depends on the set of $m$ measurements $\tilde{\boldsymbol{x}}(\boldsymbol{t})=(x_{j_1}(t_1), x_{j_2}(t_2), ..., x_{j_m}(t_m))$ made on the system. Note that, $\tilde{\boldsymbol{x}}(\boldsymbol{t})$ corresponds to a particular set of measurements from a hypothetical cell and is distinct from $\boldsymbol{X}(\boldsymbol{t})$, which represents the full set of experimental outputs. The vector $\tilde{\boldsymbol{x}}(\boldsymbol{t})$ is hypothetical because in reality each cell is measured at a single timepoint (although we suppose measurements of different cellular attributes are possible contemporaneously).
+\begin{table}[htbp]
+	\centering
+	\scriptsize
+	\begin{adjustwidth}{-2in}{-1in}%
+		\begin{tabularx}{1.65\textwidth}{clc}
+			Variable	& Definition & Dimension\\
+			\toprule
+			$\boldsymbol{x}(t)$	& state of modelled system at time $t$ & $\mathbb{R}^k$\\
+			$x_j(t)\in \boldsymbol{x}(t)$ & individual state $j$ of modelled system at time $t$ & $\mathbb{R}^1$\\
+			$\boldsymbol{\theta}$ & parameters of ODE system & $\mathbb{R}^p$\\
+			$f(\boldsymbol{x}(t); \boldsymbol{\theta})$	& function specifying RHS of ODE system & $\mathbb{R}^k$\\
+			$g(t; \boldsymbol{\theta})$	&  solution of ODE at time $t$ & $\mathbb{R}^k$\\
+			$g_j(t; \boldsymbol{\theta})$	&  solution of ODE for state $j$ at time $t$ & $\mathbb{R}^k$\\
+			$\boldsymbol{x}^i(t)$ &  state of modelled system of cell $i$ at time $t$ & $\mathbb{R}^k$\\
+			$\boldsymbol{x}_j^i(t)\in\boldsymbol{x}^i(t)$ & state of subset $j$ of modelled system of cell $i$ at time $t$ & $\mathbb{R}^{|j|}$ \\
+			$\boldsymbol{X}_j(t)=(\boldsymbol{x}^1_j(t),...,\boldsymbol{x}^n_j(t))$ & collection of $n$ individual cell measurements at time $t$ & $\mathbb{R}^{|j|\times n}$\\
+			$\boldsymbol{t}=(t_1, t_2, ..., t_m)$ & distinct times when observations are taken & $\mathbb{R}^o$\\
+			$\boldsymbol{X}(\boldsymbol{t})=(\boldsymbol{X}_{j_1}(t_1), ..., \boldsymbol{X}_{j_o}(t_o))$ & all observations collected at times $\boldsymbol{t}$ & $\text{dim}(\boldsymbol{X}_{j_1}) \times ... \times \text{dim}(\boldsymbol{X}_{j_o})$\\
+			$\Phi$ & parameters characterising output target distribution $p(\boldsymbol{x}|\Phi)$ & -\\
+			$\hat{a}$ & estimates of any quantity $a$ & -\\
+			$\tilde{\boldsymbol{t}}=(t_1,...,t_m)$ & times when each observable is recorded & $\mathbb{R}^m$\\
+			$\tilde{\boldsymbol{x}}=(x_{j_1}(t_1), ..., x_{j_m}(t_m))$ & system observables & $\mathbb{R}^m$\\
+			$\mathcal{V}(\tilde{\boldsymbol{x}})$ & the ``volume'' of parameter space mapping to an output of value $\boldsymbol{x}$ &  $\mathbb{R}^+$\\
+			$\boldsymbol{g}(\boldsymbol{\theta})=\boldsymbol{g}(\tilde{\boldsymbol{t}};\boldsymbol{\theta})=(g_{j_1}(t_1; \boldsymbol{\theta}),...,g_{j_m}(t_m; \boldsymbol{\theta}))$ & solution of ODE for each observable at respective times $\boldsymbol{t}$ & $\mathbb{R}^m$\\
+			$\Omega(\tilde{\boldsymbol{x}}) = \{\boldsymbol{\theta}: \boldsymbol{g}(\boldsymbol{\theta}) = \tilde{\boldsymbol{x}}\}$ & region of parameter space mapping to output $\tilde{\boldsymbol{x}}$ & $\mathbb{R}^p$\\
+			$\Psi$ & parameters characterising output prior distribution $p(\tilde{\boldsymbol{x}}|\Psi)$ & -\\
+			$\Xi$ & parameters characterising parameter prior distribution $p(\boldsymbol{\theta}|\Xi)$ & -
+			\end{tabularx}
+		\caption{\textbf{Glossary of variable names used in this paper.} The dimensions of $\Phi$, $\Psi$ and $\Xi$ are listed as ``-'' since this depends on the form of the density used to represent the process and can be anywhere from $\mathbb{R}^1$ to $\mathbb{R}^\infty$. The variables are listed in the rough order in which they appear in the text.}
+		\label{tab:variable_glossary}%
+	\end{adjustwidth}
+\end{table}%
 
-The goal of our inference process is to  characterise the probability distribution $p(\theta|\boldsymbol{X}(\boldsymbol{t}))$ representing heterogeneity in cellular processes. The first step in our inference workflow is to fit the output distributions using probability distributions (Figure X). We assume that the volume of observational data means the estimated probability distributions are approximate sufficient statistics of the outputs, meaning $p(\theta|\hat{\boldsymbol{\Phi}}) \approx p(\theta|\boldsymbol{X}(\boldsymbol{t}))$.
+Raw snapshot data consists of measurements of individual cells with exact inference requiring simulating the underlying ODE system for each individual. This is cumbersome and impractical for the numbers of cells sampled in typical experimental setups and so, instead, we follow previous work and instead represent snapshot data using probability distributions \cite{hasenauer2011identification,hasenauer2014ode,loos2018hierarchical,dixit2018maximum}. The snapshots themselves can either be distributions of a single species or multiple species, which can be approximated by univariate and multivariate probability distributions respectively. These probability distributions are characterised by parameter estimates $\hat{\Phi}$ determined by the output observations $\boldsymbol{X}(\boldsymbol{t})$. The dimensionality of these probability distributions depends on the set of $m$ distinct observables $\tilde{\boldsymbol{x}}(\tilde{\boldsymbol{t}})=(x_{j_1}(t_1), x_{j_2}(t_2), ..., x_{j_m}(t_m))$ recorded by experimental measurements. Note that, $\tilde{\boldsymbol{x}}(\tilde{\boldsymbol{t}})$ corresponds to a particular set of measurements from a hypothetical cell and is distinct from $\boldsymbol{X}(\boldsymbol{t})$, which represents the full set of experimental outputs. The vector $\tilde{\boldsymbol{x}}(\tilde{\boldsymbol{t}})$ is hypothetical because in reality each cell is measured at a single timepoint (although we suppose measurements of different cellular attributes are possible contemporaneously).
+
+The goal of our inference process is to  characterise the probability distribution $p(\boldsymbol{\theta}|\boldsymbol{X}(\boldsymbol{t}))$ representing heterogeneity in cellular processes. The first step in our inference workflow is to fit the output distributions using probability distributions (Figure X). We assume that the volume of observational data means the estimated probability distributions are approximate sufficient statistics of the outputs, meaning $p(\boldsymbol{\theta}|\hat{\Phi}) \approx p(\boldsymbol{\theta}|\boldsymbol{X}(\boldsymbol{t}))$.
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/contour_volumes.pdf}}
@@ -165,7 +200,7 @@ The goal of our inference process is to  characterise the probability distributi
 \end{figure}
 
 
-The models we seek to fit to snapshot data mostly cannot be identified from the observations. This is often because the number of model parameters exceeds the dimensionality of the output distribution (that is, $m>k$) meaning there typically exist non-singular sets of parameter values $\boldsymbol{\theta} \in \boldsymbol{\Theta}$ mapping to a single set of output values. That is, each vector of observed outputs $\tilde{\boldsymbol{x}}\in\mathbb{R}^m$, can often be caused by many combinations of inputs although, due to the non-linearity of the map from parameters to outputs, the size of these regions of parameter space is a function of output $\mathcal{V}(\tilde{\boldsymbol{x}})$ (Figure \ref{fig:contour_volumes}). In what follows, we make clear the distinction between observables $\tilde{\boldsymbol{x}}(\boldsymbol{t})$ and the vector-valued function representing modelled outputs $\boldsymbol{g}(\boldsymbol{t}; \boldsymbol{\theta})\in\mathbb{R}^m$ since the latter is a function whereas that latter is a numeric value; we also drop the $\boldsymbol{t}$ notation from following expressions to minimise clutter.
+The models we seek to fit to snapshot data mostly cannot be identified from the observations. This is often because the number of model parameters exceeds the dimensionality of the output distribution (that is, $m>k$) meaning there typically exist non-singular sets of parameter values mapping to a single set of output values. That is, each vector of observed outputs $\tilde{\boldsymbol{x}}\in\mathbb{R}^m$, can often be caused by many combinations of inputs although, due to the non-linearity of the map from parameters to outputs, the ``volume'' of these regions of parameter space, $\mathcal{V}(\tilde{\boldsymbol{x}})$, is a function of output (Figure \ref{fig:contour_volumes}). In what follows, we make clear the distinction between observables $\tilde{\boldsymbol{x}}(\tilde{\boldsymbol{t}})$ and the vector-valued function representing modelled outputs $\boldsymbol{g}(\tilde{\boldsymbol{t}}; \boldsymbol{\theta})=(g_{j_1}(t_1; \boldsymbol{\theta}),g_{j_2}(t_2; \boldsymbol{\theta}),...,g_{j_m}(t_m; \boldsymbol{\theta}))\in\mathbb{R}^m$ since the latter is a function whereas that latter is a numeric value; we also drop the $\tilde{\boldsymbol{t}}$ notation from following expressions to minimise clutter.
 
 A consequence of this geometry is that any target output distribution $p(\tilde{\boldsymbol{x}}|\hat{\Phi})$ does not correspond to a unique parameter distribution. For example, suppose $g(\theta_1, \theta_2) = \theta_1 + \theta_2$: the target distribution $\tilde{\boldsymbol{x}}\sim \mathcal{N}(0, 1)$ can be generated by any member of the set of parameter distributions $\sqrt{\eta} \theta_1 + \sqrt{1 - \eta} \theta_2$, where $\eta\in [0, 1]$ and $\theta_1, \theta_2 \sim \mathcal{N}(0, 1)$. This means that in order to ensure uniqueness of the ``posterior'' parameter distributions, we are required to specify ``prior'' distributions for the parameters, as in more traditional Bayesian inference. An additional consequence of the degeneracy of the mapping from parameters to outputs is that any sampling algorithm aimed at exploring posterior input space must account for the differential volumes of iso-output contours. Whilst we refer the interested reader to our companion paper on this subject [citation for tutorial paper published in Open Science], we provide a quick derivation of the posterior input distribution which accounts for the non-linear mapping.
 
@@ -201,7 +236,7 @@ p(\boldsymbol{\theta}|\boldsymbol{g}(\boldsymbol{\theta})) = \frac{1}{\mathcal{V
 %
 where $\mathcal{V}(\boldsymbol{g}(\boldsymbol{\theta}))$ is the volume of parameter space occupied by the iso-output region $\Omega(\tilde{\boldsymbol{x}}) = \{\boldsymbol{\theta}: \boldsymbol{g}(\boldsymbol{\theta}) = \tilde{\boldsymbol{x}}\}$. Therefore a uniform prior over parameter space implies a prior structure where all  parameter values resulting in the same output $\tilde{\boldsymbol{x}}$ are given equal weighting.
 
-The denominator term of eq. (\ref{eq:prior}) cannot be calculated apart from for some toy examples, meaning that exact sampling from the posterior input distribution of eq. (\ref{eq:posterior_input}) is not, in general, possible. We propose instead a computationally efficient sampling method to estimate $p(\boldsymbol{g}(\boldsymbol{\theta}))$, which forms the first step of our so-called ``Contour Monte Carlo'' (CMC) algorithm (Algorithm \ref{alg:cmc}), where we estimate the volume of iso-output contours with output value $\boldsymbol{g}(\boldsymbol{\theta})$. The second step in our algorithm then uses Markov chain Monte Carlo (MCMC) to sample from an approximate version of eq. (\ref{eq:posterior_input}) with the estimated density $\hat{p}(\boldsymbol{g}(\boldsymbol{\theta}))$ replacing its corresponding estimand.
+The denominator term of eq. (\ref{eq:prior}) cannot be calculated apart from for some toy examples, meaning that exact sampling from the posterior input distribution of eq. (\ref{eq:posterior_input}) is not, in general, possible. We propose instead a computationally efficient sampling method to estimate $p(\boldsymbol{g}(\boldsymbol{\theta}))$, which forms the first step of our so-called ``Contour Monte Carlo'' (CMC) algorithm (Algorithm \ref{alg:cmc}), where we estimate the volume of iso-output contours with output value $\boldsymbol{g}(\boldsymbol{\theta})$. The second step in our algorithm then uses Markov chain Monte Carlo (MCMC) to sample from an approximate version of eq. (\ref{eq:posterior_input}) with the estimated density $p(\boldsymbol{g}(\boldsymbol{\theta})|\hat{\Psi})$ replacing its corresponding estimand.
 
 
 \begin{algorithm}[H]
@@ -219,7 +254,7 @@ The denominator term of eq. (\ref{eq:prior}) cannot be calculated apart from for
 		\Procedure{ContourVolumeEstimator}{$ \Xi$}\Comment{Estimate volume of contours}
 		\For{$i$ in $1:N_1$}
 		\State $\boldsymbol{\theta}_i\sim p(\boldsymbol{\theta}|\Xi)$ \Comment{Sample from prior density}
-		\State $\tilde{\boldsymbol{x}}_i = \boldsymbol{G}(\boldsymbol{\theta}_i)$ \Comment{Calculate corresponding output value}
+		\State $\tilde{\boldsymbol{x}}_i = \boldsymbol{g}(\boldsymbol{\theta}_i)$ \Comment{Calculate corresponding output value}
 		\EndFor
 		\State $(\tilde{\boldsymbol{x}}_1,\tilde{\boldsymbol{x}}_2,...,\tilde{\boldsymbol{x}}_{N_1}) \sim p(\tilde{\boldsymbol{x}}|\hat{\Psi})$ \Comment{Fit vine copula kernel density estimator to output values.}
 		\State \Return $\hat{\Psi}$
@@ -232,7 +267,7 @@ The denominator term of eq. (\ref{eq:prior}) cannot be calculated apart from for
 		\State $\boldsymbol{\theta}_0 \sim \pi(.)$ \Comment{Sample from arbitrary initialisation distribution}
 		\For{$i$ in $1:N_2$}
 		\State $\boldsymbol{\theta}_i'\sim \mathcal{N}(\boldsymbol{\theta}_{i-1},\boldsymbol{\Sigma})$ \Comment{Propose new parameter values for inputs}
-		\State $r = \left[p(\boldsymbol{\theta}'|\Xi) p(\boldsymbol{G}(\boldsymbol{\theta})|\hat{\Psi})p(\boldsymbol{G}(\boldsymbol{\theta}')|\hat{\Phi})\right] / \left[p(\boldsymbol{\theta}|\Xi) p(\boldsymbol{G}(\boldsymbol{\theta}')|\hat{\Psi})p(\boldsymbol{G}(\boldsymbol{\theta})|\hat{\Phi})\right]$\Comment{Metropolis acceptance ratio.}
+		\State $r = \left[p(\boldsymbol{\theta}'|\Xi) p(\boldsymbol{g}(\boldsymbol{\theta})|\hat{\Psi})p(\boldsymbol{g}(\boldsymbol{\theta}')|\hat{\Phi})\right] / \left[p(\boldsymbol{\theta}|\Xi) p(\boldsymbol{g}(\boldsymbol{\theta}')|\hat{\Psi})p(\boldsymbol{g}(\boldsymbol{\theta})|\hat{\Phi})\right]$\Comment{Metropolis acceptance ratio.}
 		\State $u\sim U(0,1)$ \Comment{Sample from uniform distribution}
 		\If{$r > u$}
 		\State $\boldsymbol{\theta}_i = \boldsymbol{\theta}_i'$ \Comment{Accept proposal}
