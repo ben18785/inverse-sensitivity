@@ -26,12 +26,12 @@
 % line numbers
 \usepackage[right]{lineno}
 
+\usepackage{tikz}
+
 % ligatures disabled
 \usepackage{microtype}
 \DisableLigatures[f]{encoding = *, family = * }
 
-% color can be used to apply background shading to table cells only
-\usepackage[table]{xcolor}
 
 % array package and thick rules for tables
 \usepackage{array}
@@ -160,31 +160,32 @@ The generative model used to produce observations for a single cell in our model
 	\centering
 	\scriptsize
 	\begin{adjustwidth}{-2in}{-1in}%
-		\begin{tabularx}{1.65\textwidth}{clc}
+		\begin{tabularx}{1.65\textwidth}{lll}
 			Variable	& Definition & Dimension\\
 			\toprule
 			$\boldsymbol{x}(t)$	& state of modelled system at time $t$ & $\mathbb{R}^k$\\
-			$x_j(t)\in \boldsymbol{x}(t)$ & individual state $j$ of modelled system at time $t$ & $\mathbb{R}^1$\\
+			$x_j(t)\in \boldsymbol{x}(t)$ & individual state $j$ of modelled system at time $t$ & $\mathbb{R}$\\
 			$\boldsymbol{\theta}$ & parameters of ODE system & $\mathbb{R}^p$\\
 			$f(\boldsymbol{x}(t); \boldsymbol{\theta})$	& function specifying RHS of ODE system & $\mathbb{R}^k$\\
 			$g(t; \boldsymbol{\theta})$	&  solution of ODE at time $t$ & $\mathbb{R}^k$\\
-			$g_j(t; \boldsymbol{\theta})$	&  solution of ODE for state $j$ at time $t$ & $\mathbb{R}^k$\\
+			$g_j(t; \boldsymbol{\theta})$	&  solution of ODE for state $j$ at time $t$ & $\mathbb{R}$\\
 			$\boldsymbol{x}^i(t)$ &  state of modelled system of cell $i$ at time $t$ & $\mathbb{R}^k$\\
 			$\boldsymbol{x}_j^i(t)\in\boldsymbol{x}^i(t)$ & state of subset $j$ of modelled system of cell $i$ at time $t$ & $\mathbb{R}^{|j|}$ \\
 			$\boldsymbol{X}_j(t)=(\boldsymbol{x}^1_j(t),...,\boldsymbol{x}^n_j(t))$ & collection of $n$ individual cell measurements at time $t$ & $\mathbb{R}^{|j|\times n}$\\
-			$\boldsymbol{t}=(t_1, t_2, ..., t_m)$ & distinct times when observations are taken & $\mathbb{R}^o$\\
+			$\boldsymbol{t}=(t_1, t_2, ..., t_o)$ & unique observation times & $\mathbb{R}^o$\\
 			$\boldsymbol{X}(\boldsymbol{t})=(\boldsymbol{X}_{j_1}(t_1), ..., \boldsymbol{X}_{j_o}(t_o))$ & all observations collected at times $\boldsymbol{t}$ & $\text{dim}(\boldsymbol{X}_{j_1}) \times ... \times \text{dim}(\boldsymbol{X}_{j_o})$\\
 			$\Phi$ & parameters characterising output target distribution $p(\boldsymbol{x}|\Phi)$ & -\\
 			$\hat{a}$ & estimates of any quantity $a$ & -\\
 			$\tilde{\boldsymbol{t}}=(t_1,...,t_m)$ & times when each observable is recorded & $\mathbb{R}^m$\\
-			$\tilde{\boldsymbol{x}}=(x_{j_1}(t_1), ..., x_{j_m}(t_m))$ & system observables & $\mathbb{R}^m$\\
+			$\tilde{\boldsymbol{x}}(\tilde{\boldsymbol{t}})=(x_{j_1}(t_1), ..., x_{j_m}(t_m))$ & system observables & $\mathbb{R}^m$\\
 			$\mathcal{V}(\tilde{\boldsymbol{x}})$ & the ``volume'' of parameter space mapping to an output of value $\boldsymbol{x}$ &  $\mathbb{R}^+$\\
 			$\boldsymbol{g}(\boldsymbol{\theta})=\boldsymbol{g}(\tilde{\boldsymbol{t}};\boldsymbol{\theta})=(g_{j_1}(t_1; \boldsymbol{\theta}),...,g_{j_m}(t_m; \boldsymbol{\theta}))$ & solution of ODE for each observable at respective times $\boldsymbol{t}$ & $\mathbb{R}^m$\\
+			$V$ & total volume of parameter space when uniform priors are used for all parameters & $\mathbb{R}^+$\\
 			$\Omega(\tilde{\boldsymbol{x}}) = \{\boldsymbol{\theta}: \boldsymbol{g}(\boldsymbol{\theta}) = \tilde{\boldsymbol{x}}\}$ & region of parameter space mapping to output $\tilde{\boldsymbol{x}}$ & $\mathbb{R}^p$\\
 			$\Psi$ & parameters characterising output prior distribution $p(\tilde{\boldsymbol{x}}|\Psi)$ & -\\
 			$\Xi$ & parameters characterising parameter prior distribution $p(\boldsymbol{\theta}|\Xi)$ & -
 			\end{tabularx}
-		\caption{\textbf{Glossary of variable names used in this paper.} The dimensions of $\Phi$, $\Psi$ and $\Xi$ are listed as ``-'' since this depends on the form of the density used to represent the process and can be anywhere from $\mathbb{R}^1$ to $\mathbb{R}^\infty$. The variables are listed in the rough order in which they appear in the text.}
+		\caption{\textbf{Glossary of variable names used in this paper.} The dimensions of $\Phi$, $\Psi$ and $\Xi$ are listed as ``-'' since they depend on the form of the density used to represent the process and can be anywhere from $\mathbb{R}^1$ to $\mathbb{R}^\infty$. The variables are listed in the approximate order in which they appear in the text.}
 		\label{tab:variable_glossary}%
 	\end{adjustwidth}
 \end{table}%
