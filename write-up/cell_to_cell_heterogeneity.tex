@@ -244,9 +244,15 @@ The denominator term of eq. (\ref{eq:prior}) cannot be calculated apart from for
 	\small
 	\texttt{\\}
 	\begin{algorithmic}
-		\Procedure{CMC}{$\hat{\Phi}, \Xi$}\Comment{Sample from posterior input distribution}
+		\Procedure{CMC}{$\hat{\Phi}, \Xi, N_1, N_2$}\Comment{Sample from posterior input distribution}
 		\State $\hat{\Psi} = \Call{ContourVolumeEstimator}{\Xi}$
 		\State $(\boldsymbol{\theta}_1,...,\boldsymbol{\theta}_{N_2}) = \Call{MCMC}{\hat{\Phi},\Xi, \hat{\Psi}}$
+		\State $\text{converged} = \Call{CompareOutputToTarget}{(\boldsymbol{\theta}_1,...,\boldsymbol{\theta}_{N_2}), \hat{\Psi}}$
+		\If{converged$\neq$1}
+		\State $(\boldsymbol{\theta}_1,...,\boldsymbol{\theta}_{N_2})$=\Call{ContourVolumeEstimator}{$\hat{\Phi}, \Xi, N_1', N_2'$}
+		\State where, $N_1' > N_1$ and/or $N_2' > N_2$ \Comment{Rerun contour volume estimation and/or MCMC with larger sample sizes}
+		\EndIf
+		\State \Return $(\boldsymbol{\theta}_1,...,\boldsymbol{\theta}_{N_2})$
 		\EndProcedure
 	\end{algorithmic}
 	
@@ -280,7 +286,21 @@ The denominator term of eq. (\ref{eq:prior}) cannot be calculated apart from for
 		\EndProcedure
 	\end{algorithmic}
 
-	\caption{Pseudocode for the Contour Monte Carlo algorithm for sampling from the posterior input distribution of eq. (\ref{eq:posterior_input}). Parameters that may be vectors are shown in bold. Here we provide code for the Random Walk Metropolis algorithm for the MCMC sampling but for the examples in \S \ref{sec:results}, we use an adaptive MCMC algorithm [cite Ross paper].}\label{alg:cmc}
+	\texttt{\\}
+	\begin{algorithmic}
+			\Procedure{CompareOutputToTarget}{$(\boldsymbol{\theta}_1,...,\boldsymbol{\theta}_{N_2}), \hat{\Psi}$}\Comment{Check output distribution close to target}
+		\For{$i$ in $1:N_2$}
+		\State $\tilde{\boldsymbol{x}}_i = \boldsymbol{g}(\boldsymbol{\theta}_i)$ \Comment{Compute output for each parameter sample}
+		\EndFor
+		\If{$(\tilde{\boldsymbol{x}}_1,\tilde{\boldsymbol{x}}_2,...,\tilde{\boldsymbol{x}}_{N_2})\sim p(\tilde{\boldsymbol{x}}|\hat{\Psi})?$} \Comment{Compare outputs with target}
+		\State \Return 1 \Comment{If outputs sufficiently close then converged}
+		\Else
+		\State \Return 0
+		\EndIf
+		\EndProcedure
+	\end{algorithmic}
+
+	\caption{Pseudocode for the Contour Monte Carlo algorithm for sampling from the posterior input distribution of eq. (\ref{eq:posterior_input}). Parameters that may be vectors are shown in bold. Here we provide code for the Random Walk Metropolis algorithm for the MCMC sampling but for the examples in \S \ref{sec:results}, we use an adaptive MCMC algorithm \cite{johnstone2016uncertainty}.}\label{alg:cmc}
 \end{algorithm}
 
 
