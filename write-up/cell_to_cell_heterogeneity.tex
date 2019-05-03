@@ -372,7 +372,7 @@ In this section, we use CMC to estimate the posterior parameter distribution for
 			&& $b_2$ & uniform & 0.6 & 0.8\\
 			&& $b_3$ & uniform & 0.2 & 0.4\\
 			&& $b_4$ & uniform & 0.4 & 0.6\\
-			&& $a_5$ & uniform & 0.3 & 0.5\\
+			&& $b_5$ & uniform & 0.3 & 0.5\\
 		\end{tabularx}
 	\caption{\textbf{The priors used for each problem in \S\ref{sec:results}.}}
 	\label{tab:priors}
@@ -387,7 +387,7 @@ Here we consider the a ``growth factor model'' introduced by \cite{dixit2018maxi
 \frac{\mathrm{d}P}{\mathrm{d}t} &= k_1 L R - k_{-1} P - k^*_{deg} P,
 \end{align}
 %
-where $\boldsymbol{\theta}=(R_T, k_1, k_{-1}, k_{deg}, k^*_{deg})$ are parameters to be determined. In this example, we use measurements of the active ligand-bound receptors $P$ to infer the posterior parameters. We denote the solution of eq. (\ref{eq:growth_factor}) as $P(t; \boldsymbol{\theta}, L)$ and seek to determine the parameter distribution consistent with an output distribution,
+where $\boldsymbol{\theta}=(R_T, k_1, k_{-1}, k_{deg}, k^*_{deg})$ are parameters to be determined. In this example, we use measurements of the active ligand-bound receptors $P$ to estimate cellular heterogeneity in processes. We denote the solution of eq. (\ref{eq:growth_factor}) as $P(t; \boldsymbol{\theta}, L)$ and seek to determine the parameter distribution consistent with an output distribution,
 %
 \begin{equation}\label{eq:MM_outputDistribution}
 \begin{pmatrix}
@@ -406,9 +406,7 @@ P(10; \boldsymbol{\theta}, 10)\\
 \end{bmatrix}.
 \end{equation}
 %
-We specify a uniform prior for each of the five parameters, with bounds given in Table X. To estimate the posterior parameter distribution we follow the 
-
-We use CMC, with adaptive covariance MCMC used in the second 
+We specify a uniform prior for each of the five parameters, with bounds given in Table \ref{tab:priors}. To estimate the posterior parameter distribution, we use CMC, with adaptive covariance MCMC \cite{johnstone2016uncertainty} used in the second step.
 
 \subsection{Michaelis-Menten kinetics}
 Target a bimodal target then a four-dimensional covariance target. No change in model details apart from target.
