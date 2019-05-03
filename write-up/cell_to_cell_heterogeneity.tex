@@ -333,6 +333,52 @@ For the contour volume estimation step, we assumed sample sizes were sufficient 
 In this section, we use CMC to estimate the posterior parameter distribution for three biological systems of interest targeting synthetic parametric densities. That is, we assume that the first step of CMC (``SnapshotEstimator'' within Algorithm \ref{alg:cmc}) has already been undertaken and we are faced with inferring a parameter distribution which, when transformed to outputs, recapitulates the target density. To complement the results, we also provide a Julia notebook which was used to generate the data, which we hope will be of use to others wanting to apply CMC to estimate cell population heterogeneity.
 
 
+\begin{table}[htbp]
+	\centering
+	\scriptsize
+	\begin{adjustwidth}{-1.0in}{-0.1in}%
+		\begin{tabularx}{1.4\textwidth}{llllll}
+			Model	& Target density & Parameter & Prior density & Prior parameter 1 & Prior parameter 2\\
+			\toprule
+			Growth factor & two-dimensional normal & $R_T$ & uniform & $2.5 \times 10^5$ &  $8 \times 10^5$\\
+			&& $k_1$ & uniform & 0.25 & 3.0\\
+			&& $k_{-1}$ & uniform & 2.0 & 20.0\\
+			&& $k_{deg}$ & uniform & 0.005 & 0.03\\
+			&& $k^*_{deg}$ & uniform & 0.1 & 0.5\\
+			\toprule
+			Growth factor & two-dimensional normal & $R_T$ & normal & $5 \times 10^5$ &  $1 \times 10^5$\\
+			&& $k_1$ & normal & 0.5 & 0.1\\
+			&& $k_{-1}$ & normal & 3.0 & 1.0\\
+			&& $k_{deg}$ & normal & 0.02 & 0.005\\
+			&& $k^*_{deg}$ & normal & 0.3 & 0.1\\
+			\toprule
+			Michaelis-Menten kinetics & bimodal normal & $k_f$ & uniform & 0.2 &  15\\
+			&& $k_r$ & uniform & 0.2 & 2.0\\
+			&& $k_{cat}$ & uniform & 0.5 & 3.0\\
+			\toprule
+			Michaelis-Menten kinetics & four-dimensional normal & $k_f$ & uniform & 0.2 &  15\\
+			&& $k_r$ & uniform & 0.2 & 2.0\\
+			&& $k_{cat}$ & uniform & 0.2 & 3.0\\
+			&& $E_0$ & uniform & 3.0 & 5.0\\
+			&& $S_0$ & uniform & 5.0 & 10.0\\
+			&& $ES_0$ & uniform & 0.0 & 0.2\\
+			&& $P_0$ & uniform & 0.0 & 0.2\\
+			\toprule
+			TNF signalling & bimodal normal & $a_1$ & uniform & 0.5 & 0.7\\
+			&& $a_2$ & uniform & 0.1 & 0.3\\
+			&& $a_3$ & uniform & 0.1 & 0.3\\
+			&& $a_4$ & uniform & 0.4 & 0.6\\
+			&& $b_1$ & uniform & 0.3 & 0.5\\
+			&& $b_2$ & uniform & 0.6 & 0.8\\
+			&& $b_3$ & uniform & 0.2 & 0.4\\
+			&& $b_4$ & uniform & 0.4 & 0.6\\
+			&& $a_5$ & uniform & 0.3 & 0.5\\
+		\end{tabularx}
+	\caption{\textbf{The priors used for each problem in \S\ref{sec:results}.}}
+	\label{tab:priors}
+	\end{adjustwidth}
+\end{table}
+
 \subsection{Growth factor model}
 Here we consider the a ``growth factor model'' introduced by \cite{dixit2018maximum}, which concerns the dynamics of inactive ligand-free cell surface receptors $R$ and active ligand-bound cell surface receptors $P$, modulated by a ligand $L$. The governing dynamics are determined by the following system,
 %
