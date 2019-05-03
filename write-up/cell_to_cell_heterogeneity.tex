@@ -330,9 +330,39 @@ For the contour volume estimation step, we assumed sample sizes were sufficient 
 
 
 \section{Results}\label{sec:results}
+In this section, we use CMC to estimate the posterior parameter distribution for three biological systems of interest targeting synthetic parametric densities. That is, we assume that the first step of CMC (``SnapshotEstimator'' within Algorithm \ref{alg:cmc}) has already been undertaken and we are faced with inferring a parameter distribution which, when transformed to outputs, recapitulates the target density. To complement the results, we also provide a Julia notebook which was used to generate the data, which we hope will be of use to others wanting to apply CMC to estimate cell population heterogeneity.
+
 
 \subsection{Growth factor model}
-Dixit simplified growth factor model. Target a unimodal distribution and show using both uniform and non-uniform priors.
+Here we consider the a ``growth factor model'' introduced by \cite{dixit2018maximum}, which concerns the dynamics of inactive ligand-free cell surface receptors $R$ and active ligand-bound cell surface receptors $P$, modulated by a ligand $L$. The governing dynamics are determined by the following system,
+%
+\begin{align}\label{eq:growth_factor}
+\frac{\mathrm{d}R}{\mathrm{d}t} &= R_T k_{deg} + k_1 L R + k_{-1} P - k_{deg} R\\
+\frac{\mathrm{d}P}{\mathrm{d}t} &= k_1 L R - k_{-1} P - k^*_{deg} P,
+\end{align}
+%
+where $\boldsymbol{\theta}=(R_T, k_1, k_{-1}, k_{deg}, k^*_{deg})$ are parameters to be determined. In this example, we use measurements of the active ligand-bound receptors $P$ to infer the posterior parameters. We denote the solution of eq. (\ref{eq:growth_factor}) as $P(t; \boldsymbol{\theta}, L)$ and seek to determine the parameter distribution consistent with an output distribution,
+%
+\begin{equation}\label{eq:MM_outputDistribution}
+\begin{pmatrix}
+P(10; \boldsymbol{\theta}, 2)\\
+P(10; \boldsymbol{\theta}, 10)\\
+\end{pmatrix} \sim  \mathcal{N}
+\begin{bmatrix}
+\begin{pmatrix}
+2\times 10^4\\
+3\times 10^4\\
+\end{pmatrix}, \;\;
+\begin{pmatrix}
+1\times 10^5 & 0\\
+0 & 1\times 10^5\\
+\end{pmatrix}
+\end{bmatrix}.
+\end{equation}
+%
+We specify a uniform prior for each of the five parameters, with bounds given in Table X. To estimate the posterior parameter distribution we follow the 
+
+We use CMC, with adaptive covariance MCMC used in the second 
 
 \subsection{Michaelis-Menten kinetics}
 Target a bimodal target then a four-dimensional covariance target. No change in model details apart from target.
