@@ -442,7 +442,7 @@ For an unidentified model, there are typically a multitude of possible probabili
 \subsection{Michaelis-Menten kinetics}
 The Michaelis-Menten model of enzyme kinetics (see, for example, \cite{murray2007mathematical}), describes the dynamics of concentrations of an enzyme ($E$), a substrate ($S$), an enzyme-substrate complex ($ES$), and a product ($P$). Specifically,
 %
-\begin{equation}
+\begin{equation}\label{eq:michaelis_menten}
 \begin{aligned}
 \frac{dE(t)}{dt}  &= -k_f E(t)S(t) + k_r ES(t) + k_{cat} ES(t), \\
 \frac{dS(t)}{dt}  &= -k_f E(t)S(t) + k_r ES(t), \\
@@ -450,6 +450,7 @@ The Michaelis-Menten model of enzyme kinetics (see, for example, \cite{murray200
 \frac{dP(t)}{dt}  &= \phantom{-}k_{cat} ES(t),
 \end{aligned}
 \end{equation}
+%
 with initial conditions
 \begin{equation}
 E(0) = E_0, \; S(0)=S_0, \; ES(0)=ES_0, \; P(0)=P_0,
@@ -457,18 +458,20 @@ E(0) = E_0, \; S(0)=S_0, \; ES(0)=ES_0, \; P(0)=P_0,
 %
 where $k_f$ is the rate constant for the forward reaction $E+S\rightarrow ES$, $k_r$ is the rate of the reverse reaction $ES\rightarrow E+S$, and $k_{cat}$ is the catalytic rate at which the product is formed by the reaction $ES\rightarrow E + P$.
 
-When subpopulations of cells, each with distinct dynamics, are thought to exist, determining their characteristics - proportions of overall cell number, likely parameter values, and so on - is often of key interest \cite{hasenauer2011identification,loos2018hierarchical}. Before formal inference occurs, multi-modality of the output distribution may signal the existence of fragmented subpopulations of cells. Here we target the following bimodal output distribution,
+When subpopulations of cells, each with distinct dynamics, are thought to exist, determining their characteristics - proportions of overall cell number, likely parameter values, and so on - is often of key interest \cite{hasenauer2011identification,loos2018hierarchical}. Before formal inference occurs, multi-modality of the output distribution may signal the existence of fragmented subpopulations of cells. Here we target the following bimodal bivariate normal distribution,
 %
 \begin{align}
 f(\boldsymbol{x}; \boldsymbol{\mu}_1,\Sigma_1, \boldsymbol{\mu}_2, \Sigma_2) = \frac{1}{2}\left(\mathcal{N}(\boldsymbol{x}; \boldsymbol{\mu}_1,\Sigma_1) + \mathcal{N}(\boldsymbol{x}; \boldsymbol{\mu}_2,\Sigma_2)\right),
 \end{align}
 %
-where $\boldsymbol{\mu}_1=[2.2, 1.6]'$, $\Sigma_1 = \bigl( \begin{smallmatrix}0.018 & -0.013\\ -0.013 & 0.010\end{smallmatrix}\bigr)$, $\boldsymbol{\mu}_2=[2.8, 1.0]'$ and $\Sigma_2=( \begin{smallmatrix}0.020 & -0.010\\ -0.010 & 0.020\end{smallmatrix}\bigr)$.
+where $E(2; \boldsymbol{\theta})$ and $S(1; \boldsymbol{\theta})$ corresponds to the solutions of eq. (\ref{eq:michaelis_menten}) for the enzyme and substrate at times $t=2$ and $t=1$, respectively, and $\boldsymbol{\theta}=(k_f,k_r,k_{cat})$. The parameters of the mixture normal output distribution we target are $\boldsymbol{\mu}_1=[2.2, 1.6]'$, $\Sigma_1 = \bigl( \begin{smallmatrix}0.018 & -0.013\\ -0.013 & 0.010\end{smallmatrix}\bigr)$, $\boldsymbol{\mu}_2=[2.8, 1.0]'$ and $\Sigma_2=( \begin{smallmatrix}0.020 & -0.010\\ -0.010 & 0.020\end{smallmatrix}\bigr)$. In what follows, we specify uniform priors on each of the elements of $\boldsymbol{\theta}$ (see Table \ref{tab:priors}).
 
 Target a bimodal target then a four-dimensional covariance target. No change in model details apart from target.
 
 \subsection{TNF signalling pathway}
 Target a bimodal target.
+
+Show that varying an input producing an output does not result in recapitulating the input.
 
 
 \section{Discussion}
