@@ -408,11 +408,11 @@ P(10; \boldsymbol{\theta}, 10)\\
 %
 To start, we specify a uniform prior for each of the five parameters, with bounds given in Table \ref{tab:priors}. To estimate the posterior parameter distribution, we use CMC, with adaptive covariance MCMC \cite{johnstone2016uncertainty} for the second step.
 
-In Figure \ref{fig:growth_factor_outputs}A, we show the target distributions of outputs (black solid lines and contours) versus the sampled distribution (blue dots and dashed lines), illustrating that CMC is able to recapitulate the target densities using modest sample sizes. In Figure \ref{fig:growth_factor_inputs}A, we plot the joint posterior parameter distribution for $k_1$, the rate of ligand binding to inactive receptors, and $k_{-1}$, which dictates the rate of the reverse reaction, where the ligands unbind. The output measurements we use to fit the model correspond to levels of the bound ligands, which can be generated whenever the ratio of $k_1$ to $k_{-1}$ approximately equals their steady state ratio. Because of this, the distribution representing cell process heterogeneity contains linear positive correlations between these parameters.
+In Figure \ref{fig:growth_factor_outputs}A, we show the target distributions of outputs (black solid lines and contours) versus the sampled distribution (blue points and dashed lines), illustrating that CMC is able to recapitulate the target densities using modest sample sizes. In Figure \ref{fig:growth_factor_inputs}A, we plot the joint posterior parameter distribution for $k_1$, the rate of ligand binding to inactive receptors, and $k_{-1}$, which dictates the rate of the reverse reaction, where the ligands unbind. The output measurements we use to fit the model correspond to levels of the bound ligands, which can be generated whenever the ratio of $k_1$ to $k_{-1}$ approximately equals their steady state ratio. Because of this, the distribution representing cell process heterogeneity contains linear positive correlations between these parameters.
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/growth_factor_outputs.pdf}}
-	\caption{\textbf{The target joint output distribution (solid contour lines) and target marginal distributions (solid) versus outputs sampled by CMC (blue dots and dashed lines) for (A) uniform and (B) normal parameter priors.} In the CMC, 100,000 independent samples were used in the ``ContourVolumeEstimator'' step and 10,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function specifying bandwidths of 100 with Gaussian kernels \cite{mathematica}.}
+	\caption{\textbf{The target joint output distribution (solid contour lines) and target marginal distributions (solid) versus outputs sampled by CMC (blue points and dashed lines) for (A) uniform and (B) normal parameter priors.} In the CMC, 100,000 independent samples were used in the ``ContourVolumeEstimator'' step and 10,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function specifying bandwidths of 100 with Gaussian kernels \cite{mathematica}.}
 	\label{fig:growth_factor_outputs}
 \end{figure}
 
@@ -467,17 +467,58 @@ f(\boldsymbol{x}; \boldsymbol{\mu}_1,\Sigma_1, \boldsymbol{\mu}_2, \Sigma_2) = \
 where $E(2; \boldsymbol{\theta})$ and $S(1; \boldsymbol{\theta})$ corresponds to the solutions of eq. (\ref{eq:michaelis_menten}) for the enzyme and substrate at times $t=2$ and $t=1$, respectively, and $\boldsymbol{\theta}=(k_f,k_r,k_{cat})$. The parameters of the mixture normal output distribution we target are $\boldsymbol{\mu}_1=[2.2, 1.6]'$, $\Sigma_1 = \bigl( \begin{smallmatrix}0.018 & -0.013\\ -0.013 & 0.010\end{smallmatrix}\bigr)$, $\boldsymbol{\mu}_2=[2.8, 1.0]'$ and $\Sigma_2=( \begin{smallmatrix}0.020 & -0.010\\ -0.010 & 0.020\end{smallmatrix}\bigr)$. In what follows, we specify uniform priors on each of the elements of $\boldsymbol{\theta}$ (see Table \ref{tab:priors}).
 
 
-Using a modest number of samples in each step, CMC was able to well-replicate the output target distribution (Figure \ref{fig:mm_bimodal_inputs_outputs}A). Without specifying \textit{a priori} information on the subpopulations of cells, two distinct clusters of cells emerged from application of CMC (orange and blue dots in Figure \ref{fig:mm_bimodal_inputs_outputs}B), each corresponding to distinct modes of the output distribution (corresponding coloured dots in Figure \ref{fig:mm_bimodal_inputs_outputs}A). It is worth noting however that the issues inherent with MCMC sampling of multimodal distributions similarly apply here and so, whilst here adaptive MCMC \cite{johnstone2016uncertainty} sufficed to explore the posterior surface, it may be necessary to use MCMC methods known to be robust to such geometries (for example, population MCMC \cite{jasra2007population}). 
+Using a modest number of samples in each step, CMC was able to well-replicate the output target distribution (Figure \ref{fig:mm_bimodal_inputs_outputs}A). Without specifying \textit{a priori} information on the subpopulations of cells, two distinct clusters of cells emerged from application of CMC (orange and blue points in Figure \ref{fig:mm_bimodal_inputs_outputs}B), each corresponding to distinct modes of the output distribution (corresponding coloured points in Figure \ref{fig:mm_bimodal_inputs_outputs}A). It is worth noting however that the issues inherent with MCMC sampling of multimodal distributions similarly apply here and so, whilst here adaptive MCMC \cite{johnstone2016uncertainty} sufficed to explore the posterior surface, it may be necessary to use MCMC methods known to be robust to such geometries (for example, population MCMC \cite{jasra2007population}). 
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/mm_bimodal_inputs_outputs.pdf}}
-	\caption{\textbf{(A) bimodal target distribution (solid contour lines) versus output samples (dots) for the Michaelis-Menten model and (B) posterior parameter samples (dots).} The orange (blue) dots in A were generated by the orange (blue) parameter samples in B. See Figure \ref{fig:growth_factor_outputs} caption for CMC details. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function with Gaussian kernels with (A) default bandwidths and (B) bandwidths of 0.3 (horizontal axis) and 0.03 (vertical axis) \cite{mathematica}. The clusters were identified by applying Mathematica's ``ClusteringComponents'' function to the pairs of parameter samples displayed in B \cite{mathematica}.}
+	\caption{\textbf{(A) bimodal target distribution (solid contour lines) versus output samples (points) for the Michaelis-Menten model and (B) posterior parameter samples (points).} The orange (blue) points in A were generated by the orange (blue) parameter samples in B. See Figure \ref{fig:growth_factor_outputs} caption for CMC details. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function with Gaussian kernels with (A) default bandwidths and (B) bandwidths of 0.3 (horizontal axis) and 0.03 (vertical axis) \cite{mathematica}. The clusters were identified by applying Mathematica's ``ClusteringComponents'' function to the pairs of parameter samples displayed in B \cite{mathematica}.}
 	\label{fig:mm_bimodal_inputs_outputs}
 \end{figure}
 
+Loos et al. (2018) consider a multidimensional output distribution, with correlations between system characteristics that evolve over time. Our approach allows arbitrary covariance structure between measurements, and to exemplify this, we now target a four-dimensional output distribution, with paired measurements of enzyme and substrate at $t=1$ and $t=2$,
+%
+\begin{equation}\label{eq:MM_4d_output}
+\begin{pmatrix}
+E(1.0; \boldsymbol{\theta})\\
+S(1.0; \boldsymbol{\theta})\\
+E(2.0; \boldsymbol{\theta})\\
+S(2.0; \boldsymbol{\theta})\\
+\end{pmatrix} \sim  \mathcal{N}
+\begin{bmatrix}
+\begin{pmatrix}
+0.5\\
+2.8\\
+0.9\\
+1.4\\
+\end{pmatrix}, \;\;
+\begin{pmatrix}
+0.02 &  -0.05 &  0.04 & -0.05\\
+-0.05 & 0.30  & -0.15 & 0.20\\
+0.04 & -0.15  & 0.12  &  -0.17\\
+-0.05 & 0.20 & -0.17 & 0.30
+\end{pmatrix}
+\end{bmatrix}.
+\end{equation}
+%
+Since this system has four output measurements, and the Michaelis-Menten model has three rate parameters $(k_f,k_r,k_{cat})$, the system is over-identified and so CMC cannot be straightforwardly applied. Instead, we allow the four initial states $(E_0, S_0, ES_0, P_0)$ to be uncertain quantities, bringing the total number of parameters to 7, and ensuring that the system is in the unidentified regime where CMC applies. We set uniform priors on all parameters (see Table \ref{tab:priors}) and to check that the model and priors were consistent with the output distribution given by eq. (\ref{eq:MM_4d_output}), we plotted the output measurements used to estimate contour volumes (in the first step of the ``ContourVolumeEstimator'' method in Algorithm \ref{alg:cmc}) against the target (Figure \ref{fig:mm_4d_main}). Since the main support of the densities (black contours) lies within a region of output space reached by independent sampling of the priors (blue points), this indicated that the distribution given by eq. (\ref{eq:MM_4d_output}) could feasibly be generated from this model and priors, and we proceeded to estimation by CMC.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=\textwidth]{../figures/mm_4d_main.pdf}}
+	\caption{\textbf{The output measurements (blue points) of enzyme and substrate at times $t=1$ (left panel) and $t=2$ (right panel) obtained by independently sampling the priors of the 7 parameter Michaelis-Menten model versus the target distribution (black solid contours).} In this plot, we show 20,000 output samples, where each set of four measurements was obtained from a single sample of the 7 parameters. The output target distribution shown by the contours corresponds to the marginal densities of each pair of enzyme-substrate measurements given by eq. (\ref{eq:MM_4d_output}).}
+	\label{fig:mm_4d_main}
+\end{figure}
 
 
-Target a bimodal target then a four-dimensional covariance target.
+Figure \ref{fig:mm_4d_outputs} plots the output samples of enzyme and substrate from the last step of CMC for $t=1$ (blue points) and $t=2$ (orange points) versus the contours (black lines) of the joint marginal distributions of eq. (\ref{eq:MM_4d_output}). The distribution of paired enzyme-substrate samples illustrates that the CMC output samples approximated the target density, itself representing dynamic evolution of the covariance between enzyme and substrate measurements. The target marginal distributions (solid lines) along with their approximations from kernel density estimation (dashed lines) are also shown above and beside the main panel of Figure \ref{fig:mm_4d_outputs}, and largely indicate correspondence.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=0.65\textwidth]{../figures/mm_4d_outputs.pdf}}
+	\caption{\textbf{Posterior output samples from CMC (coloured points) versus the contour plots of the joint marginal distributions of eq. (\ref{eq:MM_4d_output}) (black solid lines).} The blue and orange points indicate output observations of enzyme (horizontal axis) and substrate (vertical axis) at times $t=1$ and $t=2$ respectively. The solid and dotted coloured lines outside of the panels indicate the true target marginals of eq. (\ref{eq:MM_4d_output}) and those estimated from CMC, respectively. The line colours correspond with the point colours and indicate the marginals for $t=1$ (blue) and $t=2$ (orange). In the CMC, 200,000 independent samples were used in the ``ContourVolumeEstimator'' step and 10,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function with Gaussian kernels \cite{mathematica} of bandwidths varying from 0.1 to 0.4.}
+	\label{fig:mm_4d_outputs}
+\end{figure}
+
+Talk about sensitivities and show these versus plots.
+
 
 \subsection{TNF signalling pathway}
 Target a bimodal target. Look in tnf Mathematica file as have already made some nice figures.
