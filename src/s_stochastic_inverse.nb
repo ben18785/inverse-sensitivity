@@ -1,0 +1,228 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      7538,        220]
+NotebookOptionsPosition[      6917,        202]
+NotebookOutlinePosition[      7265,        217]
+CellTagsIndexPosition[      7222,        214]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+y~N(\[Mu],\[Sigma]), \[Mu],\[Sigma]~p(\[Mu],\[Sigma]|\[CapitalPhi]) -> y~N(0,1)
+
+\[Integral]N(y|\[Mu],\[Sigma])p(\[Mu],\[Sigma]|\[CapitalPhi])d\[Mu] d\[Sigma] \
+= N(y|0,1)
+
+The above, whilst true, is useless. How to sample from p(\[Mu],\[Sigma]|\
+\[CapitalPhi])?
+
+p(y,\[Mu],\[Sigma])=N(y|\[Mu],\[Sigma])p(\[Mu],\[Sigma]|\[CapitalPhi])
+
+Also, the problem as stated above does not have unique solutions, as for \
+example, \[Mu]=\[Delta](0) and \[Sigma]=\[Delta](1) satisfies the RHS, but so \
+does \[Mu]~N(0,1) and \[Sigma]->0.
+
+Therefore we need priors,  \[Mu], \[Sigma] ~ p(\[Mu], \
+\[Sigma]|\[CapitalPsi]), where \[CapitalPsi] is known.
+
+So the aim is to find p(\[Mu], \[Sigma] | \[CapitalPsi], \[CapitalXi]), where \
+\[CapitalXi] is a shorthand for the parameters of the output distribution \
+(here N(0, 1)).
+
+Can we use Bayes\[CloseCurlyQuote] rule?
+
+p(\[Mu], \[Sigma] | \[CapitalPsi], \[CapitalXi]) = p(\[Mu], \[Sigma] | \
+\[CapitalPsi], \[CapitalXi]) p(\[Mu], \[Sigma] | \[CapitalPsi])
+
+No. What about the joint distribution,
+
+p(\[Mu], \[Sigma] , y | \[CapitalPsi], \[CapitalXi]) = p(\[Mu], \[Sigma]  | \
+\[CapitalPsi], \[CapitalXi]) p(y | \[CapitalXi])
+
+p(\[Mu], \[Sigma] , y | \[CapitalPsi], \[CapitalXi]) = p(y | \[Mu], \[Sigma]) \
+p(\[Mu], \[Sigma]| \[CapitalPsi], \[CapitalXi])
+
+Ermm.
+
+We know that in the limits n -> \[Infinity], that \
+p(\[Mu],\[Sigma]|y1,y2,..,yn, \[CapitalPsi]) -> p(\[Mu], \[Sigma]|\
+\[CapitalPsi], \[CapitalXi]), where yi~N(0, 1)
+\
+\>", "Section",
+ CellChangeTimes->{{3.766517628260851*^9, 3.7665176586684313`*^9}, {
+  3.766518184276339*^9, 3.7665182486437244`*^9}, {3.766518283307498*^9, 
+  3.7665183101830673`*^9}, {3.7665183496667204`*^9, 3.7665184191775656`*^9}, {
+  3.766518778746997*^9, 3.7665190459634147`*^9}, {3.7665190985480447`*^9, 
+  3.7665191625737867`*^9}, {3.7665192267060704`*^9, 3.7665192311646376`*^9}, {
+  3.7665194627601347`*^9, 3.7665195637141466`*^9}, {3.766519633341464*^9, 
+  3.766519665211651*^9}, {3.766521949228166*^9, 
+  3.76652205467597*^9}},ExpressionUUID->"eace1886-97a0-4850-b8db-\
+5ddc8ae24c4f"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"n", "=", "10000"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"muSamples", "=", 
+   RowBox[{"RandomVariate", "[", 
+    RowBox[{
+     RowBox[{"UniformDistribution", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "1"}], ",", "1"}], "}"}], "]"}], ",", "n"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"sigmaSamples", "=", 
+   RowBox[{"RandomVariate", "[", 
+    RowBox[{
+     RowBox[{"UniformDistribution", "[", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "3"}], "}"}], "]"}], ",", "n"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"y", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"RandomVariate", "[", 
+       RowBox[{
+        RowBox[{"NormalDistribution", "[", 
+         RowBox[{"#1", ",", "#2"}], "]"}], ",", 
+        RowBox[{"{", "1", "}"}]}], "]"}], "[", 
+      RowBox[{"[", "1", "]"}], "]"}], "&"}], "@@@", 
+    RowBox[{"Thread", "[", 
+     RowBox[{"{", 
+      RowBox[{"muSamples", ",", "sigmaSamples"}], "}"}], "]"}]}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.7665238000799694`*^9, 
+  3.7665238866143856`*^9}},ExpressionUUID->"deabf912-c0f3-4ead-8f1e-\
+60bc409042eb"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"contourVolDist", "=", 
+   RowBox[{"SmoothKernelDistribution", "[", "y", "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.7665238948573246`*^9, 
+  3.766523952709506*^9}},ExpressionUUID->"86b96f20-6572-4cc4-bfd0-\
+9c22e55a7745"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"fStep", "[", 
+   RowBox[{"\[Mu]_", ",", "\[Sigma]_", ",", "stepMu_", ",", "stepSigma_"}], 
+   "]"}], ":=", 
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"proposedMu", "=", 
+       RowBox[{
+        RowBox[{"RandomVariate", "[", 
+         RowBox[{
+          RowBox[{"NormalDistribution", "[", 
+           RowBox[{"\[Mu]", ",", "stepMu"}], "]"}], ",", 
+          RowBox[{"{", "1", "}"}]}], "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+      RowBox[{"proposedSigma", "=", 
+       RowBox[{
+        RowBox[{"RandomVariate", "[", 
+         RowBox[{
+          RowBox[{"NormalDistribution", "[", 
+           RowBox[{"\[Sigma]", ",", "stepSigma"}], "]"}], ",", 
+          RowBox[{"{", "1", "}"}]}], "]"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"proposedMu", ",", "proposedSigma"}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"fStepAndAccept", "[", 
+   RowBox[{"\[Mu]_", ",", "\[Sigma]_", ",", "stepMu_", ",", "stepSigma_"}], 
+   "]"}], ":=", 
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"proposed", "=", 
+       RowBox[{"fStep", "[", 
+        RowBox[{"\[Mu]", ",", "\[Sigma]", ",", "stepMu", ",", "stepSigma"}], 
+        "]"}]}], ",", 
+      RowBox[{"u", "=", 
+       RowBox[{"RandomReal", "[", "]"}]}]}], "}"}], ",", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Abs", "[", 
+        RowBox[{"proposed", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], "]"}], ">", "1"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"\[Mu]", ",", "\[Sigma]"}], "}"}], ",", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"Or", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"proposed", "[", 
+            RowBox[{"[", "2", "]"}], "]"}], "<", "0"}], ",", 
+          RowBox[{
+           RowBox[{"proposed", "[", 
+            RowBox[{"[", "2", "]"}], "]"}], ">", "3"}]}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"\[Mu]", ",", "\[Sigma]"}], "}"}], ",", 
+        RowBox[{"If", "[", 
+         RowBox[{"PDF", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"RandomVariate", "[", 
+             RowBox[{
+              RowBox[{"NormalDistribution", "[", 
+               RowBox[{
+                RowBox[{"proposed", "[", 
+                 RowBox[{"[", "1", "]"}], "]"}], ",", 
+                RowBox[{"proposed", "[", 
+                 RowBox[{"[", "2", "]"}], "]"}]}], "]"}], ",", 
+              RowBox[{"{", "1", "}"}]}], "]"}], "[", 
+            RowBox[{"[", "1", "]"}], "]"}], ","}]}]}]}]}]}]}]}]}]}]}], "Input",
+ CellChangeTimes->{{3.766523958509986*^9, 
+  3.7665242324757986`*^9}},ExpressionUUID->"512804a6-c1c3-41ce-a4d8-\
+eb7b15abef72"]
+}, Open  ]]
+},
+WindowSize->{767, 697},
+WindowMargins->{{Automatic, 372}, {24, Automatic}},
+FrontEndVersion->"11.2 for Microsoft Windows (64-bit) (September 10, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 2071, 50, 1321, "Section",ExpressionUUID->"eace1886-97a0-4850-b8db-5ddc8ae24c4f"],
+Cell[2654, 74, 1194, 37, 105, "Input",ExpressionUUID->"deabf912-c0f3-4ead-8f1e-60bc409042eb"],
+Cell[3851, 113, 260, 6, 28, "Input",ExpressionUUID->"86b96f20-6572-4cc4-bfd0-9c22e55a7745"],
+Cell[4114, 121, 2787, 78, 181, "Input",ExpressionUUID->"512804a6-c1c3-41ce-a4d8-eb7b15abef72"]
+}, Open  ]]
+}
+]
+*)
+
