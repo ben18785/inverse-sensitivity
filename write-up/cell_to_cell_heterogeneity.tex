@@ -366,6 +366,16 @@ In this section, we use CMC to estimate the posterior parameter distribution for
 			&& $ES_0$ & uniform & 0.0 & 0.2\\
 			&& $P_0$ & uniform & 0.0 & 0.2\\
 			\toprule
+			TNF signalling & bivariate normal & $a_1$ & uniform & 0.4 & 0.8\\
+			&& $a_2$ & uniform & 0.1 & 0.7\\
+			&& $a_3$ & uniform & 0.3 & 0.7\\
+			&& $a_4$ & uniform & 0.1 & 0.3\\
+			&& $b_1$ & uniform & 0.5 & 0.7\\
+			&& $b_2$ & uniform & 0.4 & 0.6\\
+			&& $b_3$ & uniform & 0.4 & 0.6\\
+			&& $b_4$ & uniform & 0.2 & 0.4\\
+			&& $b_5$ & uniform & 0.2 & 0.4\\
+			\toprule
 			TNF signalling & bimodal normal & $a_1$ & uniform & 0.5 & 0.7\\
 			&& $a_2$ & uniform & 0.1 & 0.3\\
 			&& $a_3$ & uniform & 0.1 & 0.3\\
@@ -585,7 +595,14 @@ X_2(1.0)\\
 \end{bmatrix}.
 \end{equation}
 %
-We now apply CMC to the target output distribution given by eq. (\ref{eq:tnf_circular_target}) to estimate a posterior distribution over all nine parameters of eq. (\ref{eq:tnf}).
+We now apply CMC to the target output distribution given by eq. (\ref{eq:tnf_circular_target}) to estimate a posterior distribution over all nine parameters of eq. (\ref{eq:tnf}). Apart than for $a_1$, the priors for each parameter were chosen to exclude the values that were used to generate the output distribution (see Table \ref{tab:priors}), to illustrate the non-equivalence between the recovered posterior distribution and the data generating process. In Figure \ref{fig:tnf_circular_versus}A, we plot the actual parameter values (horizontal axis) used in the true data generating process versus the inferred values (vertical axis). This illustrates that apart from $a_1$, where the estimated parameter values correspond well with the range of values used to generate the data, due to the choice of priors there is a disjunction between the actual and estimated values. Despite these differences, due to the underdeterminacy of the model, it is nonetheless possible to use CMC to sample from an output distribution that well approximates the target (Figure \ref{fig:tnf_circular_versus}B).
+
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=1\textwidth]{../figures/tnf_circular_both.pdf}}
+	\caption{\textbf{In (A) we plot the actual parameter values versus estimated quantiles for the output distribution for the TNF signalling pathway model with output distribution given and (B) the marginal output target (solid lines) given by eq. (\ref{eq:tnf_circular_target}) and sampled output distribution (histograms).} In (A), the vertical direction, the red points indicate the 50\% posterior quantiles and the upper and lower whiskers indicate the 97.5\% and 2.5\% quantiles, respectively; in the horizontal direction, with the exception of $a_1$ where 95\% quantiles are given, the parameter values used to generate the data had no uncertainty. In the CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step and 5,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
+	\label{fig:tnf_circular_versus}
+\end{figure}
 
 Target a bimodal target. Look in tnf Mathematica file as have already made some nice figures.
 
