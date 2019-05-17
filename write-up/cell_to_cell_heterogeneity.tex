@@ -385,8 +385,8 @@ In this section, we use CMC to estimate the posterior parameter distribution for
 Here we consider the ``growth factor model'' introduced by \cite{dixit2018maximum}, which concerns the dynamics of inactive ligand-free cell surface receptors $R$ and active ligand-bound cell surface receptors $P$, modulated by an exogenous ligand $L$. The governing dynamics are determined by the following system,
 %
 \begin{align}\label{eq:growth_factor}
-\frac{\mathrm{d}R}{\mathrm{d}t} &= R_T k_{deg} + k_1 L R + k_{-1} P - k_{deg} R\\
-\frac{\mathrm{d}P}{\mathrm{d}t} &= k_1 L R - k_{-1} P - k^*_{deg} P,
+\dot{R}(t) &= R_T k_{deg} + k_1 L R(t) + k_{-1} P(t) - k_{deg} R(t)\\
+\dot{P}(t) &= k_1 L R(t) - k_{-1} P(t) - k^*_{deg} P(t),
 \end{align}
 %
 where $\boldsymbol{\theta}=(R_T, k_1, k_{-1}, k_{deg}, k^*_{deg})$ are parameters to be determined. In this example, we use measurements of the active ligand-bound receptors $P$ to estimate cellular heterogeneity in processes. We denote the solution of eq. (\ref{eq:growth_factor}) as $P(t; \boldsymbol{\theta}, L)$ and seek to determine the parameter distribution consistent with an output distribution,
@@ -418,7 +418,7 @@ In Figure \ref{fig:growth_factor_outputs}A, we show the sampled outputs (blue po
 	\label{fig:growth_factor_outputs}
 \end{figure} 
 
-In Figure \ref{fig:growth_factor_inputs}A, we plot the joint posterior parameter distribution for $k_1$, the rate of ligand binding to inactive receptors, and $k_{-1}$, which dictates the rate of the reverse reaction, where the ligands unbind. The output measurements we used to fit the model correspond to levels of the bound ligands, which can be generated whenever the ratio of $k_1$ to $k_{-1}$ approximately equals their steady state ratio. Because of this, the distribution representing cell process heterogeneity contains linear positive correlations between these parameters. In Figure \ref{fig:growth_factor_inputs}B, we show the posterior parameter distribution for $k_{deg}$, the rate of degradation of ligand-free cell surface receptors and $RT$, the steady state level of this species,  which shows a greater concentration of posterior probability mass across prior space. Why is it that we are better able to resolve $(k_{deg},R_T)$ compared to $(k_1,k_{-1})$ from our measurements? To answer this, it is useful to calculate the sensitivity of $P(t; \boldsymbol{\theta}, L)$ to changes in each of the parameters. To account for the differing magnitudes of each parameter, we calculate elasticities, the proportional changes in measured output for a proportional change in parameter values, using the forward sensitivities method described in \cite{DGCT2018}, which are shown in Figure \ref{fig:dixit_elasticities}. When the exogenous ligand is set $L=2$, these indicate the active ligand-bound receptor concentration is most elastic to changes in $RT$ and $k_{deg}$, meaning that their range is more restricted by the output measurement than for $k_1$ and $k_{-1}$, which have elasticities at $t=10$ closer to 0. In Table \ref{tab:growth_factor_results}, we show the posterior quantiles for the estimated parameters and, in the last column, indicate the ratio of the 25\%-75\% posterior interval widths to the uniform prior range for each parameter. These were strongly negatively correlated with the magnitude of the elasticities for each parameter ($\rho=0.95$, $t=-5.22$, $df=3$, $p=0.01$ Pearson's product-moment correlation), indicating the utility of sensitivity analyses for optimal experimental design. We would suggest however that CMC can also be used for this purpose, using synthetic data in place of real measurements.
+In Figure \ref{fig:growth_factor_inputs}A, we plot the joint posterior parameter distribution for $k_1$, the rate of ligand binding to inactive receptors, and $k_{-1}$, which dictates the rate of the reverse reaction, where the ligands unbind. The output measurements we used to fit the model correspond to levels of the bound ligands, which can be generated whenever the ratio of $k_1$ to $k_{-1}$ approximately equals their steady state ratio. Because of this, the distribution representing cell process heterogeneity contains linear positive correlations between these parameters. In Figure \ref{fig:growth_factor_inputs}B, we show the posterior parameter distribution for $k_{deg}$, the rate of degradation of ligand-free cell surface receptors and $R_T$, the steady state level of this species,  which shows a greater concentration of posterior probability mass across prior space. Why is it that we are better able to resolve $(k_{deg},R_T)$ compared to $(k_1,k_{-1})$ from our measurements? To answer this, it is useful to calculate the sensitivity of $P(t; \boldsymbol{\theta}, L)$ to changes in each of the parameters. To account for the differing magnitudes of each parameter, we calculate elasticities, the proportional changes in measured output for a proportional change in parameter values, using the forward sensitivities method described in \cite{DGCT2018}, which are shown in Figure \ref{fig:dixit_elasticities}. When the exogenous ligand is set $L=2$, these indicate the active ligand-bound receptor concentration is most elastic to changes in $R_T$ and $k_{deg}$, meaning that their range is more restricted by the output measurement than for $k_1$ and $k_{-1}$, which have elasticities at $t=10$ closer to 0. In Table \ref{tab:growth_factor_results}, we show the posterior quantiles for the estimated parameters and, in the last column, indicate the ratio of the 25\%-75\% posterior interval widths to the uniform prior range for each parameter. These were strongly negatively correlated with the magnitude of the elasticities for each parameter ($\rho=0.95$, $t=-5.22$, $df=3$, $p=0.01$ Pearson's product-moment correlation), indicating the utility of sensitivity analyses for optimal experimental design. We would suggest however that CMC can also be used for this purpose, using synthetic data in place of real measurements.
 
 
 \begin{figure}[H]
@@ -462,10 +462,10 @@ In this section, we use CMC to invert output measurements from the Michaelis-Men
 %
 \begin{equation}\label{eq:michaelis_menten}
 \begin{aligned}
-\frac{dE(t)}{dt}  &= -k_f E(t)S(t) + k_r ES(t) + k_{cat} ES(t), \\
-\frac{dS(t)}{dt}  &= -k_f E(t)S(t) + k_r ES(t), \\
-\frac{dES(t)}{dt} &= \phantom{-}k_f E(t)S(t) - k_r ES(t) - k_{cat} ES(t), \\
-\frac{dP(t)}{dt}  &= \phantom{-}k_{cat} ES(t),
+\dot{E}(t)  &= -k_f E(t)S(t) + k_r ES(t) + k_{cat} ES(t), \\
+\dot{S}(t)  &= -k_f E(t)S(t) + k_r ES(t), \\
+\dot{ES}(t) &= \phantom{-}k_f E(t)S(t) - k_r ES(t) - k_{cat} ES(t), \\
+\dot{P}(t)  &= \phantom{-}k_{cat} ES(t),
 \end{aligned}
 \end{equation}
 %
@@ -537,13 +537,57 @@ Figure \ref{fig:mm_4d_outputs} plots the output samples of enzyme and substrate 
 
 
 \subsection{TNF signalling pathway}
-We now illustrate how CMC can be applied to an ODE system of larger size, the tumour necrosis factor (TNF) signalling pathway model introduced in \cite{chaves2008bistable} and used by \cite{hasenauer2011identification} to illustrate a Bayesian approach to cell population variability estimation. The model incorporates known activating and inhibitory interactions between four key species within the TNF pathway: active caspase 8 ($C8a$) and active caspase 3 ($C3a$), a nuclear transcription factor ($NF\kappa B$) and its inhibitor ($I\kappa B$).
-
+We now illustrate how CMC can be applied to an ODE system of larger size, the tumour necrosis factor (TNF) signalling pathway model introduced in \cite{chaves2008bistable} and used by \cite{hasenauer2011identification} to illustrate a Bayesian approach to cell population variability estimation. The model incorporates known activating and inhibitory interactions between four key species within the TNF pathway: active caspase 8 ($X_1$) and active caspase 3 ($X_2$), a nuclear transcription factor ($X_3$) and its inhibitor ($X_4$),
+%
+\begin{equation}\label{eq:tnf}
+\begin{aligned}
+\dot{X_1}(t) &= -X_1(t) + \frac{1}{2}\left(\text{inh}_4(X_3(t))\text{act}_1(u(t)) + \text{act}_3(X_2(t))\right)\\
+\dot{X_2}(t) &= -X_2(t) + \text{act}_2(X_1(t)) \text{inh}_3(X_3(t))\\
+\dot{X_3}(t) &= -X_3(t) + \text{inh}_2(X_2(t)) \text{inh}_5(X_4(t))\\
+\dot{X_4}(t) &= -X_4(t) + \frac{1}{2}\left(\text{inh}_1(u(t)) + \text{act}_4(X_3(t))\right),
+\end{aligned}
+\end{equation}
+%
+where the functions $\text{act}_i$ and $\text{inh}_j$ represent activating and inhibitory interactions respectively,
+%
+\begin{equation}
+\begin{aligned}
+\text{act}_i(X) &= \frac{X^2}{a_i^2 + X^2}\\
+\text{inh}_j(X) &= \frac{b_j^2}{b_j^2 + X^2},
+\end{aligned}
+\end{equation}
+%
+and the parameters $a_i$ for $i\in(1,2,3,4)$ and $b_j$ for $j\in(1,2,3,4,5)$ represent activation and inhibition thresholds. We assume that the initial states of the system are $(X_1(0), X_2(0), X_3(0), X_4(0)) = (0.0, 0.0, 0.29, 0.625)$, which correspond to the steady state of the system when $X_2=0$. The function $u(t)$ represents a TNF stimulus which is given by a top hat function,
+%
+\begin{equation}
+u(t)=\begin{cases}
+1, & \text{if $t\in[0,2]$}.\\
+0, & \text{otherwise}.
+\end{cases}
+\end{equation}
+%
+When there are fewer output measurements than parameters, models tend to be underdetermined meaning that many combinations of parameters can lead to the same combination of output values. A consequence of this undeterminacy is that we cannot perform ``full circle'' inference: that is, using a known parameter distribution to generate an output distribution does not result in that parameter distribution being recapitulated through inference. We illustrate this idea by generating an output distribution by varying a single parameter value between runs of the forward model corresponding to the solution of eq. (\ref{eq:tnf}) and performing inference on all nine system parameters, whilst collecting only two output measurements. Specifically, we vary $a_1\sim \mathcal{N}(0.6, 0.05)$, whilst holding the other parameters constant $(a_2,a_3,a_4,b_1,b_2,b_3,b_4,b_5)=(0.2, 0.2, 0.5, 0.4, 0.7, 0.3, 0.5, 0.4)$ and measure $X_1(2.0)$ and $X_2(1.0)$. By running the forward model, we obtain an output distribution that is well approximated by the bivariate normal distribution,
+%
+\begin{equation}\label{eq:tnf_circular_target}
+\begin{pmatrix}
+X_1(2.0)\\
+X_2(1.0)\\
+\end{pmatrix} \sim  \mathcal{N}
+\begin{bmatrix}
+\begin{pmatrix}
+0.26\\
+0.07\\
+\end{pmatrix}, \;\;
+\begin{pmatrix}
+2.1\times 10^{-4} & 5.9\times 10^{-5}\\
+5.9\times 10^{-5} & 1.8\times 10^{-5}\\
+\end{pmatrix}
+\end{bmatrix}.
+\end{equation}
+%
+We now apply CMC to the target output distribution given by eq. (\ref{eq:tnf_circular_target}) attempting to recover a distribution over all nine parameters of eq. (\ref{eq:tnf}).
 
 Target a bimodal target. Look in tnf Mathematica file as have already made some nice figures.
-
-Show that varying an input producing an output does not result in recapitulating the input.
-
 
 \section{Discussion}
 \label{sec:discussion}
