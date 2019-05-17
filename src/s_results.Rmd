@@ -1,0 +1,90 @@
+---
+title: "Results"
+output: html_notebook
+---
+
+
+
+```{r}
+library(tidyverse)
+library(reshape2)
+```
+
+```{r}
+inputs <- read.csv("../data/tnf_bimodal_circular_inputs.csv", header = F)
+colnames(inputs) <- c("a[1]", "a[2]","a[3]","a[4]","b[1]","b[2]","b[3]","b[4]", "b[5]")
+
+inputs <- inputs %>% 
+  melt() %>% 
+  mutate(variable=as.character(variable))
+inputs <- bind_rows(data.frame(variable=c("a[2]","a[3]","a[4]","b[1]",
+                                          "b[2]","b[3]","b[4]", "b[5]"),
+                               value=c(0.2, 0.2, 0.5, 0.4, 0.7, 0.3, 0.5, 0.4)),
+                    inputs)
+inputs <- inputs %>% 
+  mutate(source=c(rep("point", 8), rep("sim", nrow(inputs) - 8)))
+
+
+ggplot(data=filter(inputs, source=="sim"), aes(x=as.factor(variable), y=value)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_point(data=filter(inputs, source!="sim"), position = position_dodge())
+```
+
+Obtain quantiles of each parameter
+```{r}
+inputs <- read.csv("../data/tnf_bimodal_circular_inputs.csv", header = F)
+colnames(inputs) <- c("a[1]", "a[2]","a[3]","a[4]","b[1]","b[2]","b[3]","b[4]", "b[5]")
+
+lower <- apply(inputs, 2, function(x) quantile(x, 0.025))
+middle <- apply(inputs, 2, function(x) quantile(x, 0.5))
+upper <- apply(inputs, 2, function(x) quantile(x, 0.975))
+mQuantiles <- data.frame(lower=lower, middle=middle, upper=upper)
+mQuantiles$variable <- rownames(mQuantiles)
+rownames(mQuantiles) <- NULL
+
+actual <- c(0.2, 0.2, 0.5, 0.4, 0.7, 0.3, 0.5, 0.4)
+variables <- c("a[2]","a[3]","a[4]","b[1]","b[2]","b[3]","b[4]", "b[5]")
+mQuantiles <- bind_rows(mQuantiles,
+                        data.frame(lower=0.50,
+                                   middle=0.6,
+                                   upper=0.70,
+                                   variable="a[1]",
+                                   actual=0.6)) %>% 
+  bind_rows(data.frame(lower=NA, middle=NA, upper=NA, variable=variables,
+                       actual=actual)) %>% 
+  mutate(source=c(rep("sim", 9), rep("actual", 9)))
+
+mQuantiles %>% 
+  ggplot(aes(x=as.factor(variable), colour=as.factor(source), group=as.factor(source))) +
+  geom_errorbar(aes(ymin=lower, ymax=upper), width=0.2, position = position_dodge(0.5)) +
+  geom_point(aes(y=actual),position = position_dodge(0.5)) +
+  geom_point(aes(y=middle),position = position_dodge(0.5)) +
+  theme_classic() +
+  scale_color_brewer("Case", palette = "Dark2") +
+  xlab("Parameter") +
+  ylab("Value")
+```
+
+
+```{r}
+inputs <- read.csv("../data/tnf_bimodal_circular_inputs.csv", header = F)
+colnames(inputs) <- c("a[1]", "a[2]","a[3]","a[4]","b[1]","b[2]","b[3]","b[4]", "b[5]")
+
+lower <- apply(inputs, 2, function(x) quantile(x, 0.025))
+middle <- apply(inputs, 2, function(x) quantile(x, 0.5))
+upper <- apply(inputs, 2, function(x) quantile(x, 0.975))
+mQuantiles <- data.frame(lower=lower, middle=middle, upper=upper)
+mQuantiles$variable <- rownames(mQuantiles)
+rownames(mQuantiles) <- NULL
+mQuantiles$actual <- c(0.6, 0.2, 0.2, 0.5, 0.4, 0.7, 0.3, 0.5, 0.4)
+mQuantiles$lower.x <- c(0.5, rep(NA, 8))
+mQuantiles$upper.x <- c(0.7, rep(NA, 8))
+
+mQuantiles %>% 
+  ggplot(aes(x=actual, y=middle)) +
+  geom_point() +
+  geom_errorbar(aes(ymin=lower, ymax=upper), width=0.01) +
+  geom_errorbarh(aes(xmin=lower.x, xmax=upper.x)) +
+  geom_abline()
+```
+
