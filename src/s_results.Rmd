@@ -52,21 +52,38 @@ mQuantiles <- bind_rows(mQuantiles,
                                    actual=0.6)) %>% 
   bind_rows(data.frame(lower=NA, middle=NA, upper=NA, variable=variables,
                        actual=actual)) %>% 
-  mutate(source=c(rep("sim", 9), rep("actual", 9)))
+  mutate(source=c(rep("estimated", 9), rep("actual", 9)))
 
-mQuantiles %>% 
+g <-
+  mQuantiles %>% 
   ggplot(aes(x=as.factor(variable), colour=as.factor(source), group=as.factor(source))) +
   geom_errorbar(aes(ymin=lower, ymax=upper), width=0.2, position = position_dodge(0.5)) +
-  geom_point(aes(y=actual),position = position_dodge(0.5)) +
-  geom_point(aes(y=middle),position = position_dodge(0.5)) +
+  geom_point(aes(y=actual),position = position_dodge(0.5), size=3) +
+  geom_point(aes(y=middle),position = position_dodge(0.5), size=3) +
   theme_classic() +
   scale_color_brewer("Case", palette = "Dark2") +
-  xlab("Parameter") +
-  ylab("Value")
+  ylab("Value") +
+  theme(axis.text = element_text(size=14, colour="black"),
+        axis.title = element_text(size=14, colour="black"),
+        legend.text = element_text(size=14, colour="black"),
+        legend.title = element_text(size=14, colour="black")) +
+  scale_x_discrete("Parameter",
+                   labels=c(expression(a[1]),
+                            expression(a[2]),
+                            expression(a[3]),
+                            expression(a[4]),
+                            expression(b[1]),
+                            expression(b[2]),
+                            expression(b[3]),
+                            expression(b[4]),
+                            expression(b[5])))
+g
+ggsave("../figures/tnf_circular.pdf", g, width = 10, height = 6)
 ```
 
 
 ```{r}
+library(ggrepel)
 inputs <- read.csv("../data/tnf_bimodal_circular_inputs.csv", header = F)
 colnames(inputs) <- c("a[1]", "a[2]","a[3]","a[4]","b[1]","b[2]","b[3]","b[4]", "b[5]")
 
@@ -80,11 +97,25 @@ mQuantiles$actual <- c(0.6, 0.2, 0.2, 0.5, 0.4, 0.7, 0.3, 0.5, 0.4)
 mQuantiles$lower.x <- c(0.5, rep(NA, 8))
 mQuantiles$upper.x <- c(0.7, rep(NA, 8))
 
-mQuantiles %>% 
-  ggplot(aes(x=actual, y=middle)) +
+mQuantiles$actual <- rnorm(nrow(mQuantiles), mQuantiles$actual, 0.01)
+g <-
+  mQuantiles %>% 
+  ggplot(aes(x=actual, y=middle, label=variable)) +
   geom_point() +
   geom_errorbar(aes(ymin=lower, ymax=upper), width=0.01) +
   geom_errorbarh(aes(xmin=lower.x, xmax=upper.x)) +
-  geom_abline()
+  geom_abline(linetype=2) +
+  theme_classic() +
+  geom_text_repel(size=6,
+    force = 20,
+    segment.size=0.2,
+    parse = T) +
+  xlab("Actual") +
+  ylab("Estimated") +
+  theme(axis.text = element_text(size=14, colour="black"),
+        axis.title = element_text(size=14, colour="black"),
+        legend.text = element_text(size=14, colour="black"),
+        legend.title = element_text(size=14, colour="black"))
+  
 ```
 
