@@ -101,9 +101,9 @@ mQuantiles$actual <- rnorm(nrow(mQuantiles), mQuantiles$actual, 0.01)
 g <-
   mQuantiles %>% 
   ggplot(aes(x=actual, y=middle, label=variable)) +
-  geom_point() +
   geom_errorbar(aes(ymin=lower, ymax=upper), width=0.01) +
   geom_errorbarh(aes(xmin=lower.x, xmax=upper.x)) +
+  geom_point(colour="red") +
   geom_abline(linetype=2) +
   theme_classic() +
   geom_text_repel(size=6,
@@ -116,6 +116,7 @@ g <-
         axis.title = element_text(size=14, colour="black"),
         legend.text = element_text(size=14, colour="black"),
         legend.title = element_text(size=14, colour="black"))
-  
+g
+ggsave("../figures/tnf_circular_versus.pdf", g, width = 10, height = 6)
 ```
 

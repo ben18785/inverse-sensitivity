@@ -595,7 +595,7 @@ X_2(1.0)\\
 \end{bmatrix}.
 \end{equation}
 %
-We now apply CMC to the target output distribution given by eq. (\ref{eq:tnf_circular_target}) to estimate a posterior distribution over all nine parameters of eq. (\ref{eq:tnf}). Apart than for $a_1$, the priors for each parameter were chosen to exclude the values that were used to generate the output distribution (see Table \ref{tab:priors}), to illustrate the non-equivalence between the recovered posterior distribution and the data generating process. In Figure \ref{fig:tnf_circular_versus}A, we plot the actual parameter values (horizontal axis) used in the true data generating process versus the inferred values (vertical axis). This illustrates that apart from $a_1$, where the estimated parameter values correspond well with the range of values used to generate the data, due to the choice of priors there is a disjunction between the actual and estimated values. Despite these differences, due to the underdeterminacy of the model, it is nonetheless possible to use CMC to sample from an output distribution that well approximates the target (Figure \ref{fig:tnf_circular_versus}B).
+We now apply CMC to the target output distribution given by eq. (\ref{eq:tnf_circular_target}) to estimate a posterior distribution over all nine parameters of eq. (\ref{eq:tnf}). Apart than for $a_1$, the priors for each parameter were chosen to exclude the values that were used to generate the output distribution (see Table \ref{tab:priors}), to illustrate the non-equivalence between the recovered posterior distribution and the data generating process. In Figure \ref{fig:tnf_circular_versus}A, we plot the actual parameter values (horizontal axis) used in the true data generating process versus the inferred values (vertical axis). This illustrates that apart from $a_1$, where the estimated parameter values correspond well with the range of values used to generate the data, due to the choice of priors there is a disjunction between the actual and estimated values. Despite these differences, due to the model being underdetermined, it is nonetheless possible to use CMC to sample from an output distribution that well approximates the target (Figure \ref{fig:tnf_circular_versus}B).
 
 
 \begin{figure}[H]
@@ -604,7 +604,24 @@ We now apply CMC to the target output distribution given by eq. (\ref{eq:tnf_cir
 	\label{fig:tnf_circular_versus}
 \end{figure}
 
-Target a bimodal target. Look in tnf Mathematica file as have already made some nice figures.
+Cell populations may be well described by subpopulations which each evolve along characteristic trajectories over time. We now apply CMC to investigate a bimodal output distribution for the TNF signalling pathway model similar to that investigated by \cite{hasenauer2011identification}. In particular, we aim to find a distribution over parameter values which, when fed through the solution to the system of ODEs, results in the following output distribution,
+%
+\begin{equation}
+\begin{aligned}
+\boldsymbol{X}_2(1.0) &\sim \mathcal{N}(0.06, 0.01)\\
+\boldsymbol{X}_2(2.0) &\sim\frac{1}{2}\left(\mathcal{N}(0.1, 0.01) + \mathcal{N}(0.14, 0.01)\right)\\
+\boldsymbol{X}_2(4.0) &\sim\frac{1}{2}\left(\mathcal{N}(0.1, 0.01) + \mathcal{N}(0.20, 0.01)\right),\\
+\end{aligned}
+\end{equation}
+%
+where via a slight abuse of notation, the target distributions for $\boldsymbol{X}_2(2.0)$ and $\boldsymbol{X}_2(4.0)$ indicate mixtures of univariate normals, and the priors used are shown in Table \ref{tab:priors}. This target distribution, along with the unique trajectories obtained by applying the CMC algorithm for 5,000 MCMC steps, are shown in Figure \ref{fig:tnf_samples_vs_distribution}. This Figure illustrates that given by bimodality of the output distribution, CMC estimates a corresponding subpopulation structure in the parameter distribution without \textit{a priori} specification of the number of clusters.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=1\textwidth]{../figures/tnf_samples_vs_distribution.pdf}}
+	\caption{\textbf{The target output distribution (dashed plots with grey filling) and unique trajectories (black solid lines) obtained from the posterior parameter distribution.} In the CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step and 5,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
+	\label{fig:tnf_samples_vs_distribution}
+\end{figure}
+
 
 \section{Discussion}
 \label{sec:discussion}
