@@ -50,18 +50,19 @@ We wish to emulate the experimental situation in which a set of observations is 
 \end{equation}
 
 \begin{algorithm}[H]
-	\footnotesize
-	\texttt{\\}
-	\begin{algorithmic}
-		\For{ $j=1$ to $m$ }
-           \For{ $k=1$ to $n_j$ }
-               \State $i=\sum_{l=1}^{j-1} n_l + k$
-               \State Select $\boldsymbol{\theta}^{\{i\}} \sim p(\boldsymbol{\theta})$ and solve \eqref{eq:ode} for $\boldsymbol{x}^{\{i\}}(t)$.
-               \State Compute $q_j\left( \boldsymbol{x}^{\{i\}}(t_j); \ \theta^{\{i\}} \right) \in \R$
-            \EndFor
+\label{alg:simulate}
+\footnotesize
+\texttt{\\}
+\begin{algorithmic}
+	\For{ $j=1$ to $m$ }
+        \For{ $k=1$ to $n_j$ }
+            \State $i=\sum_{l=1}^{j-1} n_l + k$
+            \State Select $\boldsymbol{\theta}^{\{i\}} \sim p(\boldsymbol{\theta})$ and solve \eqref{eq:ode} for $\boldsymbol{x}^{\{i\}}(t)$.
+            \State Compute $q_j\left( \boldsymbol{x}^{\{i\}}(t_j); \ \theta^{\{i\}} \right) \in \R$
         \EndFor
-	\end{algorithmic}
-	\caption{Pseudocode for the generating raw snapshot data}\label{alg:raw}
+\EndFor
+\end{algorithmic}
+\caption{Pseudocode for the generating raw snapshot data}
 \end{algorithm}
 We define
 \begin{equation}
