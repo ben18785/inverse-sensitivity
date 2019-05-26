@@ -266,3 +266,5 @@ The CMC algorithm is provided in Algorithm \ref{alg:cmc}. A definition of all va
 \end{algorithm}
 
 In generating our results in \S\ref{sec:results}, for the contour volume estimation step, we assumed sample sizes were sufficient if the output samples from the MCMC provided a reasonable approximation to the target, although we recognise that future work should refine this process further. For the MCMC step, we use adaptive covariance MCMC (see SOM of \cite{johnstone2016uncertainty}) to sample from the target distribution, as we have found that it provides a considerable speed-up over Random Walk Metropolis \cite{metropolis1953equation,lambert2018Student}. We also use the Gelman-Rubin convergence statistic $\hat{R}$ which provides a heuristic measurement of convergence \cite{lambert2018Student,gelman1992inference}, and use a threshold of $\hat{R}\leq\sim 1.1$ to diagnose convergence.
+
+To solve the forward model of each differential equation, we used Julia's inbuilt ``solve'' method for ODE models, which automatically chooses an efficient default inbuilt solver \cite{bezanson2017julia}.
