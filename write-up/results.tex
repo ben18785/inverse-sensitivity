@@ -1,8 +1,8 @@
 \section{Results}\label{sec:results}
 In this section, we use CMC to estimate the posterior parameter distribution for three biological systems.
 % of interest targeting synthetic parametric densities. That is,
-We assume that the first step of CMC (``SnapshotEstimator'' within Algorithm \ref{alg:cmc}) has already been undertaken and we are faced with inferring a parameter distribution which, when mapped to outputs, recapitulates the target density. To accompany the text, we provide the Julia notebook used to generate the results. %, which we hope will be of use to others wanting to apply CMC to estimate cell population heterogeneity.
-A table of parameters is provided in \S \ref{sec:parameters}.
+In all but one of examples, we assume that the first step of CMC (``SnapshotEstimator'' within Algorithm \ref{alg:cmc}) has already been undertaken and we are faced with inferring a parameter distribution which, when mapped to outputs, recapitulates the target density. To accompany the text, we provide the Julia notebook used to generate the results. %, which we hope will be of use to others wanting to apply CMC to estimate cell population heterogeneity.
+A table of priors used for each example is provided in Table \ref{tab:priors}.
 
 
 \subsection{Growth factor model}
@@ -297,8 +297,6 @@ where the target distributions for $\boldsymbol{q}_2(2.0)$ and $\boldsymbol{q}_2
 	\label{fig:tnf_samples_vs_distribution}
 \end{figure}
 
-\subsection{Parameters}
-\label{sec:parameters}
 \begin{table}[H]
 \centering
 %\scriptsize
