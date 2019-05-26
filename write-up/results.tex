@@ -122,6 +122,9 @@ E(0) = E_0, \; S(0)=S_0, \; C(0)=C_0, \; P(0)=P_0,
 %
 where $k_f$ is the rate constant for the forward reaction $E+S \rightarrow C$, $k_r$ is the rate of the reverse reaction $C \rightarrow E+S$, and $k_{cat}$ is the catalytic rate at which the product is formed by the reaction $C \rightarrow E + P$.
 
+
+\subsubsection{Bimodal output distribution}
+
 When subpopulations of cells, each with distinct dynamics, are thought to exist, determining their characteristics - proportions of overall cell number, likely parameter values, and so on - is often of key interest \cite{hasenauer2011identification,loos2018hierarchical}. Before formal inference occurs, multi-modality of the output distribution may signal the existence of fragmented subpopulations of cells. Here we target the following bimodal bivariate normal distribution,
 %
 \begin{align}
@@ -153,6 +156,8 @@ Mathematica's ``SmoothKernelDistribution'' function \cite{mathematica} with Gaus
 in B.}
 \label{fig:mm_bimodal_inputs_outputs}
 \end{figure}
+
+\subsubsection{Four-dimensional output distribution}
 
 Loos et al. (2018) consider a multidimensional output distribution, with correlations between system characteristics that evolve over time. Our approach allows arbitrary covariance structure between measurements, and to exemplify this, we now target a four-dimensional output distribution, with paired measurements of enzyme and substrate at $t=1$ and $t=2$,
 %

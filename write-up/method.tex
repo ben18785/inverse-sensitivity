@@ -182,7 +182,7 @@ where $\mathcal{V}(\boldsymbol{q}(\boldsymbol{\theta}))$ is the volume of parame
 
 \subsection{Implementation of CMC}
 
-\subsubsection{I. Estimation of $p(\boldsymbol{q}(\boldsymbol{\theta})$}
+\subsubsection{I. Estimation of $p(\boldsymbol{q}(\boldsymbol{\theta}))$}
 
 Except for some toy examples, the denominator of eq. (\ref{eq:prior}) cannot be calculated, and exact sampling from the posterior parameter distribution of eq. (\ref{eq:posterior_input}) is not, in general, possible. We propose instead a computationally efficient sampling method to estimate $p(\boldsymbol{q}(\boldsymbol{\theta}))$, which forms the first step of our so-called ``Contour Monte Carlo'' (CMC) algorithm (Algorithm \ref{alg:cmc}; Figure \ref{fig:workflow}(ii)), where we estimate the volume of iso-output contours with output value $\boldsymbol{q}(\boldsymbol{\theta})$. This step involves repeated independent sampling from the prior distribution of parameters $\boldsymbol{\theta}^{\{i\}}\sim p(\boldsymbol{\theta}|\Xi)$, where, for completeness, we have conditioned on $\Xi$ parameterising our probability density. Each parameter sample is then converted into an output value $\boldsymbol{q}^{\{i\}}=\boldsymbol{q}(\boldsymbol{\theta}^{\{i\}})$. The collection of output samples is then fitted using a vine copula kernel density estimator (KDE) \cite{nagler2016evading}, $(\boldsymbol{q}^{\{1\}},...,\boldsymbol{q}^{\{N_1\}})\sim p({\boldsymbol{q}}|\hat{\Psi})$. Throughout the course of development of CMC, we have tested many forms of KDE and have found vine copula KDE is best suited to approximating the higher dimensional probability distributions required in practice.
 
