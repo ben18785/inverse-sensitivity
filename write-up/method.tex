@@ -1,5 +1,5 @@
 \section{Method}\label{sec:method}
-In this section, we first describe the describe the probabilistic framework that underlies the CMC algorithm, before introducing CMC in pseudocode (Algorithm \ref{alg:cmc}). We also detail the workflow we have found useful in applying this approach to analyse cell snapshot data and suggest practical remedies to issues we have encountered in using CMC (Figure \ref{fig:workflow}). A glossary of all the variables used in this paper is included as Table \ref{tab:variable_glossary}.
+In this section, we first describe the describe the probabilistic framework that underlies the CMC algorithm, before introducing CMC in pseudocode (Algorithm \ref{alg:cmc}). We also detail the workflow we have found useful in applying this approach to analyse cell \emph{snapshot data} and suggest practical remedies to issues we have encountered in using CMC (Figure \ref{fig:workflow}). A glossary of all the variables used in this paper is included as Table \ref{tab:variable_glossary}.
 
 Experimental methods such as flow cytometry can measure single cell characteristics at a given point in time. Cells are typically destroyed by the measurement process and so rather than providing time series for each individual cell, the data consists of cross-sections or ``snapshots'' of sampled individuals from the population (Figure \ref{fig:time_series_v_snapshots}).
 
@@ -14,11 +14,14 @@ We model the processes of an individual cell using a system of ordinary differen
 \begin{equation}\label{eq:ode}
 \begin{aligned}
 \frac{d\boldsymbol{x}}{dt} &= \boldsymbol{f}(\boldsymbol{x}(t); \, \boldsymbol{\theta}), \quad \boldsymbol{f}: \R^k \times \R^p \mapsto \R^k, \\
-\boldsymbol{x}(0) &= \boldsymbol{x}_0
+\boldsymbol{x}(0) &= \boldsymbol{x}_0.
 \end{aligned}
 \end{equation}
 %
 Note that in most circumstances, the initial state of the system, $\boldsymbol{x}(0)$, is unknown and it is convenient to include these as elements of $\boldsymbol{\theta}$ to be estimated. %The solution of eq. (\ref{eq:ODE}) is given by $\boldsymbol{x}(t) = g(t; \boldsymbol{\theta})$, where $\boldsymbol{x}(t)\in\mathbb{R}^k$ is a vector of outputs at time $t$ and $g(.)$ is a function that typically won't be analytically-determined; instead approximated via a numerical integration scheme.
+
+
+\subsection{Snapshot data}
 
 In this paper, we assume variation characterised by snapshot data arises due to between-cell heterogeneity in the underlying parameters $\boldsymbol{\theta}$. Therefore, the evolution of the underlying state of cell $i$ is described by an idiosyncratic ODE,
 %
@@ -40,7 +43,7 @@ The traditional (non-hierarchical) state-space approach to modelling dynamic sys
 	\label{fig:data_generation}
 \end{figure}
 
-\subsection{Representation of experimental data}
+\subsection{Emulation and representation of snapshot data}
 
 We consider the situation in which we measure $m$ quantities of interest $q_j, j=1, \dots, m$.
 
@@ -62,7 +65,7 @@ We wish to emulate the experimental situation in which a set of observations is 
         \EndFor
 \EndFor
 \end{algorithmic}
-\caption{Pseudocode for the generating raw snapshot data}
+\caption{Emulation of experimental ``snapshot'' data}
 \end{algorithm}
 We define
 \begin{equation}
@@ -80,42 +83,6 @@ Raw snapshot data thus consists of measurements of individual cells with exact i
 These probability distributions are characterised by parameter estimates $\hat{\Phi}$ for the output vector $\boldsymbol{Q}$ as determined by the output observations $\boldsymbol{X}$.
 %The dimensionality of these probability distributions depends on the set of $m$ distinct observables $\tilde{\boldsymbol{x}}(\tilde{\boldsymbol{t}})=(x_{j_1}(t_1), x_{j_2}(t_2), ..., x_{j_m}(t_m))$ recorded by experimental measurements. Note that, $\tilde{\boldsymbol{x}}(\tilde{\boldsymbol{t}})$ corresponds to a particular set of measurements from a hypothetical cell and is distinct from $\boldsymbol{X}(\boldsymbol{t})$, which represents the full set of experimental outputs. The vector $\tilde{\boldsymbol{x}}(\tilde{\boldsymbol{t}})$ is hypothetical because in reality each cell is measured at a single timepoint (although we suppose measurements of different cellular attributes are possible contemporaneously).
 
-\begin{table}[htbp]
-\centering
-\scriptsize
-\begin{adjustwidth}{-0.5in}{-0.5in}%
-\begin{tabularx}{1.1\textwidth}{lll}
-Variable	                                                & Definition                                              & Dimension \\
-\toprule
-$\boldsymbol{x}(t)$                                     	& solution of ode                                         & $\R^k$ \\
-$\boldsymbol{\theta}$                                     	& parameters                                              & $\R^p$ \\
-$\boldsymbol{f}(\boldsymbol{x}(t); \, \boldsymbol{\theta})$	& RHS function of ode                                     & $\R^k$ \\
-$\boldsymbol{x}^{\{i\}}(t)$                                 & solution of ode for cell $i$                            & $\R^k$ \\
-&&\\
-$q_j= q_j(\boldsymbol{x}(t_j))$                             & quantity of interest (qoi) $j$                          & $\R^1$ \\
-$\boldsymbol{q}= \left( q_1, \dots, q_m \right)$            & all $m$ qoi                                             & $\R^m$ \\
-&&\\
-$q_j^{\{i\}}= q_j(\boldsymbol{x}^{\{i\}}(t_j))$             & quantity of interest $j$ for cell $i$                   & $\R^1$ \\
-$\boldsymbol{y}_j=\left( q_j^{\{1\}}, \dots q_j^{\{n_j\}} \right)$  & qoi $j$ of cells $1, \dots, n_j$                & $\R^{n_j}$ \\
-$\boldsymbol{X}=(\boldsymbol{y}_1,...,\boldsymbol{y}_m)$               & system observables (all qoi)                 & $\R^s, s=\sum_{j=1}^m n_j$ \\
-&&\\
-&&\\
-$\Phi$ & parameters characterising output target distribution $p(\boldsymbol{q}|\Phi)$                                & $\R^m$ \\
-$\Xi$  & parameters characterising parameter prior distribution $p(\boldsymbol{\theta}|\Xi)$                          & $\R^p$ \\
-$\Psi$ & parameters characterising output prior distribution $p(\boldsymbol{q}|\Psi)$                                 & $\R^p$ \\
-&&\\
-$\hat{a}$ & estimates of any quantity $a$                                                                             & - \\
-&&\\
-$\Omega(\boldsymbol{z})$              & region of parameter space mapping to $\boldsymbol{q}=\boldsymbol{z}$          & $\R^p$ \\
-$\mathcal{V}(\boldsymbol{z})$         & volume of parameter space mapping to $\boldsymbol{q}=\boldsymbol{z}$          & $\R^+$ \\
-$V$                                   & total volume of parameter space                                               & $\R^+$ \\
-\end{tabularx}
-\caption{\textbf{Glossary of variable names used in this paper.}} %The dimensions of $\Phi$, $\Psi$ and $\Xi$ are listed as ``-'' since they depend on the form of the density used to represent the process and can be anywhere from $\mathbb{R}^1$ to $\mathbb{R}^\infty$. The variables are listed in the approximate order in which they appear in the text.}
-\label{tab:variable_glossary}
-\end{adjustwidth}
-\end{table}
-
-
 The goal of our inference process is to  characterise the probability distribution $p(\boldsymbol{\theta}|\boldsymbol{X})$ representing heterogeneity in cellular processes. The first step in our inference workflow is to fit the output distributions using probability distributions (Figure \ref{fig:workflow}(i)). We assume that the volume of observational data means the estimated probability distributions are approximate sufficient statistics of the outputs, meaning $p(\boldsymbol{\theta}|\hat{\Phi}) \approx p(\boldsymbol{\theta}|\boldsymbol{X})$.
 
 \begin{figure}[H]
@@ -124,7 +91,46 @@ The goal of our inference process is to  characterise the probability distributi
 	\label{fig:contour_volumes}
 \end{figure}
 
-\subsection{Theory}
+\subsection{Notation}
+
+\begin{table}[htbp]
+\centering
+%\scriptsize
+\begin{adjustwidth}{0in}{0in}%
+\begin{tabularx}{1.1\textwidth}{lll}
+Variable	                                                & Definition                                   & Dimension \\
+\toprule
+$\boldsymbol{x}(t)$                                     	& ODE solution                                 & $\R^k$ \\
+$\boldsymbol{\theta}$                                     	& ODE parameters                               & $\R^p$ \\
+$\boldsymbol{f}(\boldsymbol{x}(t); \, \boldsymbol{\theta})$	& ODE RHS                                      & $\R^k$ \\
+$\boldsymbol{x}^{\{i\}}(t)$                                 & ODE solution for cell $i$                    & $\R^k$ \\
+&&\\
+$q_j= q_j(\boldsymbol{x}(t_j))$                             & quantity of interest (qoi) $j$               & $\R^1$ \\
+$\boldsymbol{q}= \left( q_1, \dots, q_m \right)$            & $m$ distinct qois                            & $\R^m$ \\
+&&\\
+$q_j^{\{i\}}= q_j(\boldsymbol{x}^{\{i\}}(t_j))$             & qoi $j$ for cell $i$                         & $\R^1$ \\
+$\boldsymbol{y}_j=\left( q_j^{\{1\}}, \dots q_j^{\{n_j\}} \right)$  & qoi $j$ for cells $1, \dots, n_j$    & $\R^{n_j}$ \\
+$\boldsymbol{X}=(\boldsymbol{y}_1,...,\boldsymbol{y}_m)$    & ``snapshot'' of all qoi                      & $\R^{\sum_{j=1}^m n_j}$ \\
+&&\\
+$\Phi$ & output target distribution $p(\boldsymbol{q}|\Phi)$              & $\R^m$ \\
+$\Xi$  & prior parameter distribution $p(\boldsymbol{\theta}|\Xi)$        & $\R^p$ \\
+$\Psi$ & prior output distribution $p(\boldsymbol{q}|\Psi)$               & $\R^p$ \\
+&&\\
+$\hat{a}$ & estimates of any quantity $a$                                                                  & - \\
+&&\\
+$\Omega(\boldsymbol{z})$              & parameter space mapping to $\boldsymbol{q}=\boldsymbol{z}$         & $\R^p$ \\
+$\mathcal{V}(\boldsymbol{z})$         & volume of $\Omega(\boldsymbol{z})$                                 & $\R^+$ \\
+$V$                                   & volume of parameter space                                          & $\R^+$ \\
+\end{tabularx}
+\caption{\textbf{Glossary of variable names used in this paper.}} %The dimensions of $\Phi$, $\Psi$ and $\Xi$ are listed as ``-'' since they depend on the form of the density used to represent the process and can be anywhere from $\mathbb{R}^1$ to $\mathbb{R}^\infty$. The variables are listed in the approximate order in which they appear in the text.}
+\label{tab:variable_glossary}
+\end{adjustwidth}
+\end{table}
+
+
+
+
+\subsection{Theoretical development of CMC}
 
 We consider the underdetermined case where $m<p$, so that each of the quantities of interest can be generated from a set of parameter values and any
 target output distribution $p(\tilde{\boldsymbol{q}}|\hat{\Phi})$ does not correspond to a unique parameter distribution.
@@ -174,23 +180,40 @@ p(\boldsymbol{\theta}|\boldsymbol{q}(\boldsymbol{\theta})) = \frac{1}{\mathcal{V
 %
 where $\mathcal{V}(\boldsymbol{q}(\boldsymbol{\theta}))$ is the volume of parameter space occupied by the iso-output region $\Omega(\tilde{\boldsymbol{q}}) = \{\boldsymbol{\theta}: \boldsymbol{q}(\boldsymbol{\theta}) = \tilde{\boldsymbol{q}}\}$. Therefore a uniform prior over parameter space implies a prior structure where all  parameter values resulting in the same output $\tilde{\boldsymbol{q}}$ are given equal weighting.
 
-\subsection{Implementation}
+\subsection{Implementation of CMC}
 
-\subsubsection{Estimation of contour volumes}
+\subsubsection{I. Estimation of $p(\boldsymbol{q}(\boldsymbol{\theta})$}
 
-The denominator term of eq. (\ref{eq:prior}) cannot be calculated apart from for some toy examples, meaning that exact sampling from the posterior parameter distribution of eq. (\ref{eq:posterior_input}) is not, in general, possible. We propose instead a computationally efficient sampling method to estimate $p(\boldsymbol{q}(\boldsymbol{\theta}))$, which forms the first step of our so-called ``Contour Monte Carlo'' (CMC) algorithm (Algorithm \ref{alg:cmc}; Figure \ref{fig:workflow}(ii)), where we estimate the volume of iso-output contours with output value $\boldsymbol{q}(\boldsymbol{\theta})$. This step involves repeated independent sampling from the prior distribution of parameters $\boldsymbol{\theta}^{\{i\}}\sim p(\boldsymbol{\theta}|\Xi)$, where, for completeness, we have conditioned on $\Xi$ parameterising our probability density. Each parameter sample is then converted into an output value $\boldsymbol{q}^{\{i\}}=\boldsymbol{q}(\boldsymbol{\theta}^{\{i\}})$. The collection of output samples is then fitted using a vine copula kernel density estimator (KDE) \cite{nagler2016evading}, $(\boldsymbol{q}^{\{1\}},...,\boldsymbol{q}^{\{N_1\}})\sim p({\boldsymbol{q}}|\hat{\Psi})$. Throughout the course of development of CMC, we have tested many forms of KDE and have found vine copula KDE is best suited to approximating the higher dimensional probability distributions required in practice.
+Except for some toy examples, the denominator of eq. (\ref{eq:prior}) cannot be calculated, and exact sampling from the posterior parameter distribution of eq. (\ref{eq:posterior_input}) is not, in general, possible. We propose instead a computationally efficient sampling method to estimate $p(\boldsymbol{q}(\boldsymbol{\theta}))$, which forms the first step of our so-called ``Contour Monte Carlo'' (CMC) algorithm (Algorithm \ref{alg:cmc}; Figure \ref{fig:workflow}(ii)), where we estimate the volume of iso-output contours with output value $\boldsymbol{q}(\boldsymbol{\theta})$. This step involves repeated independent sampling from the prior distribution of parameters $\boldsymbol{\theta}^{\{i\}}\sim p(\boldsymbol{\theta}|\Xi)$, where, for completeness, we have conditioned on $\Xi$ parameterising our probability density. Each parameter sample is then converted into an output value $\boldsymbol{q}^{\{i\}}=\boldsymbol{q}(\boldsymbol{\theta}^{\{i\}})$. The collection of output samples is then fitted using a vine copula kernel density estimator (KDE) \cite{nagler2016evading}, $(\boldsymbol{q}^{\{1\}},...,\boldsymbol{q}^{\{N_1\}})\sim p({\boldsymbol{q}}|\hat{\Psi})$. Throughout the course of development of CMC, we have tested many forms of KDE and have found vine copula KDE is best suited to approximating the higher dimensional probability distributions required in practice.
 
 
-\subsubsection{MCMC sampling}
+\subsubsection{Step II. MCMC sampling of posterior}
 
 The second step in our algorithm then uses Markov chain Monte Carlo (MCMC) to sample from an approximate version of eq. (\ref{eq:posterior_input}) with the estimated density $p(\boldsymbol{q}(\boldsymbol{\theta})|\hat{\Psi})$ replacing its corresponding estimand (Algorithm \ref{alg:cmc}; Figure \ref{fig:workflow}(iii)),
 %
 \begin{equation}\label{eq:posterior_input_estimated}
 p(\boldsymbol{\theta}|\hat{\Phi},\Xi,\hat{\Psi}) =
-\frac{p(\boldsymbol{\theta}|\Xi)}{p(\boldsymbol{q}(\boldsymbol{\theta})|\hat{\Psi})}
+\frac{p(\boldsymbol{\theta}|\Xi)}{p(\boldsymbol{q}(\boldsymbol{\theta})|\hat{\Psi})} \,
 p(\boldsymbol{q}(\boldsymbol{\theta})|\hat{\Phi}).
 \end{equation}
 %
+
+\subsubsection{Step III. Reconstruction of target output distribution}
+
+The final step in CMC is to compare output samples generated from the result of the MCMC calculation with the target distribution (Figure \ref{fig:workflow}(iv)). Asymptotically (in terms of the sample size of both sampling steps), CMC produces a sample of parameter values $(\boldsymbol{\theta}^{\{1\}},\boldsymbol{\theta}^{\{2\}},...)$ which, when mapped to the output space, corresponds to the target distribution $\hat{\Psi})$. In developing CMC, we have found that a finite sample of modest size for both steps of CMC results in parameter samples that, when transformed, often represent reasonable approximations of the target. There are however occasions when this is not the case and we have found this final confirmatory step indispensable since it frequently highlights inadequacies in the contour volume estimation or the MCMC, meaning more samples from either or both of these steps are required. It may also be necessary to tweak hyperparameters of the KDE to ensure reasonable approximation in the contour volume estimation step. If the target distribution is sensitive to the contour volume estimates, this may also indicate that the target snapshot distribution is incompatible with the model: here, we make no claims on existence of a solution to the inverse problem, only that, if one should exist, Contour Monte Carlo is a pragmatic approach to approximate it by sampling. A useful way to diagnose whether the target distribution can be produced from the model and specified priors is to examine the output values from the contour volume estimation step of CMC. If the majority of probability mass of the target lies outside the bounds of the bulk simulated output values obtained by independent sampling from the prior, then the model and/or chosen prior is unlikely to be invertible to this particular target.
+
+\subsubsection{Workflow and CMC algorithm}
+
+A graphical illustration of the complete CMC workflow is provided in Figure \ref{fig:workflow}. All variables are defined in Table \ref{tab:variable_glossary}.
+
+\begin{figure}[H]
+\label{fig:workflow}
+\centerline{\includegraphics[width=\textwidth]{../figures/workflow.pdf}}
+\caption{\textbf{The workflow for Contour Monte Carlo to estimate cell population heterogeneity.}
+The distribution targeted in (iii) is given by eq. (\ref{eq:posterior_input_estimated}).}
+\end{figure}
+
+The CMC algorithm is provided in Algorithm \ref{alg:cmc}. A definition of all variables is provided in Table \ref{tab:variable_glossary}. For simplicity, in this implementation MCMC sampling is performed via the Random Walk Metropolis algorithm, but for the examples in \S \ref{sec:results}, we use an adaptive MCMC algorithm \cite{johnstone2016uncertainty}.
 
 \begin{algorithm}[H]
 \footnotesize
@@ -274,18 +297,9 @@ p(\boldsymbol{q}(\boldsymbol{\theta})|\hat{\Phi}).
 \EndProcedure
 \end{algorithmic}
 
-\caption{Pseudocode for the Contour Monte Carlo algorithm for sampling from the posterior parameter distribution of eq. (\ref{eq:posterior_input_estimated}). Here we provide code for the Random Walk Metropolis algorithm for the MCMC sampling but for the examples in \S \ref{sec:results}, we use an adaptive MCMC algorithm \cite{johnstone2016uncertainty}. A definition of all variables is provided in Table \ref{tab:variable_glossary}.}\label{alg:cmc}
+\caption{Pseudocode for the Contour Monte Carlo algorithm for sampling from the posterior parameter distribution of eq. (\ref{eq:posterior_input_estimated}). }\label{alg:cmc}
 \end{algorithm}
 
-\begin{figure}[H]
-	\centerline{\includegraphics[width=\textwidth]{../figures/workflow.pdf}}
-	\caption{\textbf{The workflow for using Contour Monte Carlo to estimate cell population heterogeneity.} In (iii), the distribution targeted is given by eq. (\ref{eq:posterior_input_estimated}). The variables used in this figure are defined in the text and Table \ref{tab:variable_glossary}.}
-	\label{fig:workflow}
-\end{figure}
 
-\subsubsection{Reconstruction of target output distribution}
-
-The final step in CMC is to compare output samples generated from the result of the MCMC calculation with the target distribution (Figure \ref{fig:workflow}(iv)). Asymptotically (in terms of the sample size of both sampling steps), CMC produces a sample of parameter values $(\boldsymbol{\theta}^{\{1\}},\boldsymbol{\theta}^{\{2\}},...)$ which, when mapped to the output space, corresponds to the target distribution $\hat{\Psi})$. In developing CMC, we have found that a finite sample of modest size for both steps of CMC results in parameter samples that, when transformed, often represent reasonable approximations of the target. There are however occasions when this is not the case and we have found this final confirmatory step indispensable since it frequently highlights inadequacies in the contour volume estimation or the MCMC, meaning more samples from either or both of these steps are required. It may also be necessary to tweak hyperparameters of the KDE to ensure reasonable approximation in the contour volume estimation step. If the target distribution is sensitive to the contour volume estimates, this may also indicate that the target snapshot distribution is incompatible with the model: here, we make no claims on existence of a solution to the inverse problem, only that, if one should exist, Contour Monte Carlo is a pragmatic approach to approximate it by sampling. A useful way to diagnose whether the target distribution can be produced from the model and specified priors is to examine the output values from the contour volume estimation step of CMC. If the majority of probability mass of the target lies outside the bounds of the bulk simulated output values obtained by independent sampling from the prior, then the model and/or chosen prior is unlikely to be invertible to this particular target.
-
-\subsubsection{Future refinements}
+\subsection{Future refinements}
 In generating our results in \S\ref{sec:results}, for the contour volume estimation step, we assumed sample sizes were sufficient if the output samples from the MCMC provided a reasonable approximation to the target, although we recognise that future work should refine this process further. For the MCMC step, we use adaptive covariance MCMC (see SOM of \cite{johnstone2016uncertainty}) to sample from the target distribution, as we have found that it provides a considerable speed-up over Random Walk Metropolis \cite{metropolis1953equation,lambert2018Student}. We also use the Gelman-Rubin convergence statistic $\hat{R}$ which provides a heuristic measurement of convergence \cite{lambert2018Student,gelman1992inference}, and use a threshold of $\hat{R}\leq\sim 1.1$ to diagnose convergence.

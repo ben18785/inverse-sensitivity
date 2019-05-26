@@ -55,6 +55,8 @@ In Figure \ref{fig:growth_factor_outputs}A, we show the sampled outputs (blue po
 	\label{fig:growth_factor_outputs}
 \end{figure}
 
+\centerline{\tt SJT: What are the contour levels that are plotted?}
+
 In Figure \ref{fig:growth_factor_inputs}A, we plot the joint posterior parameter distribution for $k_1$, the rate of ligand binding to inactive receptors, and $k_{-1}$, which dictates the rate of the reverse reaction, where the ligands unbind. The output measurements we used to fit the model correspond to levels of the bound ligands, which can be generated whenever the ratio of $k_1$ to $k_{-1}$ is approximately given by the corresponding steady state ratio. Because of this, the distribution representing cell process heterogeneity contains linear positive correlations between these parameters. In Figure \ref{fig:growth_factor_inputs}B, we show the posterior parameter distribution for $k_{deg}$, the rate of degradation of ligand-free cell surface receptors and $R_T$, which dictates the rate of introduction of ligand-free cell surface receptors, which shows a concentrated region of posterior probability mass. Why is it that we are better able to resolve $(k_{deg},R_T)$ compared to $(k_1,k_{-1})$ from our measurements? To answer this, it is useful to calculate the sensitivity of $P(t; \boldsymbol{\theta}, L)$ to changes in each of the parameters. To account for the differing magnitudes of each parameter, we calculate elasticities, the proportional changes in measured output for a proportional change in parameter values, using the forward sensitivities method described in \cite{DGCT2018}, which are shown in Figure \ref{fig:dixit_elasticities}. When the exogenous ligand is set $L=2$, these indicate the active ligand-bound receptor concentration is most elastic to changes in $R_T$ and $k_{deg}$, meaning that their range is more restricted by the output measurement than for $k_1$ and $k_{-1}$, which have elasticities at $t=10$ closer to 0. In Table \ref{tab:growth_factor_results}, we show the posterior quantiles for the estimated parameters and, in the last column, indicate the ratio of the 25\%-75\% posterior interval widths to the uniform prior range for each parameter. These were strongly negatively correlated with the magnitude of the elasticities for each parameter ($\rho=0.95$, $t=-5.22$, $df=3$, $p=0.01$ Pearson's product-moment correlation), indicating the utility of sensitivity analyses for optimal experimental design. We would suggest however that CMC can also be used for this purpose, using synthetic data in place of real measurements.
 
 
@@ -74,22 +76,28 @@ In Figure \ref{fig:growth_factor_inputs}A, we plot the joint posterior parameter
 For an unidentified model, there is typically a multitude of possible probability distributions over parameters which map to the same target output distribution. To reduce the space of posterior parameter distributions to one, it is therefore necessary to specify a prior parameter distribution. It is also preferable to allow priors to influence estimates in studies of cellular heterogeneity, since this allows incorporation of pre-existing biological knowledge with compensatory reductions in estimator variance. CMC accommodates different prior choices, with both the ``ContourVolumeEstimation'' step and the acceptance ratio in the ``MCMC'' step (Algorithm \ref{alg:cmc}) being affected in such a way that posterior parameter distribution maps to the same output target. We now use CMC to estimate the posterior parameter distribution when changing from uniform priors to more concentrated normal priors (prior hyperparameters shown in Table \ref{tab:priors}). As desired, the target output distribution appears invariant (Figure \ref{fig:growth_factor_outputs}B) although with substantial changes in the posterior parameter distributions (Figure \ref{fig:growth_factor_inputs}C\&D). In particular, the posterior distributions obtained from shifting to the normal prior are more concentrated in parameter space compared to the uniform case (rightmost column of Table \ref{tab:growth_factor_results}). The differences in posterior distribution resultant from changes to priors are likely to be more marked the less definitive a guide the data provides on the underlying process and, hence, can be used to stabilise the resultant inferences according to external knowledge about the system.
 
 \begin{table}
-	\scriptsize
-\begin{tabular}{cc|ccccc|c}
-	& & \multicolumn{5}{c}{Quantiles} & Posterior 25\%-75\%\\
-	Prior & Parameter & 2.5\% & 25\% & 50\% & 75\% & 97.5\% & concentration\\
-	\toprule
-	Uniform & $R_T$ &  441,006 & 548,275 & 606,439 & 677,055 & 772,484 & 23\%\\
-	& $k_1$ &  0.90 & 1.69 & 2.17 & 2.56 & 2.95 & 32\%\\
-	& $k_{-1}$ & 4.35 & 8.35 & 11.23 & 14.23 & 18.71 & 33\%\\
-	& $k_{deg}$ & 0.013 & 0.019 & 0.021 & 0.024 & 0.029 & 20\%\\
-	& $k^*_{deg}$ & 0.20 & 0.34 & 0.40 & 0.44 & 0.49 & 27\%\\
-	\toprule
-	Normal & $R_T$ & 408,396 & 487,372 & 529,558 & 577,970 & 678,632 & 16\%\\
-	& $k_1$ & 0.39 & 0.49 & 0.54 & 0.60 & 0.70 & 4\%\\
-	& $k_{-1}$ & 1.39 & 1.92 & 2.26 & 2.63 & 3.35 & 4\%\\
-	& $k_{deg}$ & 0.016 & 0.020 & 0.022 & 0.024 & 0.027 & 16\%\\
-	& $k^*_{deg}$ & 0.22 & 0.29 & 0.33 & 0.38 & 0.46 & 21\%\\
+%	\scriptsize
+\begin{tabular}{c|ccccc|c}
+\toprule 
+&&&&&&                                         Posterior \\
+Parameter &  \multicolumn{5}{c}{Quantiles} &   25\%-75\% \\
+          & 2.5\% & 25\% & 50\% & 75\% & 97.5\% & conc.\\
+\toprule
+\multicolumn{7}{c}{Uniform prior} \\
+\toprule
+$R_T$       &  441,006 & 548,275 & 606,439 & 677,055 & 772,484 & 23\%\\
+$k_1$       &  0.90 & 1.69 & 2.17 & 2.56 & 2.95 & 32\%\\
+$k_{-1}$    & 4.35 & 8.35 & 11.23 & 14.23 & 18.71 & 33\%\\
+$k_{deg}$   & 0.013 & 0.019 & 0.021 & 0.024 & 0.029 & 20\%\\
+$k^*_{deg}$ & 0.20 & 0.34 & 0.40 & 0.44 & 0.49 & 27\%\\
+\toprule
+\multicolumn{7}{c}{Normal prior} \\
+\toprule
+$R_T$       & 408,396 & 487,372 & 529,558 & 577,970 & 678,632 & 16\%\\
+$k_1$       & 0.39 & 0.49 & 0.54 & 0.60 & 0.70 & 4\%\\
+$k_{-1}$    & 1.39 & 1.92 & 2.26 & 2.63 & 3.35 & 4\%\\
+$k_{deg}$   & 0.016 & 0.020 & 0.022 & 0.024 & 0.027 & 16\%\\
+$k^*_{deg}$ & 0.22 & 0.29 & 0.33 & 0.38 & 0.46 & 21\%\\
 \end{tabular}
 \caption{\textbf{Estimated quantiles from CMC samples for the growth factor model with uniform and normal priors.} The last column indicates the proportion of the uniform prior bounds occupied by the 25\%-75\% posterior interval in each case. The particular priors used in each case are given in Table \ref{tab:priors}.}
 \label{tab:growth_factor_results}
@@ -139,9 +147,11 @@ In what follows, we specify uniform priors on each of the elements of $\boldsymb
 Using a modest number of samples in each step, CMC was able to recapitulate the output target distribution (Figure \ref{fig:mm_bimodal_inputs_outputs}A). Without specifying \textit{a priori} information on the subpopulations of cells, two distinct clusters of cells emerged from application of CMC (orange and blue points in Figure \ref{fig:mm_bimodal_inputs_outputs}B), each corresponding to distinct modes of the output distribution (corresponding coloured points in Figure \ref{fig:mm_bimodal_inputs_outputs}A). It is worth noting however that the issues inherent with MCMC sampling of multimodal distributions similarly apply here and so, whilst here adaptive MCMC \cite{johnstone2016uncertainty} sufficed to explore the posterior surface, it may be necessary to use MCMC methods known to be robust to such geometries (for example, population MCMC \cite{jasra2007population}).
 
 \begin{figure}[H]
-	\centerline{\includegraphics[width=\textwidth]{../figures/mm_bimodal_inputs_outputs.pdf}}
-	\caption{\textbf{(A) bimodal target distribution (solid contour lines) versus output samples (points) for the Michaelis-Menten model and (B) posterior parameter samples (points).} The solid and dashed lines above and to the side of panel A indicate the target and estimated marginal output distributions, respectively. The orange (blue) points in A were generated by the orange (blue) parameter samples in B. See Figure \ref{fig:growth_factor_outputs} caption for CMC details. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function with Gaussian kernels with (A) default bandwidths and (B) bandwidths of 0.3 (horizontal axis) and 0.03 (vertical axis) \cite{mathematica}. The clusters were identified by applying Mathematica's ``ClusteringComponents'' function to the pairs of parameter samples displayed in B \cite{mathematica}.}
-	\label{fig:mm_bimodal_inputs_outputs}
+\centerline{\includegraphics[width=\textwidth]{../figures/mm_bimodal_inputs_outputs.pdf}}
+\caption{\textbf{Michaelis-Menten model. (A) Bimodal target distribution $\boldsymbol{q}$ (solid contour lines) versus output samples (points). (B) Posterior parameter samples (points).} The solid and dashed lines above and to the side of panel A indicate the target and estimated marginal output distributions, respectively. The orange (blue) points in A were generated by the orange (blue) parameter samples in B. %See Figure \ref{fig:growth_factor_outputs} caption for CMC details.
+Mathematica's ``SmoothKernelDistribution'' function \cite{mathematica} with Gaussian kernels was used to construct marginal densities with: (A) default bandwidths, and (B) bandwidths of 0.3 (horizontal axis) and 0.03 (vertical axis). Mathematica's ``ClusteringComponents'' function \cite{mathematica} was used to identify clusters %by applying to the pairs of parameter samples displayed 
+in B.}
+\label{fig:mm_bimodal_inputs_outputs}
 \end{figure}
 
 Loos et al. (2018) consider a multidimensional output distribution, with correlations between system characteristics that evolve over time. Our approach allows arbitrary covariance structure between measurements, and to exemplify this, we now target a four-dimensional output distribution, with paired measurements of enzyme and substrate at $t=1$ and $t=2$,
@@ -177,18 +187,19 @@ S(2.0; \boldsymbol{\theta})\\
 Since this system has four output measurements, and the Michaelis-Menten model has three rate parameters $(k_f,k_r,k_{cat})$, the system is over-identified and so CMC cannot be straightforwardly applied. Instead, we allow the four initial states $(E_0, S_0, ES_0, P_0)$ to be uncertain quantities, bringing the total number of parameters to 7, and ensuring that the system is in the unidentified regime where CMC applies. We set uniform priors on all parameters (see Table \ref{tab:priors}) and to check that the model and priors were consistent with the output distribution given by eq. (\ref{eq:MM_4d_output}), we plotted the output measurements used to estimate contour volumes (in the first step of the ``ContourVolumeEstimator'' method in Algorithm \ref{alg:cmc}) against the target (Figure \ref{fig:mm_4d_main}). Since the main support of the densities (black contours) lies within a region of output space reached by independent sampling of the priors (blue points), this indicated that the distribution given by eq. (\ref{eq:MM_4d_output}) could feasibly be generated from this model and priors, and we proceeded to estimation by CMC.
 
 \begin{figure}[H]
-	\centerline{\includegraphics[width=\textwidth]{../figures/mm_4d_main.pdf}}
-	\caption{\textbf{The output measurements (blue points) of enzyme and substrate at times $t=1$ (left panel) and $t=2$ (right panel) obtained by independently sampling the priors of the 7 parameter Michaelis-Menten model versus the target distribution (black solid contours).} In this plot, we show 20,000 output samples, where each set of four measurements was obtained from a single sample of the 7 parameters. The output target distribution shown by the contours corresponds to the marginal densities of each pair of enzyme-substrate measurements given by eq. (\ref{eq:MM_4d_output}).}
-	\label{fig:mm_4d_main}
+\centerline{\includegraphics[width=\textwidth]{../figures/mm_4d_main.pdf}}
+\caption{\textbf{Output functionals (blue points) $(q_1,q_2)$ (left panel) and $(q_3,q_4)$ (right panel) obtained by independently sampling the priors $p(\boldsymbol{q} | \boldsymbol(\Psi)$ of the 7 parameter Michaelis-Menten model versus the target distribution (black solid contours).} We show 20,000 output samples, where each set of four measurements was obtained from a single sample of the 7 parameters. The output target distribution shown by the contours corresponds to the marginal densities of each pair of enzyme-substrate measurements given by eq. (\ref{eq:MM_4d_output}).}
+\label{fig:mm_4d_main}
 \end{figure}
-
+{\tt SJT: Ben please check my caption for Figure \ref{fig:mm_4d_outputs} is correct.}
 
 Figure \ref{fig:mm_4d_outputs} plots the output samples of enzyme and substrate from the last step of CMC for $t=1$ (blue points) and $t=2$ (orange points) versus the contours (black lines) of the joint marginal distributions of eq. (\ref{eq:MM_4d_output}). The distribution of paired enzyme-substrate samples illustrates that the CMC output samples approximated the target density, itself representing dynamic evolution of the covariance between enzyme and substrate measurements. The target marginal distributions (solid lines) along with their approximations from kernel density estimation (dashed lines) are also shown above and beside the main panel of Figure \ref{fig:mm_4d_outputs}, and largely indicate correspondence.
 
 \begin{figure}[H]
-	\centerline{\includegraphics[width=0.65\textwidth]{../figures/mm_4d_outputs.pdf}}
-	\caption{\textbf{Posterior output samples from CMC (coloured points) versus the contour plots of the joint marginal distributions of eq. (\ref{eq:MM_4d_output}) (black solid lines).} The blue and orange points indicate output observations of enzyme (horizontal axis) and substrate (vertical axis) at times $t=1$ and $t=2$ respectively. The solid and dashed coloured lines outside of the panels indicate the true target marginals of eq. (\ref{eq:MM_4d_output}) and those estimated from CMC, respectively. The line colours correspond with the point colours and indicate the marginals for $t=1$ (blue) and $t=2$ (orange). In CMC, 200,000 independent samples were used in the ``ContourVolumeEstimator'' step and 10,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function with Gaussian kernels \cite{mathematica} of bandwidths varying from 0.1 to 0.4.}
-	\label{fig:mm_4d_outputs}
+\centerline{\includegraphics[width=0.65\textwidth]{../figures/mm_4d_outputs.pdf}}
+\caption{\textbf{Posterior output samples from CMC (coloured points) versus the contour plots of the joint marginal distributions of eq. (\ref{eq:MM_4d_output}) (black solid lines).} Output functionals $(q_1,q_2)$ (blue) and $(q_3,q_4)$ (orange). Enzyme (horizontal axis) and substrate (vertical axis). The solid and dashed coloured lines outside of the panels indicate the true target marginals of eq. (\ref{eq:MM_4d_output}) and those estimated from CMC, respectively. %The line colours correspond with the point colours and indicate the marginals for $t=1$ (blue) and $t=2$ (orange). 
+200,000 independent samples were used in the ``ContourVolumeEstimator'' and 10,000 samples across each of 4 Markov chains were used in the MCMC step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. Mathematica's ``SmoothKernelDistribution'' function with Gaussian kernels \cite{mathematica} of bandwidths varying from 0.1 to 0.4 for the reconstructed marginal densities.}
+\label{fig:mm_4d_outputs}
 \end{figure}
 
 
@@ -254,8 +265,8 @@ We now apply CMC to the target output distribution given by eq. (\ref{eq:tnf_cir
 
 
 \begin{figure}[H]
-	\centerline{\includegraphics[width=1\textwidth]{../figures/tnf_circular_both.pdf}}
-	\caption{\textbf{(A) actual parameter values versus estimated quantiles for the output distribution for the TNF signalling pathway model with output distribution given and (B) the marginal output target (solid lines) given by eq. (\ref{eq:tnf_circular_target}) and sampled output distribution (histograms).} In A, in the vertical direction, the red points indicate the 50\% posterior quantiles and the upper and lower whiskers indicate the 97.5\% and 2.5\% quantiles, respectively; in the horizontal direction, with the exception of $a_1$, the red points indicate the parameter values used to generate the data; for $a_1$ the red point indicates the mean of the normal distribution used to generate the data and the whiskers indicate the 95\% quantiles of this distribution. In CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step and 5,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
+\centerline{\includegraphics[width=1\textwidth]{../figures/tnf_circular_both.pdf}}
+\caption{\textbf{(A) actual parameter values versus estimated quantiles for the output distribution for the TNF signalling pathway model with output distribution given and (B) the marginal output target (solid lines) given by eq. (\ref{eq:tnf_circular_target}) and sampled output distribution (histograms).} In A, in the vertical direction, the red points indicate the 50\% posterior quantiles and the upper and lower whiskers indicate the 97.5\% and 2.5\% quantiles, respectively; in the horizontal direction, with the exception of $a_1$, the red points indicate the parameter values used to generate the data; for $a_1$ the red point indicates the mean of the normal distribution used to generate the data and the whiskers indicate the 95\% quantiles of this distribution. In CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step and 5,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
 	\label{fig:tnf_circular_versus}
 \end{figure}
 
@@ -284,57 +295,58 @@ where the target distributions for $\boldsymbol{q}_2(2.0)$ and $\boldsymbol{q}_2
 \subsection{Parameters}
 \label{sec:parameters}
 \begin{table}[htbp]
-	\centering
-	\scriptsize
-	\begin{adjustwidth}{0in}{0in}%
-		\begin{tabularx}{1.0\textwidth}{llllll}
-			Model	& Target density & Parameter & Prior density & Prior $p_1$ & Prior $p_2$ \\
-			\toprule
-			Growth factor & 2-dimensional normal & $R_T$ & uniform & $2.5 \times 10^5$ &  $8 \times 10^5$\\
-			&& $k_1$ & uniform & 0.25 & 3.0\\
-			&& $k_{-1}$ & uniform & 2.0 & 20.0\\
-			&& $k_{deg}$ & uniform & 0.005 & 0.03\\
-			&& $k^*_{deg}$ & uniform & 0.1 & 0.5\\
-			\toprule
-			Growth factor & 2-dimensional normal & $R_T$ & normal & $5 \times 10^5$ &  $1 \times 10^5$\\
-			&& $k_1$ & normal & 0.5 & 0.1\\
-			&& $k_{-1}$ & normal & 3.0 & 1.0\\
-			&& $k_{deg}$ & normal & 0.02 & 0.005\\
-			&& $k^*_{deg}$ & normal & 0.3 & 0.1\\
-			\toprule
-			Michaelis-Menten & bimodal normal & $k_f$ & uniform & 0.2 &  15\\
-			&& $k_r$ & uniform & 0.2 & 2.0\\
-			&& $k_{cat}$ & uniform & 0.5 & 3.0\\
-			\toprule
-			Michaelis-Menten & 4-dimensional normal & $k_f$ & uniform & 0.2 &  15\\
-			&& $k_r$ & uniform & 0.2 & 2.0\\
-			&& $k_{cat}$ & uniform & 0.2 & 3.0\\
-			&& $E_0$ & uniform & 3.0 & 5.0\\
-			&& $S_0$ & uniform & 5.0 & 10.0\\
-			&& $ES_0$ & uniform & 0.0 & 0.2\\
-			&& $P_0$ & uniform & 0.0 & 0.2\\
-			\toprule
-			TNF signalling & bivariate normal & $a_1$ & uniform & 0.4 & 0.8\\
-			&& $a_2$ & uniform & 0.1 & 0.7\\
-			&& $a_3$ & uniform & 0.3 & 0.7\\
-			&& $a_4$ & uniform & 0.1 & 0.3\\
-			&& $b_1$ & uniform & 0.5 & 0.7\\
-			&& $b_2$ & uniform & 0.4 & 0.6\\
-			&& $b_3$ & uniform & 0.4 & 0.6\\
-			&& $b_4$ & uniform & 0.2 & 0.4\\
-			&& $b_5$ & uniform & 0.2 & 0.4\\
-			\toprule
-			TNF signalling & bimodal normal & $a_1$ & uniform & 0.5 & 0.7\\
-			&& $a_2$ & uniform & 0.1 & 0.3\\
-			&& $a_3$ & uniform & 0.1 & 0.3\\
-			&& $a_4$ & uniform & 0.4 & 0.6\\
-			&& $b_1$ & uniform & 0.3 & 0.5\\
-			&& $b_2$ & uniform & 0.6 & 0.8\\
-			&& $b_3$ & uniform & 0.2 & 0.4\\
-			&& $b_4$ & uniform & 0.4 & 0.6\\
-			&& $b_5$ & uniform & 0.3 & 0.5\\
-		\end{tabularx}
-	\caption{\textbf{The priors used for each problem in \S\ref{sec:results}.}}
-	\label{tab:priors}
-	\end{adjustwidth}
+\centering
+%\scriptsize
+\begin{adjustwidth}{0in}{0in}%
+\begin{tabularx}{1.0\textwidth}{llclcc}
+Model	& Target  & Parameter & Prior    & Prior  & Prior  \\
+        & density &           & density  & $p_1$  & $p_2$  \\
+\toprule
+Growth  & 2D     & $R_T$       & uniform & $2.5 \times 10^5$ &  $8 \times 10^5$\\
+factor  & normal & $k_1$       & uniform & 0.25 & 3.0\\
+                && $k_{-1}$    & uniform & 2.0 & 20.0\\
+                && $k_{deg}$   & uniform & 0.005 & 0.03\\
+                && $k^*_{deg}$ & uniform & 0.1 & 0.5\\
+\toprule
+Growth  & 2D     & $R_T$ & normal & $5 \times 10^5$ &  $1 \times 10^5$\\
+factor  & normal & $k_1$ & normal & 0.5 & 0.1\\
+                && $k_{-1}$ & normal & 3.0 & 1.0\\
+                && $k_{deg}$ & normal & 0.02 & 0.005\\
+                && $k^*_{deg}$ & normal & 0.3 & 0.1\\
+\toprule
+Michaelis- & bimodal  & $k_f$ & uniform & 0.2 &  15\\
+Menten     & normal   & $k_r$ & uniform & 0.2 & 2.0\\
+&& $k_{cat}$ & uniform & 0.5 & 3.0\\
+\toprule
+Michaelis- & 4D    & $k_f$ & uniform & 0.2 &  15\\
+Menten     & normal& $k_r$ & uniform & 0.2 & 2.0\\
+&& $k_{cat}$ & uniform & 0.2 & 3.0\\
+&& $E_0$ & uniform & 3.0 & 5.0\\
+&& $S_0$ & uniform & 5.0 & 10.0\\
+&& $C_0$ & uniform & 0.0 & 0.2\\
+&& $P_0$ & uniform & 0.0 & 0.2\\
+\toprule
+TNF & bivariate & $a_1$ & uniform & 0.4 & 0.8\\
+signalling & normal& $a_2$ & uniform & 0.1 & 0.7\\
+&& $a_3$ & uniform & 0.3 & 0.7\\
+&& $a_4$ & uniform & 0.1 & 0.3\\
+&& $b_1$ & uniform & 0.5 & 0.7\\
+&& $b_2$ & uniform & 0.4 & 0.6\\
+&& $b_3$ & uniform & 0.4 & 0.6\\
+&& $b_4$ & uniform & 0.2 & 0.4\\
+&& $b_5$ & uniform & 0.2 & 0.4\\
+\toprule
+TNF  & bimodal  & $a_1$ & uniform & 0.5 & 0.7\\
+signalling& normal & $a_2$ & uniform & 0.1 & 0.3\\
+&& $a_3$ & uniform & 0.1 & 0.3\\
+&& $a_4$ & uniform & 0.4 & 0.6\\
+&& $b_1$ & uniform & 0.3 & 0.5\\
+&& $b_2$ & uniform & 0.6 & 0.8\\
+&& $b_3$ & uniform & 0.2 & 0.4\\
+&& $b_4$ & uniform & 0.4 & 0.6\\
+&& $b_5$ & uniform & 0.3 & 0.5\\
+\end{tabularx}
+\caption{\textbf{The priors used for each problem in \S\ref{sec:results}.}}
+\label{tab:priors}
+\end{adjustwidth}
 \end{table}
