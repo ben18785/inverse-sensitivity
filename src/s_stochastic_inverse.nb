@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    376387,       7927]
-NotebookOptionsPosition[    370663,       7824]
-NotebookOutlinePosition[    371011,       7839]
-CellTagsIndexPosition[    370968,       7836]
+NotebookDataLength[    380401,       8030]
+NotebookOptionsPosition[    374350,       7922]
+NotebookOutlinePosition[    374698,       7937]
+CellTagsIndexPosition[    374655,       7934]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -7294,9 +7294,9 @@ Cell[BoxData[
 Cell[BoxData[
  GraphicsBox[{{
     {RGBColor[0.987148, 0.8073604000000001, 0.49470040000000004`], EdgeForm[{
-     Opacity[0.567], Thickness[Small]}], {}, 
+     Opacity[0.574], Thickness[Small]}], {}, 
      {RGBColor[0.987148, 0.8073604000000001, 0.49470040000000004`], EdgeForm[{
-      Opacity[0.567], Thickness[Small]}], 
+      Opacity[0.574], Thickness[Small]}], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7307,15 +7307,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{-4.5, 0}, {-4., 0.0002}, "RoundingRadius" -> 0]},
+           RectangleBox[{-4., 0}, {-3.5, 0.0006}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{24.292834267413923`, 44.03646446569019}, {
-           91.54868632631992, 92.1468792093198}}],
-         StatusArea[#, 0.0002]& ,
-         TagBoxNote->"0.0002"],
-        StyleBox["0.0002`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{24.292834267413923`, 45.23919135308245}, {
+           91.35230056032016, 92.14687920931982}}],
+         StatusArea[#, 0.0006]& ,
+         TagBoxNote->"0.0006"],
+        StyleBox["0.0006`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.0002, {}], "Tooltip"]& ], 
+        Style[0.0006, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7326,15 +7326,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{-3.5, 0}, {-3., 0.0012}, "RoundingRadius" -> 0]},
+           RectangleBox[{-3.5, 0}, {-3., 0.005}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{62.78009466396645, 82.52372486224273}, {
-           91.05772191132048, 92.1468792093198}}],
-         StatusArea[#, 0.0012]& ,
-         TagBoxNote->"0.0012"],
-        StyleBox["0.0012`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{44.73919135308245, 65.68554843875098}, {
+           89.19205713432265, 92.14687920931982}}],
+         StatusArea[#, 0.005]& ,
+         TagBoxNote->"0.005"],
+        StyleBox["0.005`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.0012, {}], "Tooltip"]& ], 
+        Style[0.005, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7345,15 +7345,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{-3., 0}, {-2.5, 0.0066}, "RoundingRadius" -> 0]},
+           RectangleBox[{-3., 0}, {-2.5, 0.009}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{82.02372486224273, 101.76735506051901`}, {
-           88.40651407032355, 92.1468792093198}}],
-         StatusArea[#, 0.0066]& ,
-         TagBoxNote->"0.0066"],
-        StyleBox["0.0066`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{65.18554843875098, 86.13190552441952}, {
+           87.22819947432492, 92.14687920931982}}],
+         StatusArea[#, 0.009]& ,
+         TagBoxNote->"0.009"],
+        StyleBox["0.009`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.0066, {}], "Tooltip"]& ], 
+        Style[0.009, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7364,15 +7364,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{-2.5, 0}, {-2., 0.0296}, "RoundingRadius" -> 0]},
+           RectangleBox[{-2.5, 0}, {-2., 0.0336}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{101.26735506051901`, 121.01098525879527`}, {
-           77.1143325253366, 92.1468792093198}}],
-         StatusArea[#, 0.0296]& ,
-         TagBoxNote->"0.0296"],
-        StyleBox["0.0296`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{85.63190552441952, 106.57826261008805`}, {
+           75.15047486533888, 92.14687920931982}}],
+         StatusArea[#, 0.0336]& ,
+         TagBoxNote->"0.0336"],
+        StyleBox["0.0336`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.0296, {}], "Tooltip"]& ], 
+        Style[0.0336, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7383,15 +7383,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{-2., 0}, {-1.5, 0.079}, "RoundingRadius" -> 0]},
+           RectangleBox[{-2., 0}, {-1.5, 0.0904}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{120.51098525879527`, 140.25461545707154`}, {
-           52.86069042436461, 92.1468792093198}}],
-         StatusArea[#, 0.079]& ,
-         TagBoxNote->"0.079"],
-        StyleBox["0.079`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{106.07826261008805`, 127.02461969575657`}, {
+           47.2636960933711, 92.14687920931982}}],
+         StatusArea[#, 0.0904]& ,
+         TagBoxNote->"0.0904"],
+        StyleBox["0.0904`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.079, {}], "Tooltip"]& ], 
+        Style[0.0904, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7402,15 +7402,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{-1.5, 0}, {-1., 0.175}, "RoundingRadius" -> 0]},
+           RectangleBox[{-1.5, 0}, {-1., 0.1754}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{139.75461545707154`, 159.49824565534783`}, {
-           5.728106584419066, 92.1468792093198}}],
-         StatusArea[#, 0.175]& ,
-         TagBoxNote->"0.175"],
-        StyleBox["0.175`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{126.52461969575657`, 147.47097678142512`}, {
+           5.531720818419302, 92.14687920931982}}],
+         StatusArea[#, 0.1754]& ,
+         TagBoxNote->"0.1754"],
+        StyleBox["0.1754`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.175, {}], "Tooltip"]& ], 
+        Style[0.1754, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7421,15 +7421,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{-1., 0}, {-0.5, 0.3128}, "RoundingRadius" -> 0]},
+           RectangleBox[{-1., 0}, {-0.5, 0.3054}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{158.99824565534783`, 
-           178.7418758536241}, {-61.926789802502796`, 92.1468792093198}}],
-         StatusArea[#, 0.3128]& ,
-         TagBoxNote->"0.3128"],
-        StyleBox["0.3128`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{146.97097678142512`, 
+           167.91733386709365`}, {-58.29365313150694, 92.14687920931982}}],
+         StatusArea[#, 0.3054]& ,
+         TagBoxNote->"0.3054"],
+        StyleBox["0.3054`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.3128, {}], "Tooltip"]& ], 
+        Style[0.3054, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7440,15 +7440,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{-0.5, 0}, {0., 0.3688}, "RoundingRadius" -> 0]},
+           RectangleBox[{-0.5, 0}, {0., 0.3872}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{178.2418758536241, 
-           197.98550605190036`}, {-89.42079704247102, 92.1468792093198}}],
-         StatusArea[#, 0.3688]& ,
-         TagBoxNote->"0.3688"],
-        StyleBox["0.3688`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{167.41733386709365`, 
+           188.36369095276217`}, {-98.45454227846054, 92.14687920931982}}],
+         StatusArea[#, 0.3872]& ,
+         TagBoxNote->"0.3872"],
+        StyleBox["0.3872`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.3688, {}], "Tooltip"]& ], 
+        Style[0.3872, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7459,15 +7459,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{0., 0}, {0.5, 0.385}, "RoundingRadius" -> 0]},
+           RectangleBox[{0., 0}, {0.5, 0.3782}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{197.48550605190036`, 
-           217.22913625017662`}, {-97.37442056546185, 92.1468792093198}}],
-         StatusArea[#, 0.385]& ,
-         TagBoxNote->"0.385"],
-        StyleBox["0.385`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{187.86369095276217`, 
+           208.8100480384307}, {-94.03586254346564, 92.14687920931982}}],
+         StatusArea[#, 0.3782]& ,
+         TagBoxNote->"0.3782"],
+        StyleBox["0.3782`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.385, {}], "Tooltip"]& ], 
+        Style[0.3782, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7478,15 +7478,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{0.5, 0}, {1., 0.3128}, "RoundingRadius" -> 0]},
+           RectangleBox[{0.5, 0}, {1., 0.3024}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{216.72913625017662`, 
-           236.4727664484529}, {-61.926789802502796`, 92.1468792093198}}],
-         StatusArea[#, 0.3128]& ,
-         TagBoxNote->"0.3128"],
-        StyleBox["0.3128`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{208.3100480384307, 
+           229.25640512409922`}, {-56.820759886508654`, 92.14687920931982}}],
+         StatusArea[#, 0.3024]& ,
+         TagBoxNote->"0.3024"],
+        StyleBox["0.3024`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.3128, {}], "Tooltip"]& ], 
+        Style[0.3024, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7497,15 +7497,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{1., 0}, {1.5, 0.1886}, "RoundingRadius" -> 0]},
+           RectangleBox[{1., 0}, {1.5, 0.1712}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{235.9727664484529, 
-           255.71639664672918`}, {-0.9490094595732188, 92.1468792093198}}],
-         StatusArea[#, 0.1886]& ,
-         TagBoxNote->"0.1886"],
-        StyleBox["0.1886`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{228.75640512409922`, 249.70276220976777`}, {
+           7.593771361416927, 92.14687920931982}}],
+         StatusArea[#, 0.1712]& ,
+         TagBoxNote->"0.1712"],
+        StyleBox["0.1712`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.1886, {}], "Tooltip"]& ], 
+        Style[0.1712, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7516,15 +7516,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{1.5, 0}, {2., 0.0952}, "RoundingRadius" -> 0]},
+           RectangleBox[{1.5, 0}, {2., 0.0956}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{255.21639664672918`, 274.9600268450055}, {
-           44.907066901373796`, 92.1468792093198}}],
-         StatusArea[#, 0.0952]& ,
-         TagBoxNote->"0.0952"],
-        StyleBox["0.0952`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{249.20276220976777`, 270.1491192954363}, {
+           44.710681135374045`, 92.14687920931982}}],
+         StatusArea[#, 0.0956]& ,
+         TagBoxNote->"0.0956"],
+        StyleBox["0.0956`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.0952, {}], "Tooltip"]& ], 
+        Style[0.0956, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7535,15 +7535,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{2., 0}, {2.5, 0.033}, "RoundingRadius" -> 0]},
+           RectangleBox[{2., 0}, {2.5, 0.0326}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{274.4600268450055, 294.20365704328174`}, {
-           75.44505351433853, 92.1468792093198}}],
-         StatusArea[#, 0.033]& ,
-         TagBoxNote->"0.033"],
-        StyleBox["0.033`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{269.6491192954363, 290.59547638110485`}, {
+           75.64143928033832, 92.14687920931982}}],
+         StatusArea[#, 0.0326]& ,
+         TagBoxNote->"0.0326"],
+        StyleBox["0.0326`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.033, {}], "Tooltip"]& ], 
+        Style[0.0326, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7554,15 +7554,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{2.5, 0}, {3., 0.0108}, "RoundingRadius" -> 0]},
+           RectangleBox[{2.5, 0}, {3., 0.0114}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{293.70365704328174`, 313.447287241558}, {
-           86.34446352732593, 92.1468792093198}}],
-         StatusArea[#, 0.0108]& ,
-         TagBoxNote->"0.0108"],
-        StyleBox["0.0108`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{290.09547638110485`, 311.04183346677337`}, {
+           86.04988487832628, 92.14687920931982}}],
+         StatusArea[#, 0.0114]& ,
+         TagBoxNote->"0.0114"],
+        StyleBox["0.0114`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.0108, {}], "Tooltip"]& ], 
+        Style[0.0114, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7573,15 +7573,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{3., 0}, {3.5, 0.0012}, "RoundingRadius" -> 0]},
+           RectangleBox[{3., 0}, {3.5, 0.0016}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{312.947287241558, 332.69091743983427`}, {
-           91.05772191132048, 92.1468792093198}}],
-         StatusArea[#, 0.0012]& ,
-         TagBoxNote->"0.0012"],
-        StyleBox["0.0012`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{310.54183346677337`, 331.4881905524419}, {
+           90.86133614532073, 92.14687920931982}}],
+         StatusArea[#, 0.0016]& ,
+         TagBoxNote->"0.0016"],
+        StyleBox["0.0016`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.0012, {}], "Tooltip"]& ], 
+        Style[0.0016, {}], "Tooltip"]& ], 
       TagBox[
        TooltipBox[
         TagBox[
@@ -7592,15 +7592,15 @@ Cell[BoxData[
               GrayLevel[0.5], 
               AbsoluteThickness[1.5], 
               Opacity[0.66]}], {}, {}], 
-           RectangleBox[{3.5, 0}, {4., 0.0002}, "RoundingRadius" -> 0]},
+           RectangleBox[{3.5, 0}, {4., 0.0004}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{332.19091743983427`, 351.93454763811053`}, {
-           91.54868632631992, 92.1468792093198}}],
-         StatusArea[#, 0.0002]& ,
-         TagBoxNote->"0.0002"],
-        StyleBox["0.0002`", {}, StripOnInput -> False]],
+          ImageSizeCache->{{330.9881905524419, 351.9345476381104}, {
+           91.45049344332004, 92.14687920931982}}],
+         StatusArea[#, 0.0004]& ,
+         TagBoxNote->"0.0004"],
+        StyleBox["0.0004`", {}, StripOnInput -> False]],
        Annotation[#, 
-        Style[0.0002, {}], 
+        Style[0.0004, {}], 
         "Tooltip"]& ]}, {}, {}}, {{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, \
 {}, {}, {}, {}, {}}}, {{{}, {}, 
      TagBox[
@@ -7799,26 +7799,124 @@ mGpWLFQfJyNNHOPRg2+FQT+Z2hD0lYyMjzqJbF8WBjyuQEvoBxm5qeWfNSYo
 DKiL9wC2SkaWHyTNqC8JgdfgeVu7TTKC7WPPkaoXgv/bn4L8//6U/wESHnYZ
 
         "]]},
-      Annotation[#, "Charting`Private`Tag$8382#1"]& ]}, {}, {}}},
+      Annotation[#, "Charting`Private`Tag$2323#1"]& ]}, {}, {}}},
   AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
   Axes->{True, True},
   AxesLabel->{None, None},
-  AxesOrigin->{-4.67, 0},
+  AxesOrigin->{-4.16, 0},
   FrameLabel->{{None, None}, {None, None}},
   FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
   GridLines->{None, None},
   GridLinesStyle->Directive[
     GrayLevel[0.5, 0.4]],
-  PlotRange->{{-4.5, 4.}, {All, All}},
+  PlotRange->{{-4., 4.}, {All, All}},
   PlotRangePadding->{{
      Scaled[0.02], 
      Scaled[0.02]}, {
      Scaled[0.02], 
      Scaled[0.05]}},
   Ticks->{Automatic, Automatic}]], "Output",
- CellChangeTimes->{{3.7667483378863897`*^9, 
-  3.766748369946968*^9}},ExpressionUUID->"0f6a875f-3dc0-4ba7-98b2-\
-5fb5f62d56a4"]
+ CellChangeTimes->{{3.7667483378863897`*^9, 3.766748369946968*^9}, 
+   3.7682438024174232`*^9},ExpressionUUID->"2258d085-41cf-4b7f-b268-\
+1c693e8c84dd"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"test", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"d", ",", 
+       RowBox[{"NIntegrate", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"PDF", "[", 
+           RowBox[{
+            RowBox[{"NormalDistribution", "[", 
+             RowBox[{"0", ",", 
+              RowBox[{"Sqrt", "[", 
+               RowBox[{"99", "/", "100"}], "]"}]}], "]"}], ",", "mu"}], "]"}],
+           " ", 
+          RowBox[{"PDF", "[", 
+           RowBox[{
+            RowBox[{"NormalDistribution", "[", 
+             RowBox[{"mu", ",", 
+              RowBox[{"1", "/", "10"}]}], "]"}], ",", "d"}], "]"}]}], " ", 
+         ",", 
+         RowBox[{"{", 
+          RowBox[{"mu", ",", 
+           RowBox[{"-", "\[Infinity]"}], ",", "\[Infinity]"}], "}"}]}], 
+        "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"d", ",", 
+       RowBox[{"-", "4"}], ",", "4", ",", "0.1"}], "}"}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.768243848349732*^9, 
+  3.7682439326468983`*^9}},ExpressionUUID->"6069d924-8b41-4476-bfbc-\
+4ecd926cf208"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ListLinePlot", "[", "test", "]"}]], "Input",
+ CellChangeTimes->{{3.768243901554584*^9, 
+  3.7682439038320365`*^9}},ExpressionUUID->"be5584bb-2d95-47bb-8219-\
+e782240d40b3"],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {{}, {}, 
+    {RGBColor[0.368417, 0.506779, 0.709798], PointSize[0.016666666666666666`],
+      AbsoluteThickness[1.6], LineBox[CompressedData["
+1:eJw1lHlI1EEUx9d101VXV9CKMiK7JDHwSkSrN4VChIpHGFEYpqYElZlYkZER
+lhjrEYtHtxEhLJ1YKUkzYnZ4pZnHYn+YkmTeZR4pUv7m+xtYlh8z7/Nm3nvf
+r+eRk7EpWo1GE/P/t/Qvl6swvRX9ZfmeFKAsozBpsy41OHjTUWW5iLnoiosu
+6wPoRvnSchaF/a8SKrpCqaV5aRlEfJYxycY5jCTPIBpfWtpLyyLAcxK/l4/u
+ivTdB56jGKzMi/4bfAg8BzEwlnyz6WoSeHrRuSlsna7+GHh6MZvVTZ5eGeDZ
+i9itG+seJ54Fz054VWWOzm3LAW+ZeJ35zu/6/lxScM06ceagZ3hS+zXwdKLk
+8J+YiV/F4NkKn65v2aVjJeBphTmxIbbe5jZ4NkIbwtpqttwHTyPOV5WadbkP
+wdOIuNAfQVUPLIhf5C51Bc/9m5/i/AI3lv3sdQuqIn8l3zxfzDA9KXerpjKF
+P8fXxqe2RKXUgjfLB99HHtCbBXjTPGvGQxfuXQ/eFF+1MnAydbwBvN+8+BN/
+tqL3A3iTPHvD18vm/ibwJnjPmoCC77OtiB/h261Fx/Pt23F+iIdm7E6Pyv9M
+yUq+QR42MD08M99Bvgp/gA8UDu0xxXWC18c97jTa7sjrQryVu2f4jNQWd+N8
+Bze8uZtemdZDRcr+R37uxYXxbjsr5SjfNfxRdUKlJdWq1k+z0+9LQHielYTc
+Jwv278l4UuPBJ5Uv962k5sf9SL1fsLw/9eH+afJ9FI73yfghCsb722R9KAT1
+Qf1Ird8tWV86jfoGyvpTAeov46fIFf2R+abpFPqH/pLaX8mbI3f0X/LmaQbz
+IXkL5IT5kbxFcsR8oXxMnb9WOZ/sBOYT88vU+ZXxWnYF8y3z2bLNmH/og6n6
+kDwdS4V+oC+m6kvy7Nhq6E/y7Nle6BP6Zap+JU/PmqFv6J+p+pc8R9YCf5A8
+JzYM/4C/MNVfJM/AIuA/8Cem+pPkubBB+JfkGVkO/A3+x1T/+wfwxUgg
+      "]]}}, {}, {}, {}, {}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{True, True},
+  AxesLabel->{None, None},
+  AxesOrigin->{0, 0},
+  DisplayFunction->Identity,
+  Frame->{{False, False}, {False, False}},
+  FrameLabel->{{None, None}, {None, None}},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  GridLines->{None, None},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  ImagePadding->All,
+  Method->{"CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& )}},
+  PlotRange->{{-4., 4.}, {0, 0.3989422804013606}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {
+     Scaled[0.02], 
+     Scaled[0.05]}},
+  Ticks->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{3.7682439043506813`*^9, 
+  3.76824393802925*^9},ExpressionUUID->"5cd23b60-044d-4c81-8d07-9bd9767a2cc5"]
 }, Open  ]]
 }, Open  ]]
 },
@@ -7926,7 +8024,12 @@ Cell[345439, 7239, 174, 3, 32, "Output",ExpressionUUID->"7e495f7c-6a44-46cb-8d0d
 Cell[345628, 7245, 880, 26, 67, "Input",ExpressionUUID->"28078fb4-fc9d-4acf-9603-e2c8ddedebfa"],
 Cell[CellGroupData[{
 Cell[346533, 7275, 582, 16, 28, "Input",ExpressionUUID->"93cf89a6-5fa3-4127-ba01-29d22191215b"],
-Cell[347118, 7293, 23517, 527, 241, "Output",ExpressionUUID->"0f6a875f-3dc0-4ba7-98b2-5fb5f62d56a4"]
+Cell[347118, 7293, 23563, 527, 241, "Output",ExpressionUUID->"2258d085-41cf-4b7f-b268-1c693e8c84dd"]
+}, Open  ]],
+Cell[370696, 7823, 1103, 33, 28, "Input",ExpressionUUID->"6069d924-8b41-4476-bfbc-4ecd926cf208"],
+Cell[CellGroupData[{
+Cell[371824, 7860, 196, 4, 28, "Input",ExpressionUUID->"be5584bb-2d95-47bb-8219-e782240d40b3"],
+Cell[372023, 7866, 2299, 52, 251, "Output",ExpressionUUID->"5cd23b60-044d-4c81-8d07-9bd9767a2cc5"]
 }, Open  ]]
 }, Open  ]]
 }

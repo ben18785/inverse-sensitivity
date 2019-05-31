@@ -1,0 +1,1 @@
+* Figure 3: use points to map from left to right trajectories
