@@ -1,8 +1,5 @@
 \section{Results}\label{sec:results}
-In this section, we use CMC to estimate the posterior parameter distribution for three biological systems.
-% of interest targeting synthetic parametric densities. That is,
-In all but one of the examples, we assume that the first step of CMC (``SnapshotEstimator'' within Algorithm \ref{alg:cmc}) has already been undertaken and we are faced with inferring a parameter distribution which, when mapped to outputs, recapitulates the target density. To accompany the text, we provide the Julia notebook used to generate the results. %, which we hope will be of use to others wanting to apply CMC to estimate cell population heterogeneity.
-A table of priors used for each example is provided in Table \ref{tab:priors}.
+In this section, we use CMC to estimate the posterior parameter distribution for three biological systems. In all but one of the examples, we assume that the first step of CMC (``SnapshotEstimator'' within Algorithm \ref{alg:cmc}) has already been undertaken and we are faced with inferring a parameter distribution which, when mapped to outputs, recapitulates the target density. To accompany the text, we provide the Julia notebook used to generate the results. A table of priors used for each example is provided in Table \ref{tab:priors}.
 
 
 \subsection{Growth factor model}
@@ -45,33 +42,31 @@ P(10; \boldsymbol{\theta}, 10)\\
 %
 
 \subsubsection{Uniform prior}
-To start, we specify a uniform prior for each of the five parameters, with bounds given in Table \ref{tab:priors}. To estimate the posterior parameter distribution, we use CMC, with adaptive covariance MCMC \cite{johnstone2016uncertainty} for the second step.
-
-In Figure \ref{fig:growth_factor_outputs}A, we show the sampled outputs (blue points) versus the contours of the target distribution (black solid closed curves), illustrating a good correspondence between the sampled and target densities. Above and to the right of the main panel, we also display the marginal target densities (solid black lines) versus kernel density estimator reconstructions of the output marginals from the CMC samples (dashed blue lines), which again highlights the fidelity of the CMC sampled density to the target.
+To start, we specify a uniform prior for each of the five parameters, with bounds given in Table \ref{tab:priors}, and use CMC to estimate the posterior parameter distribution. In Figure \ref{fig:growth_factor_outputs}A, we show the sampled outputs (blue points) versus the contours of the target distribution (black solid closed curves), illustrating a good correspondence between the sampled and target densities. Above and to the right of the main panel, we also display the marginal target densities (solid black lines) versus kernel density estimator reconstructions of the output marginals from the CMC samples (dashed blue lines), which again highlights the fidelity of the CMC sampled density to the target.
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/growth_factor_outputs.pdf}}
-	\caption{\textbf{The target joint output distribution (solid contour lines) and target marginal distributions (solid lines; above and to side of figure) versus outputs sampled by CMC (blue points) and reconstructed marginals (dashed lines) for (A) uniform and (B) normal parameter priors.} In CMC, 100,000 independent samples were used in the ``ContourVolumeEstimator'' step and 10,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function specifying bandwidths of 100 with Gaussian kernels \cite{mathematica}.}
+	\caption{\textbf{The target joint output distribution (solid contour lines) and target marginal distributions (solid lines; above and to side of figure) versus outputs sampled by CMC (blue points) and reconstructed marginals (dashed lines) for (A) uniform and (B) Gaussian parameter priors.} In CMC, 100,000 independent samples were used in the ``ContourVolumeEstimator'' step and 10,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function specifying bandwidths of 100 with Gaussian kernels \cite{mathematica}.}
 	\label{fig:growth_factor_outputs}
 \end{figure}
 
-In Figure \ref{fig:growth_factor_inputs}A, we plot the joint posterior parameter distribution for $k_1$, the rate of ligand binding to inactive receptors, and $k_{-1}$, which dictates the rate of the reverse reaction, where the ligands unbind. The output measurements we used to fit the model correspond to levels of the bound ligands, which can be generated whenever the ratio of $k_1$ to $k_{-1}$ is approximately given by the corresponding steady state ratio. Because of this, the distribution representing cell process heterogeneity contains linear positive correlations between these parameters. In Figure \ref{fig:growth_factor_inputs}B, we show the posterior parameter distribution for $k_{deg}$, the rate of degradation of ligand-free cell surface receptors and $R_T$, which dictates the rate of introduction of ligand-free cell surface receptors, which shows a concentrated region of posterior probability mass. Why can we better resolve $(k_{deg},R_T)$ compared to $(k_1,k_{-1})$ from our measurements? To answer this, it is useful to calculate the sensitivity of $P(t; \boldsymbol{\theta}, L)$ to changes in each of the parameters. To account for the differing magnitudes of each parameter, we calculate elasticities, the proportional changes in measured output for a proportional change in parameter values, using the forward sensitivities method described in \cite{DGCT2018}, which are shown in Figure \ref{fig:dixit_elasticities}. When the exogenous ligand is set $L=2$, these indicate the active ligand-bound receptor concentration is most elastic to changes in $R_T$ and $k_{deg}$, meaning that their range is more restricted by the output measurement than for $k_1$ and $k_{-1}$, which have elasticities at $t=10$ closer to 0. In Table \ref{tab:growth_factor_results}, we show the posterior quantiles for the estimated parameters and, in the last column, indicate the ratio of the 25\%-75\% posterior interval widths to the uniform prior range for each parameter. These were strongly negatively correlated with the magnitude of the elasticities for each parameter ($\rho=0.95$, $t=-5.22$, $df=3$, $p=0.01$ Pearson's product-moment correlation), indicating the utility of sensitivity analyses for optimal experimental design. We would suggest however that CMC can also be used for this purpose, using synthetic data in place of real measurements.
+In Figure \ref{fig:growth_factor_inputs}A, we plot the joint posterior parameter distribution for $k_1$, the rate of ligand binding to inactive receptors, and $k_{-1}$, which dictates the rate of the reverse reaction. The output measurements we used to fit the model correspond to levels of the bound ligands. A given level of bound ligands can be generated in many ways, whenever the ratio of $k_1$ to $k_{-1}$ equals its steady state value. Because of this, the distribution representing cell process heterogeneity contains linear positive correlations between these parameters. In Figure \ref{fig:growth_factor_inputs}B, we show the posterior parameter distribution for $k_{deg}$, the rate of degradation of ligand-free cell surface receptors and $R_T$, which dictates the rate of introduction of ligand-free cell surface receptors. This plot shows more concentrated posterior mass than in Figure \ref{fig:growth_factor_inputs}A. Why can we better resolve $(k_{deg},R_T)$ compared to $(k_1,k_{-1})$ from our measurements? To answer this, it is useful to calculate the sensitivity of $P(t; \boldsymbol{\theta}, L)$ to changes in each of the parameters. To account for the differing magnitudes of each parameter, we calculate elasticities, the proportional changes in measured output for a proportional change in parameter values, using the forward sensitivities method described in \cite{DGCT2018}, and these are shown in Figure \ref{fig:dixit_elasticities}. When the exogenous ligand is set $L=2$, these indicate the active ligand-bound receptor concentration is most elastic to changes in $R_T$ and $k_{deg}$, meaning that their range is more restricted by the output measurement than for $k_1$ and $k_{-1}$, which have elasticities at $t=10$ closer to 0. In Table \ref{tab:growth_factor_results}, we show the posterior quantiles for the estimated parameters and, in the last column, indicate the ratio of the 25\%-75\% posterior interval widths to the uniform prior range for each parameter. These were strongly negatively correlated with the magnitude of the elasticities for each parameter ($\rho=0.95$, $t=-5.22$, $df=3$, $p=0.01$ Pearson's product-moment correlation), indicating the utility of sensitivity analyses for optimal experimental design. We would suggest however that CMC can also be used for this purpose, using synthetic data in place of real measurements.
 
 
 \begin{figure}[H]
-	\centerline{\includegraphics[width=\textwidth]{../figures/growth_factor_inputs.png}}
-	\caption{\textbf{The joint posterior distributions of $(k_1,k_{-1})$ (left-column) and $(k_{deg},R_T)$ for the growth factor model estimated by CMC sampling using uniform priors (top row) and normal priors (bottom row).} See Figure \ref{fig:growth_factor_outputs} caption for CMC details and Table \ref{tab:priors} for the priors used. Red (blue) indicates areas of relatively high (low) probability mass.}
+	\centerline{\includegraphics[width=\textwidth]{../figures/growth_factor_inputs.pdf}}
+	\caption{\textbf{Left-column: Joint posterior distributions of $(k_1,k_{-1})$ and right-column: $(k_{deg},R_T)$ for the growth factor model estimated by CMC sampling using uniform priors (top row) and Gaussian priors (bottom row).} See Figure \ref{fig:growth_factor_outputs} caption for CMC details and Table \ref{tab:priors} for the priors used. Red (blue) indicates areas of relatively high (low) probability density.}
 	\label{fig:growth_factor_inputs}
 \end{figure}
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=0.7\textwidth]{../figures/dixit_elasticities.pdf}}
-	\caption{\textbf{The elasticities of the measured concentration of active ligand-bound receptors $P$ versus time when $L=2$.} When calculating the elasticities of each parameter, the other parameters were set to their posterior medians given in Table \ref{tab:growth_factor_results}.}
+	\caption{\textbf{Elasticities of the level of active ligand-bound receptors $P$ with respect to each parameter against time.} When calculating the elasticities of each parameter, the other parameters were set to their posterior medians given in Table \ref{tab:growth_factor_results} and $L=2$.}
 	\label{fig:dixit_elasticities}
 \end{figure}
 
-\subsubsection{Normal prior}
-For an unidentified model, there is typically a multitude of possible probability distributions over parameter values which map to the same target output distribution. To reduce the space of posterior parameter distributions to one, it is therefore necessary to specify a prior parameter distribution. It is also preferable to allow priors to influence estimates in studies of cellular heterogeneity, since this allows incorporation of pre-existing biological knowledge with compensatory reductions in estimator variance. CMC accommodates different prior choices, with both the ``ContourVolumeEstimation'' step and the acceptance ratio in the ``MCMC'' step (Algorithm \ref{alg:cmc}) being affected in such a way that posterior parameter distribution maps to the same output target. We now use CMC to estimate the posterior parameter distribution when changing from uniform priors to more concentrated normal priors (prior hyperparameters shown in Table \ref{tab:priors}). As desired, the target output distribution appears invariant (Figure \ref{fig:growth_factor_outputs}B) although with substantial changes in the posterior parameter distributions (Figure \ref{fig:growth_factor_inputs}C\&D). In particular, the posterior distributions obtained from shifting to the normal prior are more concentrated in parameter space compared to the uniform case (rightmost column of Table \ref{tab:growth_factor_results}). The differences in posterior distribution resultant from changes to priors are likely to be more marked the less definitive a guide the data provides on the underlying process and, hence, can be used to stabilise the resultant inferences according to external knowledge about the system.
+\subsubsection{Gaussian prior}
+For an unidentified model, there is typically a non-singular set of parameter distributions which map to the same target output distribution. To reduce the space of posterior parameter distributions to one, it is therefore necessary to specify a prior parameter distribution. It is also preferable to allow priors to influence estimates in studies of cellular heterogeneity, since this allows incorporation of pre-existing biological knowledge with compensatory reductions in estimator variance. CMC accommodates different prior choices, with both the ``ContourVolumeEstimation'' step and the acceptance ratio in the ``MCMC'' step (Algorithm \ref{alg:cmc}) being affected in such a way that posterior parameter distribution maps to the same output target. We now use CMC to estimate the posterior parameter distribution when changing from uniform priors to more concentrated Gaussian priors (prior hyperparameters shown in Table \ref{tab:priors}). As desired, the target output distribution appears invariant (Figure \ref{fig:growth_factor_outputs}B) although with substantial changes in the posterior parameter distribution (Figure \ref{fig:growth_factor_inputs}C\&D). In particular, the posterior distribution obtained from the Gaussian prior are narrower compared to the uniform case (rightmost column of Table \ref{tab:growth_factor_results}). The differences in posterior distributions due to changes to priors will be more marked when data provides less information on the underlying process and, hence, can be used to stabilise estimates according to external knowledge.
 
 \begin{table}
 %	\scriptsize
@@ -89,7 +84,7 @@ $k_{-1}$    & 4.35 & 8.35 & 11.23 & 14.23 & 18.71 & 33\%\\
 $k_{deg}$   & 0.013 & 0.019 & 0.021 & 0.024 & 0.029 & 20\%\\
 $k^*_{deg}$ & 0.20 & 0.34 & 0.40 & 0.44 & 0.49 & 27\%\\
 \toprule
-\multicolumn{7}{c}{Normal prior} \\
+\multicolumn{7}{c}{Gaussian prior} \\
 \toprule
 $R_T$       & 408,396 & 487,372 & 529,558 & 577,970 & 678,632 & 16\%\\
 $k_1$       & 0.39 & 0.49 & 0.54 & 0.60 & 0.70 & 4\%\\
@@ -97,12 +92,12 @@ $k_{-1}$    & 1.39 & 1.92 & 2.26 & 2.63 & 3.35 & 4\%\\
 $k_{deg}$   & 0.016 & 0.020 & 0.022 & 0.024 & 0.027 & 16\%\\
 $k^*_{deg}$ & 0.22 & 0.29 & 0.33 & 0.38 & 0.46 & 21\%\\
 \end{tabular}
-\caption{\textbf{Estimated quantiles from CMC samples for the growth factor model with uniform and normal priors.} The last column indicates the proportion of the uniform prior bounds occupied by the 25\%-75\% posterior interval in each case. The particular priors used in each case are given in Table \ref{tab:priors}.}
+\caption{\textbf{Estimated quantiles from CMC samples for the growth factor model with uniform and Gaussian priors.} The last column indicates the proportion of the uniform prior bounds occupied by the 25\%-75\% posterior interval in each case. The prior hyperparameters used in each case are given in Table \ref{tab:priors}.}
 \label{tab:growth_factor_results}
 \end{table}
 
 \subsection{Michaelis-Menten kinetics}
-In this section, we use CMC to invert output measurements from the Michaelis-Menten model of enzyme kinetics (see, for example, \cite{murray2007mathematical}); illustrating the capability of CMC to resolve population substructure from multimodality of the output distribution. The Michaelis-Menten model of enzyme kinetics describes the dynamics of concentrations of an enzyme ($E$), a substrate ($S$), an enzyme-substrate complex ($ES$), and a product ($P$). Specifically,
+In this section, we use CMC to invert output measurements from the Michaelis-Menten model of enzyme kinetics (see, for example, \cite{murray2007mathematical}); illustrating the capability of CMC to resolve population substructure from multimodality of the output distribution. The Michaelis-Menten model of enzyme kinetics describes the dynamics of concentrations of an enzyme $E$, a substrate $S$, an enzyme-substrate complex $ES$, and a product $P$,
 %
 \begin{equation}\label{eq:michaelis_menten}
 \begin{aligned}
@@ -118,12 +113,12 @@ with initial conditions,
 E(0) = E_0, \; S(0)=S_0, \; C(0)=C_0, \; P(0)=P_0,
 \end{equation}
 %
-where $k_f$ is the rate constant for the forward reaction $E+S \rightarrow C$, $k_r$ is the rate of the reverse reaction $C \rightarrow E+S$, and $k_{cat}$ is the catalytic rate at which the product is formed by the reaction $C \rightarrow E + P$.
+where $k_f$ is the rate of the forward reaction $E+S \rightarrow C$, $k_r$ is the rate of the reverse reaction $C \rightarrow E+S$, and $k_{cat}$ is the catalytic rate at which the product is formed by the reaction $C \rightarrow E + P$.
 
 
 \subsubsection{Bimodal output distribution}
 
-When subpopulations of cells, each with distinct dynamics, are thought to exist, determining their characteristics - proportions of overall cell number, likely parameter values, and so on - is often of key interest \cite{hasenauer2011identification,loos2018hierarchical}. Before formal inference occurs, multi-modality of the output distribution may signal the existence of fragmented subpopulations of cells. Here we target the following bimodal bivariate normal distribution,
+When subpopulations of cells, each with distinct dynamics, are thought to exist, determining their characteristics - proportions of overall cell number, likely parameter values, and so on - is often of key interest \cite{hasenauer2011identification,loos2018hierarchical}. Before formal inference occurs, multi-modality of the output distribution may signal the existence of fragmented subpopulations of cells. Here we target the following bimodal bivariate Gaussian distribution,
 %
 \begin{align}
 \boldsymbol{q} = \begin{pmatrix} q_1 \\ q_2 \end{pmatrix}
@@ -135,7 +130,7 @@ p(\boldsymbol{q}; \boldsymbol{\mu}_1,\Sigma_1, \boldsymbol{\mu}_2, \Sigma_2) \\
 \end{align}
 %
 %where $\boldsymbol{x} = \left(E(2; \boldsymbol{\theta}), S(1; \boldsymbol{\theta})\right)$ with each element corresponding to the solutions of eq. (\ref{eq:michaelis_menten}) for the enzyme and substrate at times $t=2$ and $t=1$, respectively, and
-where $\boldsymbol{\theta}=(k_f,k_r,k_{cat})$. The parameters of the mixture normal output distribution we target are
+where $\boldsymbol{\theta}=(k_f,k_r,k_{cat})$. The parameters of the mixture Gaussian output distribution we target are
 \begin{equation*}
 \begin{aligned}
 &\boldsymbol{\mu}_1=[2.2, 1.6]', \; \Sigma_1 = \begin{pmatrix}0.018 & -0.013 \\ -0.013 & 0.010 \end{pmatrix}, \\
@@ -237,7 +232,7 @@ u(t)=\begin{cases}
 \end{cases}
 \end{equation}
 %
-When there are fewer output measurements than parameters, models tend to be underdetermined meaning that many combinations of parameters can lead to the same combination of output values. A consequence of this unidentifiability is that we cannot perform ``full circle'' inference: that is, using a known parameter distribution to generate an output distribution does not result in that parameter distribution being recapitulated through inference. We illustrate this idea by generating an output distribution by varying a single parameter value between runs of the forward model corresponding to the solution of eq. (\ref{eq:tnf}) and performing inference on all nine system parameters, whilst collecting only two output measurements. Specifically, we vary $a_1\sim \mathcal{N}(0.6, 0.05)$, whilst holding the other parameters constant, $$(a_2,a_3,a_4,b_1,b_2,b_3,b_4,b_5)=(0.2, 0.2, 0.5, 0.4, 0.7, 0.3, 0.5, 0.4)$$ and measure $q_1=x_1(2.0)$ and $q_2=x_2(1.0)$ for each forward model simulation. In doing so, we obtain an output distribution well-approximated by the bivariate normal distribution,
+When there are fewer output measurements than parameters, models tend to be underdetermined meaning that many combinations of parameters can lead to the same combination of output values. A consequence of this unidentifiability is that we cannot perform ``full circle'' inference: that is, using a known parameter distribution to generate an output distribution does not result in that parameter distribution being recapitulated through inference. We illustrate this idea by generating an output distribution by varying a single parameter value between runs of the forward model corresponding to the solution of eq. (\ref{eq:tnf}) and performing inference on all nine system parameters, whilst collecting only two output measurements. Specifically, we vary $a_1\sim \mathcal{N}(0.6, 0.05)$, whilst holding the other parameters constant, $$(a_2,a_3,a_4,b_1,b_2,b_3,b_4,b_5)=(0.2, 0.2, 0.5, 0.4, 0.7, 0.3, 0.5, 0.4)$$ and measure $q_1=x_1(2.0)$ and $q_2=x_2(1.0)$ for each forward model simulation. In doing so, we obtain an output distribution well-approximated by the bivariate Gaussian distribution,
 %
 \begin{equation}\label{eq:tnf_circular_target}
 \begin{aligned}
@@ -266,7 +261,7 @@ We now apply CMC to the target output distribution given by eq. (\ref{eq:tnf_cir
 
 \begin{figure}[H]
 \centerline{\includegraphics[width=1.5\textwidth]{../figures/tnf_circular_both.pdf}}
-\caption{\textbf{(A) actual parameter values versus estimated quantiles for the output distribution for the TNF signalling pathway model with output distribution given and (B) the marginal output target (solid lines) given by eq. (\ref{eq:tnf_circular_target}) and sampled output distribution (histograms).} In A, in the vertical direction, red points indicate 50\% posterior quantiles and upper and lower whiskers indicate 97.5\% and 2.5\% quantiles, respectively; in the horizontal direction, with the exception of $a_1$, red points indicate the parameter values used to generate the data; for $a_1$ the red point indicates the mean of the normal distribution used to generate the data and the whiskers indicate its 95\% quantiles. In CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step and 5,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
+\caption{\textbf{(A) actual parameter values versus estimated quantiles for the output distribution for the TNF signalling pathway model with output distribution given and (B) the marginal output target (solid lines) given by eq. (\ref{eq:tnf_circular_target}) and sampled output distribution (histograms).} In A, in the vertical direction, red points indicate 50\% posterior quantiles and upper and lower whiskers indicate 97.5\% and 2.5\% quantiles, respectively; in the horizontal direction, with the exception of $a_1$, red points indicate the parameter values used to generate the data; for $a_1$ the red point indicates the mean of the Gaussian distribution used to generate the data and the whiskers indicate its 95\% quantiles. In CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step and 5,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
 	\label{fig:tnf_circular_versus}
 \end{figure}
 
@@ -284,7 +279,7 @@ q_3 = \boldsymbol{x}_2(4.0) &\sim\frac{1}{2}\left(\mathcal{N}(0.1, 0.01) + \math
 \end{aligned}
 \end{equation}
 %
-where the target distributions for $\boldsymbol{q}_2(2.0)$ and $\boldsymbol{q}_2(4.0)$ indicate mixtures of univariate normals, and the priors used are described in Table \ref{tab:priors}. This target distribution, along with the unique trajectories obtained by applying the CMC algorithm for 5,000 MCMC steps, are shown in Figure \ref{fig:tnf_samples_vs_distribution}. This figure illustrates that given by bimodality of the output distribution, CMC estimates a corresponding subpopulation structure in the parameter distribution without \textit{a priori} specification of the number of clusters.
+where the target distributions for $\boldsymbol{q}_2(2.0)$ and $\boldsymbol{q}_2(4.0)$ indicate mixtures of univariate Gaussians, and the priors used are described in Table \ref{tab:priors}. This target distribution, along with the unique trajectories obtained by applying the CMC algorithm for 5,000 MCMC steps, are shown in Figure \ref{fig:tnf_samples_vs_distribution}. This figure illustrates that given by bimodality of the output distribution, CMC estimates a corresponding subpopulation structure in the parameter distribution without \textit{a priori} specification of the number of clusters.
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=0.8\textwidth]{../figures/tnf_samples_vs_distribution.pdf}}
@@ -301,23 +296,23 @@ Model	& Target  & Parameter & Prior    & Prior  & Prior  \\
         & density &           & density  & $p_1$  & $p_2$  \\
 \toprule
 Growth  & 2D     & $R_T$       & uniform & $2.5 \times 10^5$ &  $8 \times 10^5$\\
-factor  & normal & $k_1$       & uniform & 0.25 & 3.0\\
+factor  & Gaussian & $k_1$       & uniform & 0.25 & 3.0\\
                 && $k_{-1}$    & uniform & 2.0 & 20.0\\
                 && $k_{deg}$   & uniform & 0.005 & 0.03\\
                 && $k^*_{deg}$ & uniform & 0.1 & 0.5\\
 \toprule
-Growth  & 2D     & $R_T$ & normal & $5 \times 10^5$ &  $1 \times 10^5$\\
-factor  & normal & $k_1$ & normal & 0.5 & 0.1\\
-                && $k_{-1}$ & normal & 3.0 & 1.0\\
-                && $k_{deg}$ & normal & 0.02 & 0.005\\
-                && $k^*_{deg}$ & normal & 0.3 & 0.1\\
+Growth  & 2D     & $R_T$ & Gaussian & $5 \times 10^5$ &  $1 \times 10^5$\\
+factor  & Gaussian & $k_1$ & Gaussian & 0.5 & 0.1\\
+                && $k_{-1}$ & Gaussian & 3.0 & 1.0\\
+                && $k_{deg}$ & Gaussian & 0.02 & 0.005\\
+                && $k^*_{deg}$ & Gaussian & 0.3 & 0.1\\
 \toprule
 Michaelis- & bimodal  & $k_f$ & uniform & 0.2 &  15\\
-Menten     & normal   & $k_r$ & uniform & 0.2 & 2.0\\
+Menten     & Gaussian   & $k_r$ & uniform & 0.2 & 2.0\\
 && $k_{cat}$ & uniform & 0.5 & 3.0\\
 \toprule
 Michaelis- & 4D    & $k_f$ & uniform & 0.2 &  15\\
-Menten     & normal& $k_r$ & uniform & 0.2 & 2.0\\
+Menten     & Gaussian& $k_r$ & uniform & 0.2 & 2.0\\
 && $k_{cat}$ & uniform & 0.2 & 3.0\\
 && $E_0$ & uniform & 3.0 & 5.0\\
 && $S_0$ & uniform & 5.0 & 10.0\\
@@ -325,7 +320,7 @@ Menten     & normal& $k_r$ & uniform & 0.2 & 2.0\\
 && $P_0$ & uniform & 0.0 & 0.2\\
 \toprule
 TNF & bivariate & $a_1$ & uniform & 0.4 & 0.8\\
-signalling & normal& $a_2$ & uniform & 0.1 & 0.7\\
+signalling & Gaussian& $a_2$ & uniform & 0.1 & 0.7\\
 && $a_3$ & uniform & 0.3 & 0.7\\
 && $a_4$ & uniform & 0.1 & 0.3\\
 && $b_1$ & uniform & 0.5 & 0.7\\
@@ -335,7 +330,7 @@ signalling & normal& $a_2$ & uniform & 0.1 & 0.7\\
 && $b_5$ & uniform & 0.2 & 0.4\\
 \toprule
 TNF  & bimodal  & $a_1$ & uniform & 0.5 & 0.7\\
-signalling& normal & $a_2$ & uniform & 0.1 & 0.3\\
+signalling& Gaussian & $a_2$ & uniform & 0.1 & 0.3\\
 && $a_3$ & uniform & 0.1 & 0.3\\
 && $a_4$ & uniform & 0.4 & 0.6\\
 && $b_1$ & uniform & 0.3 & 0.5\\
@@ -344,7 +339,7 @@ signalling& normal & $a_2$ & uniform & 0.1 & 0.3\\
 && $b_4$ & uniform & 0.4 & 0.6\\
 && $b_5$ & uniform & 0.3 & 0.5\\
 \end{tabularx}
-\caption{\textbf{The priors used for each problem in \S\ref{sec:results}.} The parameters $p_1$ and $p_2$ indicate the prior hyperparameters: for uniform priors, these correspond to the lower and upper limits; for normal priors, they correspond to the mean and standard deviation.}
+\caption{\textbf{The priors used for each problem in \S\ref{sec:results}.} The parameters $p_1$ and $p_2$ indicate the prior hyperparameters: for uniform priors, these correspond to the lower and upper limits; for Gaussian priors, they correspond to the mean and standard deviation.}
 \label{tab:priors}
 \end{adjustwidth}
 \end{table}
