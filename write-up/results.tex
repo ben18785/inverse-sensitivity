@@ -46,7 +46,7 @@ To start, we specify a uniform prior for each of the five parameters, with bound
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/growth_factor_outputs.pdf}}
-	\caption{\textbf{The target joint output distribution (solid contour lines) and target marginal distributions (solid lines; above and to side of figure) versus outputs sampled by CMC (blue points) and reconstructed marginals (dashed lines) for (A) uniform and (B) Gaussian parameter priors.} In CMC, 100,000 independent samples were used in the ``ContourVolumeEstimator'' step and 10,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function specifying bandwidths of 100 with Gaussian kernels \cite{mathematica}.}
+	\caption{\textbf{Target joint output distribution (solid contour lines) and target marginal distributions (solid lines; above and to the right of each figure) versus outputs sampled by CMC (blue points) and reconstructed marginals (dashed lines). (A) uniform priors. (B) Gaussian priors.} In CMC, 100,000 independent samples were used in the ``ContourVolumeEstimator'' step and 10,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function specifying bandwidths of 100 with Gaussian kernels \cite{mathematica}.}
 	\label{fig:growth_factor_outputs}
 \end{figure}
 
@@ -61,13 +61,13 @@ In Figure \ref{fig:growth_factor_inputs}B, we show the posterior parameter distr
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/growth_factor_inputs.pdf}}
-	\caption{\textbf{Left-column: Joint posterior distributions of $(k_1,k_{-1})$ and right-column: $(k_{deg},R_T)$ for the growth factor model estimated by CMC sampling using uniform priors (top row) and Gaussian priors (bottom row).} See Figure \ref{fig:growth_factor_outputs} caption for CMC details and Table \ref{tab:priors} for the priors used. Red (blue) indicates areas of relatively high (low) probability density.}
+	\caption{\textbf{Growth factor model. Joint posterior distributions estimated by CMC. (A) $(k_1,k_{-1})$ using uniform priors. (B) $(k_{deg},R_T)$ using uniform priors. (C) $(k_1,k_{-1})$ using Gaussian priors. (D) $(k_{deg},R_T)$ using Gaussian priors.} See Figure \ref{fig:growth_factor_outputs} caption for CMC details and Table \ref{tab:priors} for the priors used. Red (blue) indicates areas of relatively high (low) probability density.}
 	\label{fig:growth_factor_inputs}
 \end{figure}
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=0.7\textwidth]{../figures/dixit_elasticities.pdf}}
-	\caption{\textbf{Elasticities of the level of active ligand-bound receptors $P$ with respect to each parameter against time.} When calculating the elasticities of each parameter, the other parameters were set to their posterior medians given in Table \ref{tab:growth_factor_results} and $L=2$.}
+	\caption{\textbf{Growth factor model. Elasticities of the active ligand-bound receptors $P$ with respect to each parameter as a function of time.} When calculating the elasticities of each parameter, the other parameters were set to their posterior medians given in Table \ref{tab:growth_factor_results} and $L=2$.}
 	\label{fig:dixit_elasticities}
 \end{figure}
 
@@ -100,7 +100,7 @@ $k_{-1}$    & 1.39 & 1.92 & 2.26 & 2.63 & 3.35 & 4\%\\
 $k_{deg}$   & 0.016 & 0.020 & 0.022 & 0.024 & 0.027 & 16\%\\
 $k^*_{deg}$ & 0.22 & 0.29 & 0.33 & 0.38 & 0.46 & 21\%\\
 \end{tabular}
-\caption{\textbf{Estimated quantiles from CMC samples for the growth factor model with uniform and Gaussian priors.} The last column indicates the proportion of the uniform prior bounds occupied by the 25\%-75\% posterior interval in each case. The prior hyperparameters used in each case are given in Table \ref{tab:priors}.}
+\caption{\textbf{Growth factor model. Estimated quantiles from CMC samples with uniform and Gaussian priors.} The last column indicates the proportion of the uniform prior bounds occupied by the 25\%-75\% posterior interval in each case. The prior hyperparameters used in each case are given in Table \ref{tab:priors}.}
 \label{tab:growth_factor_results}
 \end{table}
 
@@ -153,7 +153,7 @@ In what follows, we specify uniform priors on each element of $\boldsymbol{\thet
 
 \begin{figure}[H]
 \centerline{\includegraphics[width=\textwidth]{../figures/mm_bimodal_inputs_outputs.pdf}}
-\caption{\textbf{Michaelis-Menten model CMC results: (A) Bimodal target distribution $\boldsymbol{q}$ (solid contour lines) versus output samples (points) and (B) posterior parameter samples (points).} The solid and dashed lines above and to the side of panel A indicate the target and estimated marginal output distributions, respectively. The orange (blue) points in A were generated by the orange (blue) parameter samples in B. See Figure \ref{fig:growth_factor_outputs} caption for CMC details. Mathematica's ``SmoothKernelDistribution'' function \cite{mathematica} with Gaussian kernels was used to construct marginal densities with: (A) default bandwidths, and (B) bandwidths of 0.3 (horizontal axis) and 0.03 (vertical axis). Mathematica's ``ClusteringComponents'' function \cite{mathematica} was used to identify clusters
+\caption{\textbf{Michaelis-Menten model. (A) Bimodal target distribution $\boldsymbol{q}$ (solid contour lines) versus output samples (points). (B) posterior parameter samples (points).} The solid and dashed lines above and to the side of panel A indicate the target and estimated marginal output distributions, respectively. The orange (blue) points in A were generated by the orange (blue) parameter samples in B. See Figure \ref{fig:growth_factor_outputs} caption for CMC details. Mathematica's ``SmoothKernelDistribution'' function \cite{mathematica} with Gaussian kernels was used to construct marginal densities with: (A) default bandwidths, and (B) bandwidths of 0.3 (horizontal axis) and 0.03 (vertical axis). Mathematica's ``ClusteringComponents'' function \cite{mathematica} was used to identify clusters
 in B.}
 \label{fig:mm_bimodal_inputs_outputs}
 \end{figure}
@@ -193,17 +193,17 @@ Since this target has four QOIs, and the Michaelis-Menten model has three rate p
 We set uniform priors on all parameters (see Table \ref{tab:priors}). In order to check that the model and priors were consistent with the output distribution given by eq. (\ref{eq:MM_4d_output}), we plotted the output measurements used to estimate contour volumes (in the first step of the ``ContourVolumeEstimator'' method in Algorithm \ref{alg:cmc}) against the target (Figure \ref{fig:mm_4d_main}). Since the main support of the densities (black contours) lies within a region of output space reached by independent sampling of the priors (blue points), this indicated the target could feasibly be generated from this model and priors, and we proceeded to estimation by CMC.
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=\textwidth]{../figures/mm_4d_main.pdf}}
-\caption{\textbf{QOIs shown as blue points for $(q_1,q_2)$ (left panel) and $(q_3,q_4)$ (right panel) obtained by independently sampling the priors $p(\boldsymbol{\theta} | \Xi)$ of the seven parameter Michaelis-Menten model versus the target distribution (black solid contours).} We show 20,000 output samples, where each set of four measurements was obtained from a single sample of all parameters. The output target distribution shown by the contours corresponds to the marginal densities of each pair of enzyme-substrate measurements given by eq. (\ref{eq:MM_4d_output}).}
-\label{fig:mm_4d_main}
+  \centerline{\includegraphics[width=\textwidth]{../figures/mm_4d_main.pdf}}
+  \caption{\textbf{Michaelis-Menten model. QOIs (blue points) obtained by independently sampling the priors $p(\boldsymbol{\theta} | \Xi)$ versus the target distribution (black solid contours). Left: $(q_1,q_2)$. Right: $(q_3,q_4)$.} We show 20,000 output samples, where each set of four measurements was obtained from a single sample of all parameters. The output target distribution shown by the contours corresponds to the marginal densities of each pair of enzyme-substrate measurements given by eq. (\ref{eq:MM_4d_output}).}
+  \label{fig:mm_4d_main}
 \end{figure}
 
 Figure \ref{fig:mm_4d_outputs} plots the output samples of enzyme and substrate from the last step of CMC for $t=1$ (blue points) and $t=2$ (orange points) versus the contours (black lines) of the joint marginal distributions of eq. (\ref{eq:MM_4d_output}). The distribution of paired enzyme-substrate samples illustrates that the CMC output sampling distribution approximated the target density, itself representing dynamic evolution of the covariance between enzyme and substrate measurements. The target marginal distributions (solid lines) along with their approximations from kernel density estimation (dashed lines) are also shown above and along the RHS of the main panel of Figure \ref{fig:mm_4d_outputs}, and largely indicate correspondence.
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=0.65\textwidth]{../figures/mm_4d_outputs.pdf}}
-\caption{\textbf{Posterior output samples from CMC (coloured points) versus the contour plots of the joint marginal distributions of eq. (\ref{eq:MM_4d_output}) (black solid lines).} Output functionals for $(q_1,q_2)$ and $(q_3,q_4)$ are given by blue and orange points, respectively. Enzyme and substrate measurements are given by the horizontal and vertical axes, respectively. The solid and dashed coloured lines outside of the panels indicate exact target marginals of eq. (\ref{eq:MM_4d_output}) and those estimated from CMC, respectively. In the ``ContourVolumeEstimator'' step 200,000 independent samples were used and 10,000 samples across each of 4 Markov chains were used in the MCMC step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. Mathematica's ``SmoothKernelDistribution'' function with Gaussian kernels \cite{mathematica} of bandwidths varying from 0.1 to 0.4 for the reconstructed marginal densities.}
-\label{fig:mm_4d_outputs}
+  \centerline{\includegraphics[width=0.65\textwidth]{../figures/mm_4d_outputs.pdf}}
+  \caption{\textbf{Michaelis-Menten model. Posterior output samples from CMC (coloured points) versus contour plots (black solid lines) of the joint marginal distributions of eq. (\ref{eq:MM_4d_output}).} Output functionals for $(q_1,q_2)$ and $(q_3,q_4)$ are given by blue and orange points, respectively. Enzyme and substrate measurements are given by the horizontal and vertical axes, respectively. The solid and dashed coloured lines outside of the panels indicate exact target marginals of eq. (\ref{eq:MM_4d_output}) and those estimated from CMC, respectively. In the ``ContourVolumeEstimator'' step 200,000 independent samples were used and 10,000 samples across each of 4 Markov chains were used in the MCMC step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. Mathematica's ``SmoothKernelDistribution'' function with Gaussian kernels \cite{mathematica} of bandwidths varying from 0.1 to 0.4 for the reconstructed marginal densities.}
+  \label{fig:mm_4d_outputs}
 \end{figure}
 
 
@@ -271,7 +271,7 @@ We now apply CMC to the target output distribution given by eq. (\ref{eq:tnf_cir
 
 \begin{figure}[H]
 \centerline{\includegraphics[width=1.5\textwidth]{../figures/tnf_circular_both.pdf}}
-\caption{\textbf{TNF signalling pathway model: (A) Actual parameter values versus estimated quantiles for the output distribution of eq. (\ref{eq:tnf_circular_target}) and (B) marginal output targets (solid lines) and sampled output distributions (histograms).} In A, in the vertical direction, red points indicate 50\% posterior quantiles and upper and lower whiskers indicate 97.5\% and 2.5\% quantiles, respectively; in the horizontal direction, with the exception of $a_1$, red points indicate the parameter values used to generate the data; for $a_1$ the red point indicates the mean of the Gaussian distribution used to generate the data and the whiskers indicate its 95\% quantiles. In CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step and 5,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
+\caption{\textbf{TNF signalling pathway model. (A) Actual parameter values versus estimated quantiles for the output distribution of eq. (\ref{eq:tnf_circular_target}). (B) Marginal output targets (solid lines) and sampled output distributions (histograms).} In A, in the vertical direction, red points indicate 50\% posterior quantiles and upper and lower whiskers indicate 97.5\% and 2.5\% quantiles, respectively; in the horizontal direction, with the exception of $a_1$, red points indicate the parameter values used to generate the data; for $a_1$ the red point indicates the mean of the Gaussian distribution used to generate the data and the whiskers indicate its 95\% quantiles. In CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step and 5,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
 	\label{fig:tnf_circular_versus}
 \end{figure}
 
@@ -293,7 +293,7 @@ where the target distributions for $\boldsymbol{q}_2(2.0)$ and $\boldsymbol{q}_2
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=0.8\textwidth]{../figures/tnf_samples_vs_distribution.pdf}}
-	\caption{\textbf{The target output distribution (dashed plots with grey filling) and unique trajectories (black solid lines) obtained from the posterior parameter distribution.} In CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step and 5,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
+	\caption{\textbf{TNF signalling pathway model. Target output distribution (dashed plots with grey filling) and unique trajectories (black solid lines) obtained from the posterior parameter distribution.} In CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step and 5,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
 	\label{fig:tnf_samples_vs_distribution}
 \end{figure}
 
@@ -349,7 +349,7 @@ signalling& Gaussian & $a_2$ & uniform & 0.1 & 0.3\\
 && $b_4$ & uniform & 0.4 & 0.6\\
 && $b_5$ & uniform & 0.3 & 0.5\\
 \end{tabularx}
-\caption{\textbf{The priors used for each problem in \S\ref{sec:results}.} The parameters $p_1$ and $p_2$ indicate the prior hyperparameters: for uniform priors, these correspond to the lower and upper limits; for Gaussian priors, they correspond to the mean and standard deviation.}
+\caption{\textbf{Priors used for each problem in \S\ref{sec:results}.} The parameters $p_1$ and $p_2$ indicate the prior hyperparameters: for uniform priors, these correspond to the lower and upper limits; for Gaussian priors, they correspond to the mean and standard deviation.}
 \label{tab:priors}
 \end{adjustwidth}
 \end{table}
