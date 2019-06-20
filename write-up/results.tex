@@ -1,9 +1,9 @@
 \section{Results}\label{sec:results}
-In this section, we use CMC to estimate the posterior parameter distribution for three biological systems. In all but one of the examples, we assume that the first step of CMC (``SnapshotEstimator'' within Algorithm \ref{alg:cmc}) has already been undertaken and we are faced with inferring a parameter distribution which, when mapped to outputs, recapitulates the target density. To accompany the text, we provide the Julia notebook used to generate the results. A table of priors used for each example is provided in Table \ref{tab:priors}.
+In this section, we use CMC to estimate posterior parameter distributions for three biological systems. In all but one of the examples, we assume that the first step of CMC (``SnapshotEstimator'' within Algorithm \ref{alg:cmc}) has already been completed, and we are faced with inferring a parameter distribution which, when mapped to outputs, recapitulates the target density. To accompany the text, we provide the Julia notebook used to generate the results. A table of priors used for each example is provided in Table \ref{tab:priors}.
 
 
 \subsection{Growth factor model}
-We first consider the ``growth factor model'' introduced by \cite{dixit2018maximum}, which concerns the dynamics of inactive ligand-free cell surface receptors $R$ and active ligand-bound cell surface receptors $P$, modulated by an exogenous ligand $L$. The governing dynamics are determined by the following system,
+We first consider the ``growth factor model'' introduced by \cite{dixit2018maximum}, which concerns the dynamics of inactive ligand-free cell surface receptors, $R$, and active ligand-bound cell surface receptors, $P$, modulated by an exogenous ligand, $L$. The governing dynamics are determined by the following system,
 %
 \begin{align}\label{eq:growth_factor}
 \frac{dR}{dt} &= R_T k_{deg} + k_1 L R(t) + k_{-1} P(t) - k_{deg} R(t)\\
@@ -46,7 +46,7 @@ To start, we specify a uniform prior for each of the five parameters, with bound
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/growth_factor_outputs.pdf}}
-	\caption{\textbf{Target joint output distribution (solid contour lines) and target marginal distributions (solid lines; above and to the right of each figure) versus outputs sampled by CMC (blue points) and reconstructed marginals (dashed lines). (A) uniform priors. (B) Gaussian priors.} In CMC, 100,000 independent samples were used in the ``ContourVolumeEstimator'' step and 10,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function specifying bandwidths of 100 with Gaussian kernels \cite{mathematica}.}
+	\caption{\textbf{Growth factor model. Target joint output distribution (solid contour lines) and target marginal distributions (solid lines; above and to the right of each figure) versus outputs sampled by CMC (blue points) and reconstructed marginals (dashed lines). (A) uniform priors. (B) Gaussian priors.} In CMC, 100,000 independent samples were used in the ``ContourVolumeEstimator'' step and 10,000 MCMC samples across each of 4 Markov chains were used in the second step, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. For the reconstructed marginal densities in the plots, we use Mathematica's ``SmoothKernelDistribution'' function specifying bandwidths of 100 with Gaussian kernels \cite{mathematica}.}
 	\label{fig:growth_factor_outputs}
 \end{figure}
 
