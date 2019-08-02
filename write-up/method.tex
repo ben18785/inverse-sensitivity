@@ -66,7 +66,7 @@ The aim of our inverse problem, hence, becomes to derive a ``posterior'' paramet
 p(\boldsymbol{\theta}|\hat{\Phi}) \xrightarrow{\boldsymbol{q}(\boldsymbol{\theta})} p(\boldsymbol{q}|\hat{\Phi}).
 \end{equation}
 %
-In measure theoretic terms, the intrinsic measure described by $p(\boldsymbol{\theta}|\hat{\Phi})$ is known as the \textit{push forward} of the measure described by $p(\boldsymbol{\theta}|\hat{\Phi})$ with respect to the model \cite{BJW-18}.
+In measure theoretic terms, the intrinsic measure implied by $p(\boldsymbol{\theta}|\hat{\Phi})$ is known as the \textit{push forward} of the measure implied by $p(\boldsymbol{\theta}|\hat{\Phi})$ with respect to the model \cite{BJW-18}.
 
 
 \begin{table}[htbp]
@@ -116,7 +116,7 @@ Sampling algorithms, therefore, need to explicitly account for the differential 
 	\label{fig:contour_volumes}
 \end{figure}
 
-Solving our inverse problem requires determining the posterior distribution of parameter values $p(\boldsymbol{\theta}|\hat{\Phi})$  which, when used as input to the forward map, results in the target distribution $p(\boldsymbol{q}|\hat{\Phi})$. To derive the posterior parameter distribution, we consider the joint density of parameters and QOIs, $p(\boldsymbol{\theta},\boldsymbol{q}|\hat{\Phi})$. This can be decomposed in two ways using the law of conditional probability,
+Solving our inverse problem requires determining the posterior distribution of parameter values, $p(\boldsymbol{\theta}|\hat{\Phi})$, which, when used as input to the forward map, results in the target distribution, $p(\boldsymbol{q}|\hat{\Phi})$. To derive the posterior parameter distribution, we consider the joint density of parameters and QOIs, $p(\boldsymbol{\theta},\boldsymbol{q}|\hat{\Phi})$. This can be decomposed in two ways using the law of conditional probability,
 %
 \begin{equation}\label{eq:joint}
   p( \boldsymbol{\theta}, \boldsymbol{q}|\hat{\Phi})
