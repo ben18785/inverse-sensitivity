@@ -1,7 +1,7 @@
 \section{Method}\label{sec:method}
 In this section, we first develop a probabilistic framework that describes our inverse problem, before introducing the CMC algorithm in pseudocode (Algorithm \ref{alg:cmc}). We also detail the workflow we have found helpful in using CMC to analyse cell snapshot data (Figure \ref{fig:workflow}), and suggest practical remedies to issues commonly encountered while using this approach. A glossary of variable names used in this paper is included as Table \ref{tab:variable_glossary}.
 
-Experimental methods such as flow cytometry measure single cell characteristics at a given time. Cells are typically destroyed by the measurement process, so the data consists of cross-sections or ``snapshots'' of sampled individuals from the population, rather than providing time series for each individual cell (Figure \ref{fig:time_series_v_snapshots}).
+Experimental methods such as flow cytometry measure single cell characteristics at a given time. Cells are typically destroyed by the measurement process, so the data consists of cross-sections or ``snapshots'' of sampled individuals from the population, rather than providing time series for each individual cell. \textcolor{blue}{The contrast between these two very different scenarios is highlighted in Figure \ref{fig:time_series_v_snapshots}. The cells at time $t_k$ are not the same as those at time $t_{k-1}$ and even if they are, there is no way of associating a particular cell at time $t_k$ with the same cell at time $t_{k-1}$. In other words, there is no sense of a ``trajectory'' of a specific cell.}
 
 \begin{figure}[H]
   \centerline{\includegraphics[width=\textwidth]{../figures/time_series_v_snapshots.pdf}}
@@ -32,7 +32,7 @@ We assume the variation in snapshots arises due to heterogeneity in the underlyi
 \end{equation}
 where superscript $^{\{i\}}$ indicates the $i$th cell.
 %
-The traditional (non-hierarchical) state-space approach to modelling dynamic systems supposes that measurement error introduces stochastic variation in the output (Figure \ref{fig:data_generation}A). Our approach, by contrast, assumes any variation in outputs is solely due to variation in parameter values between cells (Figure \ref{fig:data_generation}B). Whether the assumption of ``perfect'' measurements is reasonable depends on experimental details of the system under investigation, but we argue our method nevertheless provides a useful approximation in cases where the signal to noise ratio is high.
+The traditional (non-hierarchical) state-space approach to modelling dynamic systems supposes that measurement error introduces stochastic variation in the output (Figure \ref{fig:data_generation}A). Our approach, by contrast, assumes any variation in outputs is solely due to variation in parameter values between cells (Figure \ref{fig:data_generation}B). Whether the assumption of ``perfect'' measurements is reasonable depends on experimental details of the system under investigation, but we argue our method nevertheless provides a useful approximation in cases where the signal to noise ratio is high. \textcolor{blue}{Once again we emphasize that we are considering distributions of quantities of interest with no sense of specific individual trajectories, making a mixed effects modeling approach problematic.}
 
 \begin{figure}[H]
   \centerline{\includegraphics[width=\textwidth]{../figures/data_generation.pdf}}
