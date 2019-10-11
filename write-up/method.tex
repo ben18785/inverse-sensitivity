@@ -1,18 +1,18 @@
 \section{Method}\label{sec:method}
 In this section, we first develop a probabilistic framework that describes our inverse problem, before introducing the CMC algorithm in pseudocode (Algorithm \ref{alg:cmc}). We also detail the workflow we have found helpful in using CMC to analyse cell snapshot data (Figure \ref{fig:workflow}), and suggest practical remedies to issues commonly encountered while using this approach. A glossary of variable names used in this paper is included as Table \ref{tab:variable_glossary}.
 
-Experimental methods such as flow cytometry measure single cell characteristics at a given time. Cells are typically destroyed by the measurement process, so the data consists of cross-sections or ``snapshots'' of sampled individuals from the population, rather than providing time series for each individual cell. \textcolor{blue}{The contrast between these two very different scenarios is highlighted in Figure \ref{fig:time_series_v_snapshots}. The cells at time $t_k$ are not the same as those at time $t_{k-1}$ and even if they are, there is no way of associating a particular cell at time $t_k$ with the same cell at time $t_{k-1}$. In other words, there is no sense of a ``trajectory'' of a specific cell, or of multiple observations assigned to a single cell.} 
+Experimental methods such as flow cytometry measure single cell characteristics at a given time. Cells are typically destroyed by the measurement process, so the data consists of cross-sections or ``snapshots'' of sampled individuals from the population, rather than providing time series for each individual cell. \textcolor{blue}{The contrast between these two very different scenarios is highlighted in Figure \ref{fig:time_series_v_snapshots}. The cells at time $t_k$ are not the same as those at time $t_{k-1}$ and even if they are, there is no way of associating a particular cell at time $t_k$ with the same cell at time $t_{k-1}$. In other words, there is no sense of a ``trajectory'' of a specific cell, or of multiple observations assigned to a single cell.}
 
 \textcolor{blue}{A (linear) mixed effect model for such a system has the general form
 \begin{equation*}
 Y_{ij}= x_{ij}^\top \beta + u_{ij}\gamma_i + \epsilon_{ij}, \quad i=1,\dots,m, \; j=1,\dots,n_i
 \end{equation*}
-where 
+where
 \begin{itemize}
-\item $Y_{ij}$ is the response of cell $i$ at measurement time $t_j$, 
-\item $m$ is the number of cells, 
-\item $n_i$ is the number of measurement times for cell $i$, 
-\item $x_{ij}$ is the covariate vector of cell $i$ at time $t_j$ for the fixed effects $\beta$, 
+\item $Y_{ij}$ is the response of cell $i$ at measurement time $t_j$,
+\item $m$ is the number of cells,
+\item $n_i$ is the number of measurement times for cell $i$,
+\item $x_{ij}$ is the covariate vector of cell $i$ at time $t_j$ for the fixed effects $\beta$,
 \item $u_{ij}$ is the covariate vector of cell $i$ at time $t_j$ for the random effects $\gamma_i$, and
 \item $\gamma_i$ and $\epsilon_{ij}$ are independently distributed with mean zero,
 \end{itemize}
@@ -48,7 +48,7 @@ We assume the variation in snapshots arises due to heterogeneity in the underlyi
 \end{equation}
 where superscript $^{\{i\}}$ indicates the $i$th cell.
 %
-The traditional (non-hierarchical) state-space approach to modelling dynamic systems supposes that measurement error introduces stochastic variation in the output (Figure \ref{fig:data_generation}A). Our approach, by contrast, assumes any variation in outputs is solely due to variation in parameter values between cells (Figure \ref{fig:data_generation}B). Whether the assumption of ``perfect'' measurements is reasonable depends on experimental details of the system under investigation, but we argue our method nevertheless provides a useful approximation in cases where the signal to noise ratio is high. \textcolor{blue}{Once again we emphasize that we are considering distributions of quantities of interest with no sense of specific individual trajectories, making a mixed effects modeling approach problematic.}
+The traditional (non-hierarchical) state-space approach to modelling dynamic systems supposes that measurement error introduces stochastic variation in the output (Figure \ref{fig:data_generation}A). Our approach, by contrast, assumes any variation in outputs is solely due to variation in parameter values between cells (Figure \ref{fig:data_generation}B). Whether the assumption of ``perfect'' measurements is reasonable depends on experimental details of the system under investigation, but we argue our method nevertheless provides a useful approximation in cases where the signal to noise ratio is high. \textcolor{blue}{Butler et al (2018) \cite{BJW-18} consider the effect of measurement error through a stability analysis of the posterior distribution and provide a priori bounds on the posterior distributions in theorems 4.1 and 4.5.} \textcolor{blue}{Once again we emphasize that we are considering distributions of quantities of interest with no sense of specific individual trajectories, making a mixed effects modeling approach problematic.}
 
 \begin{figure}[H]
   \centerline{\includegraphics[width=\textwidth]{../figures/data_generation.pdf}}
@@ -119,7 +119,7 @@ $a^{[n]}$ & $n$th sample of any quantity $a$ & -\\
 
 
 \subsection{Theoretical development of CMC}
-We consider the under-determined case where there are fewer QOIs than model parameters ($m<p$). This means that, provided a given QOI can be generated by the model, it can be produced from any member of a subset of parameter space. Unlike the fully-determined case, these subsets (in general) have non-zero ``volume'', and we term them ``iso-output contour regions''. Symbolically, we represent the iso-output contour region for a given quantity of interest $\tilde{\boldsymbol{q}}$ (say) by $\Omega(\tilde{\boldsymbol{q}}) = \{\boldsymbol{\theta}: \boldsymbol{q}(\boldsymbol{\theta}) = \tilde{\boldsymbol{q}}\}$.
+We consider the under-determined case where there are fewer QOIs than model parameters ($m<p$). This means that, provided a given QOI can be generated by the model, it can be produced from any member of a subset of parameter space. Unlike the fully-determined case, these subsets (in general) have non-zero ``volume'', and we term them ``iso-output contour regions'' \textcolor{blue}{\cite{butler2014solving}}. Symbolically, we represent the iso-output contour region for a given quantity of interest $\tilde{\boldsymbol{q}}$ (say) by $\Omega(\tilde{\boldsymbol{q}}) = \{\boldsymbol{\theta}: \boldsymbol{q}(\boldsymbol{\theta}) = \tilde{\boldsymbol{q}}\}$.
 
 In general,  contour ``volumes'' $\mathcal{V}(\tilde{\boldsymbol{q}})$  depend on the chosen output value $\tilde{\boldsymbol{q}}$ (Figure \ref{fig:contour_volumes}). Further, the interpretation of these ``volumes'' depends upon their dimensions. For a model with two parameters, iso-output contour regions are one-dimensional lines, whose size is a length; for a model with three parameters, contour regions are surfaces, whose size is an area; for four-dimensional parameter spaces, contour regions are three-dimensional and their size is a volume; and for models with $p>4$ parameters, iso-contour regions are $p-1$ dimensional manifolds, whose size is a hypervolume.
 
@@ -148,8 +148,8 @@ p(\boldsymbol{\theta}|\hat{\Phi})
 = \frac{p(\boldsymbol{\theta}|\boldsymbol{q}, \hat{\Phi}) \times p(\boldsymbol{q}|\hat{\Phi})}{p(\boldsymbol{q}| \boldsymbol{\theta}, \hat{\Phi})}.
 \end{equation}
 %
-Since the mapping from parameters to outputs is deterministic,
-$p(\boldsymbol{q}| \boldsymbol{\theta}, \hat{\Phi})=\delta(\boldsymbol{q}(\boldsymbol{\theta}))$, i.e., the Dirac delta function centred at $\boldsymbol{q}=\boldsymbol{q}(\boldsymbol{\theta})$. Thus eq. \eqref{eq:posterior_mid} becomes,
+\textcolor{blue}{Note that eq. \eqref{eq:posterior_mid} is only well defined if the denominator is non-zero and for a deterministic map, this occurs only when $\boldsymbol{q}=\boldsymbol{q}(\boldsymbol{\theta})$. (Since the mapping from parameters to outputs is deterministic, $p(\boldsymbol{q}| \boldsymbol{\theta}, \hat{\Phi})=\delta(\boldsymbol{q}(\boldsymbol{\theta}))$, i.e., the Dirac delta function centred at $\boldsymbol{q}=\boldsymbol{q}(\boldsymbol{\theta})$.)  }
+ Thus eq. \eqref{eq:posterior_mid} becomes,
 %
 \begin{equation}\label{eq:posterior_mid1}
 p(\boldsymbol{\theta}|\hat{\Phi})
