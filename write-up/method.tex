@@ -3,21 +3,21 @@ In this section, we first develop a probabilistic framework that describes our i
 
 Experimental methods such as flow cytometry measure single cell characteristics at a given time. Cells are typically destroyed by the measurement process, so the data consists of cross-sections or ``snapshots'' of sampled individuals from the population, rather than providing time series for each individual cell. \textcolor{blue}{The contrast between these two very different scenarios is highlighted in Figure \ref{fig:time_series_v_snapshots}. The cells at time $t_k$ are not the same as those at time $t_{k-1}$ and even if they are, there is no way of associating a particular cell at time $t_k$ with the same cell at time $t_{k-1}$. In other words, there is no sense of a ``trajectory'' of a specific cell, or of multiple observations assigned to a single cell.}
 
-\textcolor{blue}{A (linear) mixed effect model for such a system has the general form
-\begin{equation*}
-Y_{ij}= x_{ij}^\top \beta + u_{ij}\gamma_i + \epsilon_{ij}, \quad i=1,\dots,m, \; j=1,\dots,n_i
-\end{equation*}
-where
-\begin{itemize}
-\item $Y_{ij}$ is the response of cell $i$ at measurement time $t_j$,
-\item $m$ is the number of cells,
-\item $n_i$ is the number of measurement times for cell $i$,
-\item $x_{ij}$ is the covariate vector of cell $i$ at time $t_j$ for the fixed effects $\beta$,
-\item $u_{ij}$ is the covariate vector of cell $i$ at time $t_j$ for the random effects $\gamma_i$, and
-\item $\gamma_i$ and $\epsilon_{ij}$ are independently distributed with mean zero,
-\end{itemize}
-where we observe the necessity for multiple measurements associated with a single cell.
-}
+%\textcolor{blue}{A (linear) mixed effect model for such a system has the general form
+%\begin{equation*}
+%Y_{ij}= x_{ij}^\top \beta + u_{ij}\gamma_i + \epsilon_{ij}, \quad i=1,\dots,m, \; j=1,\dots,n_i
+%\end{equation*}
+%where
+%\begin{itemize}
+%\item $Y_{ij}$ is the response of cell $i$ at measurement time $t_j$,
+%\item $m$ is the number of cells,
+%\item $n_i$ is the number of measurement times for cell $i$,
+%\item $x_{ij}$ is the covariate vector of cell $i$ at time $t_j$ for the fixed effects $\beta$,
+%\item $u_{ij}$ is the covariate vector of cell $i$ at time $t_j$ for the random effects $\gamma_i$, and
+%\item $\gamma_i$ and $\epsilon_{ij}$ are independently distributed with mean zero,
+%\end{itemize}
+%where we observe the necessity for multiple measurements associated with a single cell.
+%}
 
 \begin{figure}[H]
   \centerline{\includegraphics[width=\textwidth]{../figures/time_series_v_snapshots.pdf}}
@@ -48,7 +48,7 @@ We assume the variation in snapshots arises due to heterogeneity in the underlyi
 \end{equation}
 where superscript $^{\{i\}}$ indicates the $i$th cell.
 %
-The traditional (non-hierarchical) state-space approach to modelling dynamic systems supposes that measurement error introduces stochastic variation in the output (Figure \ref{fig:data_generation}A). Our approach, by contrast, assumes any variation in outputs is solely due to variation in parameter values between cells (Figure \ref{fig:data_generation}B). Whether the assumption of ``perfect'' measurements is reasonable depends on experimental details of the system under investigation, but we argue our method nevertheless provides a useful approximation in cases where the signal to noise ratio is high. \textcolor{blue}{Butler et al (2018) \cite{BJW-18} consider the effect of measurement error through a stability analysis of the posterior distribution and provide a priori bounds on the posterior distributions in theorems 4.1 and 4.5.} \textcolor{blue}{Once again we emphasize that we are considering distributions of quantities of interest with no sense of specific individual trajectories, making a mixed effects modeling approach problematic.}
+The traditional (non-hierarchical) state-space approach to modelling dynamic systems supposes that measurement error introduces stochastic variation in the output (Figure \ref{fig:data_generation}A). Our approach, by contrast, assumes any variation in outputs is solely due to variation in parameter values between cells (Figure \ref{fig:data_generation}B). Whether the assumption of ``perfect'' measurements is reasonable depends on experimental details of the system under investigation, but we argue our method nevertheless provides a useful approximation in cases where the signal to noise ratio is high. \textcolor{blue}{Butler et al (2018) \cite{BJW-18} consider the effect of measurement error through a stability analysis of the posterior distribution and provide \emph{a priori} bounds on the posterior distributions in theorems 4.1 and 4.5.} \textcolor{blue}{Once again we emphasize that we are considering distributions of quantities of interest with no sense of specific individual trajectories, making a mixed effects modeling approach problematic.}
 
 \begin{figure}[H]
   \centerline{\includegraphics[width=\textwidth]{../figures/data_generation.pdf}}
@@ -97,10 +97,11 @@ $\boldsymbol{\theta}$                                     	& ODE parameters     
 $\boldsymbol{f}(\boldsymbol{x}(t); \, \boldsymbol{\theta})$	& ODE RHS                                      & $\R^k$ \\
 $\boldsymbol{x}^{\{i\}}(t)$                                 & ODE solution for cell $i$                    & $\R^k$ \\
 $q_j= q_j(\boldsymbol{x}(t_j);\boldsymbol{\theta}) = q_j(\boldsymbol{\theta})$                             & quantity of interest (QOI) $j$               & $\R^1$ \\
-$\boldsymbol{q}^\top= \left( q_1, \dots, q_m \right)$            & $m$ distinct QOIs                            & $\R^m$ \\
+$\boldsymbol{q}^\top= \left( q_1, \dots, q_m \right)$       & $m$ distinct QOIs                            & $\R^m$ \\
 $q_j^{\{i\}}= q_j(\boldsymbol{x}^{\{i\}}(t_j))$             & QOI $j$ for cell $i$                         & $\R^1$ \\
 $\boldsymbol{y}_j^\top=\left( q_j^{\{1\}}, \dots q_j^{\{n_j\}} \right)$  & QOI $j$ for cells $1, \dots, n_j$    & $\R^{n_j}$ \\
-$\boldsymbol{Y}=(\boldsymbol{y}_1,...,\boldsymbol{y}_m)$    & ``snapshot'' of all QOIs                      & $\R^{n_1} \times \R^{n_2}\times...\times\R^{n_m}$ \\
+$\boldsymbol{Y}=(\boldsymbol{y}_1,...,\boldsymbol{y}_m)$    & ``snapshot'' of all QOIs   & \\
+& \hfill $\left( \R^{n_1} \times \R^{n_2}\times \dots \times \right.$ & $\left. \R^{n_m} \right)$ \\
 $\Phi$ & parameters of output target distribution, $p(\boldsymbol{q}|\Phi)$              & $\R^m$ \\
 $\Xi$  & parameters of prior parameter distribution, $p(\boldsymbol{\theta}|\Xi)$        & $\R^p$ \\
 $\Psi$ & parameters of prior output distribution, $p(\boldsymbol{q}|\Psi)$               & $\R^p$ \\
@@ -119,7 +120,7 @@ $a^{[n]}$ & $n$th sample of any quantity $a$ & -\\
 
 
 \subsection{Theoretical development of CMC}
-We consider the under-determined case where there are fewer QOIs than model parameters ($m<p$). This means that, provided a given QOI can be generated by the model, it can be produced from any member of a subset of parameter space. Unlike the fully-determined case, these subsets (in general) have non-zero ``volume'', and we term them ``iso-output contour regions'' \textcolor{blue}{\cite{butler2014solving}}. Symbolically, we represent the iso-output contour region for a given quantity of interest $\tilde{\boldsymbol{q}}$ (say) by $\Omega(\tilde{\boldsymbol{q}}) = \{\boldsymbol{\theta}: \boldsymbol{q}(\boldsymbol{\theta}) = \tilde{\boldsymbol{q}}\}$.
+We consider the under-determined case where there are fewer QOIs than model parameters ($m<p$). \textcolor{blue}{The general case is considered in \cite{butler2014solving}.} This means that, provided a given QOI can be generated by the model, it can be produced from any member of a subset of parameter space. Unlike the fully-determined case, these subsets (in general) have non-zero ``volume'', and we term them ``iso-output contour regions''. Symbolically, we represent the iso-output contour region for a given quantity of interest $\tilde{\boldsymbol{q}}$ (say) by $\Omega(\tilde{\boldsymbol{q}}) = \{\boldsymbol{\theta}: \boldsymbol{q}(\boldsymbol{\theta}) = \tilde{\boldsymbol{q}}\}$.
 
 In general,  contour ``volumes'' $\mathcal{V}(\tilde{\boldsymbol{q}})$  depend on the chosen output value $\tilde{\boldsymbol{q}}$ (Figure \ref{fig:contour_volumes}). Further, the interpretation of these ``volumes'' depends upon their dimensions. For a model with two parameters, iso-output contour regions are one-dimensional lines, whose size is a length; for a model with three parameters, contour regions are surfaces, whose size is an area; for four-dimensional parameter spaces, contour regions are three-dimensional and their size is a volume; and for models with $p>4$ parameters, iso-contour regions are $p-1$ dimensional manifolds, whose size is a hypervolume.
 
@@ -197,7 +198,7 @@ The final step in CMC is to compare output samples generated by MCMC with the ta
 A graphical illustration of the complete CMC workflow is provided in Figure \ref{fig:workflow}. All variables are defined in Table \ref{tab:variable_glossary}. The CMC algorithm is provided in Algorithm \ref{alg:cmc}. In this implementation, MCMC sampling is performed via the Random Walk Metropolis algorithm, but for the examples in \S \ref{sec:results}, we use an adaptive MCMC algorithm \cite{johnstone2016uncertainty}.
 
 \begin{figure}[H]
-  \centerline{\includegraphics[width=1.5\textwidth]{../figures/workflow.pdf}}
+  \centerline{\includegraphics[width=1.0\textwidth]{../figures/workflow.pdf}}
   \caption{\textbf{Workflow for Contour Monte Carlo to estimate cell population heterogeneity.} The distribution targeted in (iii) is given by eq. (\ref{eq:posterior_input_estimated}). Here, $\tilde q$ is used to represent an output value resultant from applying the functional $q$ to parameter samples $(\theta_1,\theta_2)$.}
   \label{fig:workflow}
 \end{figure}

@@ -42,6 +42,8 @@ P(10; \boldsymbol{\theta}, 10)\\
 %
 
 \subsubsection{Uniform prior}\label{sec:growthmodel_uniform}
+For an under-determined model, the number of QOIs, $m$, is less than the number of parameters, $p$, and there typically exists a non-singular set of parameter distributions mapping to the same target output distribution. To uniquely identify a posterior parameter distribution, it is, therefore, necessary to specify a prior parameter distribution. By incorporating priors, this allows pre-existing biological knowledge to be included, leading to reduced uncertainty in parameter estimates. CMC allows any prior with correct support to be used. Changes to priors affect both the ``ContourVolumeEstimation'' and ``MCMC'' steps of CMC (Algorithm \ref{alg:cmc}), so that the (changed) posterior parameter distribution still maps to the target.
+
 To start, we specify a uniform prior for each of the five parameters, with bounds given in Table \ref{tab:priors}, and use CMC to estimate the posterior parameter distribution. In Figure \ref{fig:growth_factor_outputs}A, we show the sampled outputs (blue points) versus the contours of the target distribution (black solid closed curves), illustrating a good correspondence between the sampled and target densities. Above and to the right of the main panel, we also display the marginal target densities (solid black lines) versus kernel density estimator reconstructions of the output marginals from the CMC samples (dashed blue lines), which again highlights the fidelity of the CMC sampled density to the target.
 
 \begin{figure}[H]
@@ -71,7 +73,7 @@ In Figure \ref{fig:growth_factor_inputs}B, we show the posterior parameter distr
 \end{figure}
 
 \subsubsection{Gaussian prior}
-For an under-determined model, the number of QOIs, $m$, is less than the number of parameters, $p$, and there typically exists a non-singular set of parameter distributions mapping to the same target output distribution. To uniquely identify a posterior parameter distribution, it is, therefore, necessary to specify a prior parameter distribution. By incorporating priors, this allows pre-existing biological knowledge to be included, leading to reduced uncertainty in parameter estimates. CMC allows any prior with correct support to be used. Changes to priors affect both the ``ContourVolumeEstimation'' and ``MCMC'' steps of CMC (Algorithm \ref{alg:cmc}), so that the (changed) posterior parameter distribution still maps to the target.
+
 
 We now use CMC to estimate the posterior parameter distribution, when using Gaussian priors (prior hyperparameters shown in Table \ref{tab:priors}), which are more concentrated than the uniform priors used in \S\ref{sec:growthmodel_uniform}. As desired, the target output distribution appears virtually unaffected by the change of priors (Figure \ref{fig:growth_factor_outputs}B) although with substantial changes to the posterior parameter distribution (Figure \ref{fig:growth_factor_inputs}C and \ref{fig:growth_factor_inputs}D). In particular, the marginal posterior distributions obtained from the Gaussian prior are narrower compared to the uniform case (rightmost column of Table \ref{tab:growth_factor_results}).
 
@@ -272,7 +274,7 @@ We now apply CMC to the target output distribution given by eq. (\ref{eq:tnf_cir
 
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=1.5\textwidth]{../figures/tnf_circular_both.pdf}}
+\centerline{\includegraphics[width=1.0\textwidth]{../figures/tnf_circular_both.pdf}}
 \caption{\textbf{TNF signalling pathway model. (A) Actual parameter values versus estimated quantiles for the output distribution of eq. (\ref{eq:tnf_circular_target}). (B) Marginal output targets (solid lines) and sampled output distributions (histograms).} In A, in the vertical direction, red points indicate 50\% posterior quantiles and upper and lower whiskers indicate 97.5\% and 2.5\% quantiles, respectively; in the horizontal direction, with the exception of $a_1$, red points indicate the parameter values used to generate the data; for $a_1$, the red point indicates the mean of the Gaussian distribution used to generate the data and the whiskers indicate its 95\% quantiles. In CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step, and 5,000 MCMC samples across each of 4 Markov chains were used in the second, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
 	\label{fig:tnf_circular_versus}
 \end{figure}
