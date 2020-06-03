@@ -1,0 +1,58 @@
+---
+title: "Tu et al. vis"
+output: html_notebook
+---
+
+```{r}
+rm(list=ls())
+library(tidyverse)
+library(reshape2)
+```
+
+Manipulate data
+```{r}
+df <- read.csv("../data/tu_et_al_2019/inputfile.csv", header = F)
+full_df <- read.csv("../data/tu_et_al_2019/GSE75748_sc_time_course_ec.csv") %>% 
+  t() %>% 
+  as.data.frame()
+lnames <- full_df[1, ]
+full_df <- full_df[-1, ]
+lnames <- map_chr(lnames, ~as.character(.))
+colnames(full_df) <- lnames
+
+full_df <- full_df %>% 
+  rownames_to_column(var = "temp") %>% 
+  mutate(time=substr(temp, 4, 5)) %>% 
+  select(-temp) %>% 
+  mutate(time=as.numeric(time)) %>% 
+  mutate_if(function(x) !is.numeric(x), as.numeric)
+
+write.csv(full_df, "../data/tu_et_al_2019/GSE75748_sc_time_course_ec_processed.csv")
+```
+
+Plot data at each time
+```{r}
+full_df %>% 
+  group_by(time) %>% 
+  count()
+
+full_df %>% 
+  ggplot(aes(x=CDH1, y=KLF8)) +
+  geom_point() +
+  geom_density_2d(h=200) +
+  facet_wrap(~time)
+
+full_df %>% 
+  ggplot(aes(x=CDH1, y=ZEB1)) +
+  geom_point() +
+  geom_density_2d(h=200) +
+  facet_wrap(~time)
+
+full_df %>% 
+  ggplot(aes(x=KLF8, y=ZEB1)) +
+  geom_point() +
+  geom_density_2d(h=200) +
+  facet_wrap(~time)
+```
+
+
