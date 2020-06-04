@@ -1,0 +1,226 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}
+
+% amsmath and amssymb packages, useful for mathematical formulas and symbols
+\usepackage{amsmath,amssymb}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+% Use adjustwidth environment to exceed column width (see example table in text)
+\usepackage{changepage}
+\usepackage{tabularx}
+
+% Use Unicode characters when possible
+\usepackage{inputenc}
+
+% textcomp package and marvosym package for additional characters
+\usepackage{textcomp,marvosym}
+
+% cite package, to clean up citations in the main text. Do not remove.
+\usepackage{cite}
+
+% Use nameref to cite supporting information files (see Supporting Information section for more info)
+\usepackage{nameref,hyperref}
+
+% line numbers
+\usepackage[right]{lineno}
+
+\usepackage{tikz}
+
+% ligatures disabled
+\usepackage{microtype}
+\DisableLigatures[f]{encoding = *, family = * }
+
+
+% array package and thick rules for tables
+\usepackage{array}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{float}
+\usepackage{timestamp}
+\usepackage{xfrac}
+\usepackage{mathtools}
+
+%% Include all macros below
+
+\newcommand{\lorem}{{\bf LOREM}}
+\newcommand{\ipsum}{{\bf IPSUM}}
+
+%% END MACROS SECTION
+\newcommand{\R}{\mathbb{R}}
+
+\begin{document}
+\vspace*{0.2in}
+
+%% Title must be 250 characters or less.
+%\begin{flushleft}
+%{\Large
+%\textbf\newline{A Monte Carlo method to estimate cell population heterogeneity}
+%}
+%\newline
+%\\
+%Ben Lambert\textsuperscript{1,2}*,
+%David J. Gavaghan\textsuperscript{3},
+%Simon Tavener\textsuperscript{4}.
+%\\
+%\bigskip
+%\textbf{1} Department of Zoology, University of Oxford, Oxford, Oxfordshire, U.K.
+%\\
+%\textbf{2} MRC Centre for Global Infectious Disease Analysis, School of Public Health, Imperial College London, London W2 1PG, UK.
+%\\
+%\textbf{3} Department of Computer Science, University of Oxford, Oxford, U.K.
+%\\
+%\textbf{4} Department of Mathematics, Colorado State University, Fort Collins, Colorado, U.S.A.
+%\\
+%\bigskip
+%
+%% Use the asterisk to denote corresponding authorship and provide email address in note below.
+%*ben.c.lambert@gmail.com.
+%
+%\end{flushleft}
+
+\hfill Revision date \& time: \timestamp
+\bigskip
+
+
+% Please keep the abstract below 300 words
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                                                                                                                  %                                                                                                                      %
+%       ABSTRACT                                                                                                       %
+%                                                                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The Abstract of the paper should be succinct; it must not exceed 300 words. Authors should mention the techniques used without going into methodological detail and should summarize the most important results.
+
+% While the Abstract is conceptually divided into three sections (Background, Methodology/Principal Findings, and Conclusions/Significance), do not apply these distinct headings to the Abstract within the article file.
+
+% Do not include any citations. Avoid specialist abbreviations.
+
+\section{Nondimensionalization}
+
+\subsection{Initial value problem}
+
+\begin{equation}
+\begin{aligned}
+\frac{dC}{d\tau} &= \frac{k_1}{k_2 + Z^2} + \frac{k_3}{k_4 + K^2} - d_1 C \\
+\frac{dZ}{d\tau} &= \frac{a k_5 K^2}{k_6 + K^2} - d_2 Z \\
+\frac{dK}{d\tau} &= \frac{r k_7}{k_8 + C^2} - d_3 K
+\end{aligned}
+\end{equation}
+
+Initial conditions
+\begin{equation}
+C(0) = 1, \quad Z(0) = 0, \quad K(0) = 0
+\end{equation}
+
+
+
+\subsection{Units of dimensional parameters}
+
+$C, K$ and $Z$ are concentrations with units $L^{-3}$ and therefore all the LHS terms e.g., $\frac{dC}{d\tau}$ have units $L^{-3}T^{-1}$
+
+\begin{itemize}
+  \item $d_1, d_2, d_3$ have units $T^{-1}$
+  \item $k_2, k_4, k_6, k_8$ have units of $L^{-6}$ %so that the denominators have consistent units
+  \item $k_1, k_3$ have units $L^{-9} T^{-1}$
+  \item $k_7$ has units $L^{-9} T^{-1}$ if $r$ is dimensionless
+  \item $k_5$ has units $L^{-3}T^{-1}$  if $a$ is dimensionless
+\end{itemize}
+
+
+\subsection{Nondimensional variables}
+The nondimensional variables are ...
+\begin{equation}
+\begin{aligned}
+y_1 = \frac{k_2 d_1}{k_1} C \\
+y_2 = \frac{k_6 d_1}{k_4 k_5} Z \\
+y_3 = \frac{1}{\sqrt{k_4}} K \\
+\end{aligned}
+\end{equation}
+
+\begin{itemize}
+  \item $\dfrac{k_2 d_1}{k_1}$ has units $L^3$ therefore $y_1$ is dimensionless
+  \item $\dfrac{k_6 d_1}{k_4 k_5}$ has units $L^3$ therefore $y_2$ is dimensionless
+  \item $\dfrac{1}{\sqrt{k_4}}$ has units $L^3$ therefore $y_3$ is dimensionless
+\end{itemize}
+
+
+\subsection{Nondimensional groups (parameters)}
+
+The nondimensional groups (parameters) are ...
+\begin{equation}
+\begin{aligned}
+p_1 &= \frac{k_4^2 k_5^2}{k_2 k_6^2 d_1} \\
+p_2 &= \frac{k_2 k_3}{k_1 k_4} \\
+p_3 &= \frac{k_4}{k_6} \\
+p_4 &= \frac{d_2}{d_1} \\
+p_5 &= \frac{k_2^2 k_7 d_1}{k_1^2 \sqrt{k_4}} \\
+p_6 &= \frac{k_2^2 k_8 d_1^2}{k_1^2} \\
+p_7 &= \frac{d_3}{d_1} 
+\end{aligned}
+\end{equation}
+
+The following parameters are dimensionless trivially since they are ratios of dimensional parameter with equal units
+\begin{itemize}
+  \item $p_3$ is dimensionless
+  \item $p_4$ is dimensionless
+  \item $p_7$ is dimensionless
+\end{itemize}
+The remaining parameters are not so obviously dimensionless
+\begin{itemize}
+  \item $p_1$ has units $\dfrac{L^{-12}\cdot L^{-6}T^{-2}}               {L^{-6} \cdot L^{-12} \cdot T^{-2}}$ 
+  \item $p_2$ has units $\dfrac{L^{-6} \cdot L^{-9}T^{-1}}               {L^{-9} T^{-1} \cdot L^{-6}}$
+  \item $p_5$ has units $\dfrac{L^{-12}\cdot L^{-9}T^{-1} \cdot T^{-1} } {L^{-18} T^{-2} \cdot L^{-3}}$
+  \item $p_6$ has units $\dfrac{L^{-12}\cdot L^{-6} \cdot T^{-2}}        {L^{-18}\cdot T^{-2}}$
+\end{itemize}
+
+
+\subsection{Nondimensionalizing governing equations}
+
+The terms to multiply through by are most easily determined from the decay term.
+
+\begin{itemize}
+  \item Equation One -- multiply by $\dfrac{k_2}{k_1}$
+  \item Equation Two -- multiply by $\dfrac{k_6}{k_4 k_5}$
+  \item Equation Three -- multiply by $\dfrac{1}{d_1 \sqrt{k_4}}$
+\end{itemize}
+
+\subsubsection{Equation One}
+\begin{equation}
+\begin{aligned}
+LHS &= \frac{1}{d_1} \frac{k_2 d_1}{k_1} \frac{dD}{d\tau} = \frac{1}{d_1} \frac{dy_1}{d\tau} \\
+RHS(1) &= \frac{1}{1 + Z^2/k_2} = \frac{1}{1 + (k_4 k_5 y_2 / k_6 d_1)^2/k_2} = \frac{1}{1 + p_1 y_2^2} \\
+RHS(2) &= \frac{k_2 k_3}{k_1 k_4} \frac{1}{1 + k_4 y_3^2/k_4} = \frac{p_2}{1 + y_3^2}  \\
+RHS(3) &= \frac{k_2 d_1}{k_1} C = y_1
+\end{aligned}
+\end{equation}
+
+\subsubsection{Equation Two}
+\begin{equation}
+\begin{aligned}
+LHS &= \frac{1}{d_1} \frac{k_6 d_1}{k_4 k_5} \frac{dZ}{d\tau} = \frac{1}{d_1} \frac{dy_2}{d\tau} \\
+RHS(1) &= \frac{k_6}{k_4} \frac{K^2}{k_6(1 + K^2/k_6)} = \frac{K^2/k_4}{(1 + k_4/k_6*K^2/k_4)} = \frac{y_3^2}{1 + p_3 y_3^2} \\
+RHS(2) &= \frac{d_2}{d_1} * \frac{k_6 d_1}{k_4 k_5} Z = p_4 y_2
+\end{aligned}
+\end{equation}
+
+
+\subsubsection{Equation Three}
+\begin{equation}
+\begin{aligned}
+LHS &= \frac{1}{d_1 \sqrt{k_4}} \frac{dK}{d\tau} = \frac{1}{d_1} \frac{dy_3}{d\tau} \\
+RHS(1) &= \frac{k_2^2 k_7 d_1}{d_1^2 \sqrt{k_4}} * \left(  \frac{k_1^2}{k_2^2 d_1^2} \frac{1}{k_8 + C^2} \right)
+  = p_5 \left( \frac{1}{ k_2^2 d_1^2 / k_1^2 (k_8+C^2)}\right) 
+  = p_5 \frac{1}{ p_6 + y_1^2}  \\
+RHS(2) &= \frac{d_3}{d_1 \sqrt{k_4}}K = \frac{d_3}{d_1} y_3 = p_7 y_2
+\end{aligned}
+\end{equation}
+
+
+
+
+\end{document}
+
