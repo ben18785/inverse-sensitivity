@@ -15,7 +15,7 @@ with initial conditions,
 R(0) = 0.0, \qquad P(0) = 0.0,
 \end{equation*}
 %
-where $\boldsymbol{\theta}=(R_T, k_1, k_{-1}, k_{deg}, k^*_{deg})$ are parameters to be determined. In this example, we use measurements of the active ligand-bound receptors $P$ to estimate cellular heterogeneity in these processes. We denote the solution of eq. (\ref{eq:growth_factor1}) as $P(t; \boldsymbol{\theta}, L)$ and seek to determine the parameter distribution consistent with an output distribution,
+where $\boldsymbol{\theta}=(R_T, k_1, k_{-1}, k_{deg}, k^*_{deg})$ are parameters to be determined. In this example, we use measurements of the active ligand-bound receptors $P$ to estimate cellular heterogeneity in these processes. We denote the solution of eq. (\ref{eq:growth_factor1}) as $P(t; \boldsymbol{\theta}, L)$. Here we generate a target model by forward simulations of eq. \eqref{eq:growth_factor}; in each case recording $(P(10; \boldsymbol{\theta}, 2), P(10; \boldsymbol{\theta}, 10))$. In each forward simulation, we fix $(k_{-1}, k_{deg}, k^*_{deg}) = (8, 0.015, 0.25)$ and independently sample values ${R_T\sim \mathcal{N}(6.5\times 10^5, 0.6\times 10^4)}$ and ${k_1\sim \mathcal{N}(1.7, 0.05)}$. This generates an output distribution approximately given by,
 %
 \begin{equation}\label{eq:MM_outputDistribution}
 \boldsymbol{q} =
@@ -42,6 +42,8 @@ P(10; \boldsymbol{\theta}, 10)\\
 %
 
 \subsubsection{Uniform prior}\label{sec:growthmodel_uniform}
+For an under-determined model, the number of QOIs, $m$, is less than the number of parameters, $p$, and there typically exists a non-singular set of parameter distributions mapping to the same target output distribution. To uniquely identify a posterior parameter distribution, it is, therefore, necessary to specify a prior parameter distribution. By incorporating priors, this allows pre-existing biological knowledge to be included, leading to reduced uncertainty in parameter estimates. CMC allows any prior with correct support to be used. Changes to priors affect both the ``ContourVolumeEstimation'' and ``MCMC'' steps of CMC (Algorithm \ref{alg:cmc}), so that the (changed) posterior parameter distribution still maps to the target.
+
 To start, we specify a uniform prior for each of the five parameters, with bounds given in Table \ref{tab:priors}, and use CMC to estimate the posterior parameter distribution. In Figure \ref{fig:growth_factor_outputs}A, we show the sampled outputs (blue points) versus the contours of the target distribution (black solid closed curves), illustrating a good correspondence between the sampled and target densities. Above and to the right of the main panel, we also display the marginal target densities (solid black lines) versus kernel density estimator reconstructions of the output marginals from the CMC samples (dashed blue lines), which again highlights the fidelity of the CMC sampled density to the target.
 
 \begin{figure}[H]
@@ -51,16 +53,20 @@ To start, we specify a uniform prior for each of the five parameters, with bound
 \end{figure}
 
 
-In Figure \ref{fig:growth_factor_inputs}A, we plot the joint posterior parameter distribution for $k_1$, the rate of ligand binding to inactive receptors and $k_{-1}$, which dictates the rate of the reverse reaction.
-A given level of bound ligands can be generated in many different ways. Not surprisingly, it is the \emph{ratio} of the forward and reverse reaction rates, $k_1$ and $k_{-1}$ respectively, that is of greatest importance, and because of this, the distribution representing cell process heterogeneity contains linear positive correlations between these parameters.
+In Figure \ref{fig:growth_factor_inputs}A, we plot the joint posterior parameter distribution for $k_1$, the rate of ligand binding to inactive receptors and $k_{-1}$, which dictates the rate of the reverse reaction. A given level of bound ligands can be generated in many different ways. Not surprisingly, it is the \emph{ratio} of the forward and reverse reaction rates, $k_1$ and $k_{-1}$ respectively, that is of greatest importance, and because of this, the distribution representing cell process heterogeneity contains linear positive correlations between these parameters.
 
 
-In Figure \ref{fig:growth_factor_inputs}B, we show the posterior parameter distribution for $k_{deg}$, the rate of degradation of ligand-free cell surface receptors and $R_T$, the rate of introduction of ligand-free cell surface receptors. This plot shows more concentrated posterior mass than in Figure \ref{fig:growth_factor_inputs}A. Why do our measurements allow us to better resolve $(k_{deg},R_T)$ compared to $(k_1,k_{-1})$? To answer this, it is useful to calculate the sensitivity of $P(t; \boldsymbol{\theta}, L)$ to changes in each of the parameters. To account for the differing magnitudes of each parameter, we calculate elasticities, the proportional changes in measured output for a proportional change in parameter values, using the forward sensitivities method described in \cite{DGCT2018}, and these are shown in Figure \ref{fig:dixit_elasticities}. When the exogenous ligand is set at $L=2$, these indicate the active ligand-bound receptor concentration is most elastic to changes in $R_T$ and $k_{deg}$. This higher elasticity means that their range is more restricted by the output measurement than for $k_1$ and $k_{-1}$, which have much smaller elasticities at $t=10$. In Table \ref{tab:growth_factor_results}, we show the posterior quantiles for the estimated parameters, and in the last column, indicate the ratio of the 25\%-75\% posterior interval widths to the uniform prior range for each parameter. These were strongly negatively correlated with the magnitude of the elasticities for each parameter ($\rho=0.95$, $t=-5.22$, $df=3$, $p=0.01$ for Pearson's product-moment correlation), indicating the utility of sensitivity analyses for optimal experimental design. We suggest, however, that CMC can also be used for this purpose. If an experimenter generates synthetic data for various choices of QOIs, they can use CMC to derive the posterior parameter distributions in each case. They then, simply, select the particular QOI producing the narrowest posterior for key parameters.
+In Figure \ref{fig:growth_factor_inputs}B, we show the posterior parameter distribution for $k_{deg}$, the rate of degradation of ligand-free cell surface receptors and $R_T$, the rate of introduction of ligand-free cell surface receptors. This plot shows more concentrated posterior mass than in Figure \ref{fig:growth_factor_inputs}A.
+
+
+Why do our measurements allow us to better resolve $(k_{deg},R_T)$ compared to $(k_1,k_{-1})$? To answer this, it is useful to calculate the sensitivity of $P(t; \boldsymbol{\theta}, L)$ to changes in each of the parameters. To account for the differing magnitudes of each parameter, we calculate elasticities, the proportional changes in measured output for a proportional change in parameter values, using the forward sensitivities method described in \cite{DGCT2018}, and these are shown in Figure \ref{fig:dixit_elasticities}. When the exogenous ligand is set at $L=2$, these indicate the active ligand-bound receptor concentration is most elastic to changes in $R_T$ and $k_{deg}$. This higher elasticity means that their range is more restricted by the output measurement than for $k_1$ and $k_{-1}$, which have much smaller elasticities at $t=10$. In Table \ref{tab:growth_factor_results}, we show the posterior quantiles for the estimated parameters, and in the last column, indicate the ratio of the 25\%-75\% posterior interval widths to the uniform prior range for each parameter. These were strongly negatively correlated with the magnitude of the elasticities for each parameter ($\rho=0.95$, $t=-5.22$, $df=3$, $p=0.01$ for Pearson's product-moment correlation), indicating the utility of sensitivity analyses for optimal experimental design, see e.g., \cite{Banks2011}. We suggest, however, that CMC can also be used for this purpose. If an experimenter generates synthetic data for various choices of QOIs, they can use CMC to derive the posterior parameter distributions in each case. They then, simply, select the particular QOI producing the narrowest posterior for key parameters.
+
+In both panels of Figure \ref{fig:growth_factor_inputs}, we also plot the ``\textit{actual}'' parameter values as dashed lines: for $k_{-1}$ and $k_{deg}$, these indicate the true (fixed) parameter values, and, for $k_1$ and $R_T$, they show the mean of each Gaussian sampling distribution ($\pm$ two standard deviations shown by shaded rectangles). For most parameters, these indicate that the area of highest posterior density is close to the causative parameter values. This is reaffirmed in the top panel of Table \ref{tab:growth_factor_results}, where, in all cases, the actual parameter values lie within the estimated 95\% quantiles for each parameter -- indicating that the parameters were reasonably well identified.
 
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=\textwidth]{../figures/growth_factor_inputs.pdf}}
-	\caption{\textbf{Growth factor model. Joint posterior distributions estimated by CMC. Top row (A-B): $(k_1,k_{-1})$ and $(k_{deg},R_T)$ using uniform priors. Bottom row (C-D): $(k_1,k_{-1})$ and $(k_{deg},R_T)$ using Gaussian priors.} See Figure \ref{fig:growth_factor_outputs} caption for CMC details and Table \ref{tab:priors} for the priors used. Red (blue) indicates areas of relatively high (low) probability density.}
+	\caption{\textbf{Growth factor model. Joint posterior distributions estimated by CMC. Top row (A-B): $(k_1,k_{-1})$ and $(k_{deg},R_T)$ using uniform priors. Bottom row (C-D): $(k_1,k_{-1})$ and $(k_{deg},R_T)$ using Gaussian priors.} In all panels, dashed lines indicate the parameter set or distribution used to generate the target distribution given by eq. \eqref{eq:MM_outputDistribution}: for $k_{-1}$ and $k_{deg}$, the dashed lines show true parameter values and for $k_1$ and $R_T$, they show the mean of each Gaussian sampling distributions ($\pm$ two standard deviations shown by shaded rectangles). See Figure \ref{fig:growth_factor_outputs} caption for CMC details and Table \ref{tab:priors} for the priors used. Red (blue) indicates areas of relatively high (low) probability density.}
 	\label{fig:growth_factor_inputs}
 \end{figure}
 
@@ -71,35 +77,33 @@ In Figure \ref{fig:growth_factor_inputs}B, we show the posterior parameter distr
 \end{figure}
 
 \subsubsection{Gaussian prior}
-For an under-determined model, the number of QOIs, $m$, is less than the number of parameters, $p$, and there typically exists a non-singular set of parameter distributions mapping to the same target output distribution. To uniquely identify a posterior parameter distribution, it is, therefore, necessary to specify a prior parameter distribution. By incorporating priors, this allows pre-existing biological knowledge to be included, leading to reduced uncertainty in parameter estimates. CMC allows any prior with correct support to be used. Changes to priors affect both the ``ContourVolumeEstimation'' and ``MCMC'' steps of CMC (Algorithm \ref{alg:cmc}), so that the (changed) posterior parameter distribution still maps to the target.
-
 We now use CMC to estimate the posterior parameter distribution, when using Gaussian priors (prior hyperparameters shown in Table \ref{tab:priors}), which are more concentrated than the uniform priors used in \S\ref{sec:growthmodel_uniform}. As desired, the target output distribution appears virtually unaffected by the change of priors (Figure \ref{fig:growth_factor_outputs}B) although with substantial changes to the posterior parameter distribution (Figure \ref{fig:growth_factor_inputs}C and \ref{fig:growth_factor_inputs}D). In particular, the marginal posterior distributions obtained from the Gaussian prior are narrower compared to the uniform case (rightmost column of Table \ref{tab:growth_factor_results}).
 
-As in traditional Bayesian inference, prior choice has a greater influence on the posterior distribution when data provide less information on the underlying process. This is readily apparent in comparing the dramatic change from Figure \ref{fig:growth_factor_outputs}A to \ref{fig:growth_factor_outputs}C for $(k_1,k_{-1})$, which have low sensitivities, with the more nuanced change from Figure \ref{fig:growth_factor_outputs}B to \ref{fig:growth_factor_outputs}D for $(k_{deg},R_T)$, which have high sensitivities.
+As in traditional Bayesian inference, prior choice has a greater influence on the posterior distribution when data provide less information on the underlying process. This is readily apparent in comparing the dramatic change from Figure \ref{fig:growth_factor_inputs}A to \ref{fig:growth_factor_inputs}C for $(k_1,k_{-1})$, which have low sensitivities, with the more nuanced change from Figure \ref{fig:growth_factor_inputs}B to \ref{fig:growth_factor_inputs}D for $(k_{deg},R_T)$, which have high sensitivities. The results also indicate the bias-variance trade-off inherent in Bayesian analysis: when relatively uninformative priors are specified (Figure \ref{fig:growth_factor_inputs}A\&B), the posterior distributions are wider but their centre lies, in general, closer to the true values (dashed lines) than when more information is included in the priors (Figure \ref{fig:growth_factor_inputs}C\&D).
 
 \begin{table}
-%	\scriptsize
-\begin{tabular}{c|ccccc|c}
+	\scriptsize
+\begin{tabular}{c|ccccc|c|c}
 \toprule
-&&&&&&                                         Posterior \\
-Parameter &  \multicolumn{5}{c}{Quantiles} &   25\%-75\% \\
-          & 2.5\% & 25\% & 50\% & 75\% & 97.5\% & conc.\\
+&&&&&&&                                         Posterior \\
+Parameter &  \multicolumn{5}{c}{Quantiles} &&  25\%-75\% \\
+          & 2.5\% & 25\% & 50\% & 75\% & 97.5\% & True values & conc.\\
 \toprule
-\multicolumn{7}{c}{Uniform prior} \\
+\multicolumn{8}{c}{Uniform prior} \\
 \toprule
-$R_T$       &  441,006 & 548,275 & 606,439 & 677,055 & 772,484 & 23\%\\
-$k_1$       &  0.90 & 1.69 & 2.17 & 2.56 & 2.95 & 32\%\\
-$k_{-1}$    & 4.35 & 8.35 & 11.23 & 14.23 & 18.71 & 33\%\\
-$k_{deg}$   & 0.013 & 0.019 & 0.021 & 0.024 & 0.029 & 20\%\\
-$k^*_{deg}$ & 0.20 & 0.34 & 0.40 & 0.44 & 0.49 & 27\%\\
+$R_T$       &  441,006 & 548,275 & 606,439 & 677,055 & 772,484 & 650,000 & 23\%\\
+$k_1$       &  0.90 & 1.69 & 2.17 & 2.56 & 2.95 & 1.70 & 32\%\\
+$k_{-1}$    & 4.35 & 8.35 & 11.23 & 14.23 & 18.71 & 8.00 & 33\%\\
+$k_{deg}$   & 0.013 & 0.019 & 0.021 & 0.024 & 0.029 & 0.015 & 20\%\\
+$k^*_{deg}$ & 0.20 & 0.34 & 0.40 & 0.44 & 0.49 & 0.25 & 27\%\\
 \toprule
-\multicolumn{7}{c}{Gaussian prior} \\
+\multicolumn{8}{c}{Gaussian prior} \\
 \toprule
-$R_T$       & 408,396 & 487,372 & 529,558 & 577,970 & 678,632 & 16\%\\
-$k_1$       & 0.39 & 0.49 & 0.54 & 0.60 & 0.70 & 4\%\\
-$k_{-1}$    & 1.39 & 1.92 & 2.26 & 2.63 & 3.35 & 4\%\\
-$k_{deg}$   & 0.016 & 0.020 & 0.022 & 0.024 & 0.027 & 16\%\\
-$k^*_{deg}$ & 0.22 & 0.29 & 0.33 & 0.38 & 0.46 & 21\%\\
+$R_T$       & 408,396 & 487,372 & 529,558 & 577,970 & 678,632 & 650,000 & 16\%\\
+$k_1$       & 0.39 & 0.49 & 0.54 & 0.60 & 0.70 & 1.70 & 4\%\\
+$k_{-1}$    & 1.39 & 1.92 & 2.26 & 2.63 & 3.35 & 8.00 & 4\%\\
+$k_{deg}$   & 0.016 & 0.020 & 0.022 & 0.024 & 0.027 & 0.015 & 16\%\\
+$k^*_{deg}$ & 0.22 & 0.29 & 0.33 & 0.38 & 0.46 & 0.25 & 21\%\\
 \end{tabular}
 \caption{\textbf{Growth factor model. Estimated quantiles from CMC samples with uniform and Gaussian priors.} The last column indicates the proportion of the uniform prior bounds occupied by the 25\%-75\% posterior interval in each case. The prior hyperparameters used in each case are given in Table \ref{tab:priors}.}
 \label{tab:growth_factor_results}
@@ -272,8 +276,8 @@ We now apply CMC to the target output distribution given by eq. (\ref{eq:tnf_cir
 
 
 \begin{figure}[H]
-\centerline{\includegraphics[width=1.5\textwidth]{../figures/tnf_circular_both.pdf}}
-\caption{\textbf{TNF signalling pathway model. (A) Actual parameter values versus estimated quantiles for the output distribution of eq. (\ref{eq:tnf_circular_target}). (B) Marginal output targets (solid lines) and sampled output distributions (histograms).} In A, in the vertical direction, red points indicate 50\% posterior quantiles and upper and lower whiskers indicate 97.5\% and 2.5\% quantiles, respectively; in the horizontal direction, with the exception of $a_1$, red points indicate the parameter values used to generate the data; for $a_1$, the red point indicates the mean of the Gaussian distribution used to generate the data and the whiskers indicate its 95\% quantiles. In CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step, and 5,000 MCMC samples across each of 4 Markov chains were used in the second, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
+\centerline{\includegraphics[width=1.0\textwidth]{../figures/tnf_circular_both.pdf}}
+\caption{\textbf{TNF signalling pathway model. (A) Actual parameter values versus estimated quantiles for the output distribution of eq. (\ref{eq:tnf_circular_target}). (B) Marginal output targets (solid lines) and sampled output distributions (dashed lines).} In A, in the vertical direction, red points indicate 50\% posterior quantiles and upper and lower whiskers indicate 97.5\% and 2.5\% quantiles, respectively; in the horizontal direction, with the exception of $a_1$, red points indicate the parameter values used to generate the data; for $a_1$, the red point indicates the mean of the Gaussian distribution used to generate the data and the whiskers indicate its 95\% quantiles. In CMC, 10,000 independent samples were used in the ``ContourVolumeEstimator'' step, and 5,000 MCMC samples across each of 4 Markov chains were used in the second, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. Mathematica's ``SmoothKernelDistribution'' function, using a Gaussian kernel \cite{mathematica} and a bandwidth of 0.003 was used to reconstruct marginal densities.}
 	\label{fig:tnf_circular_versus}
 \end{figure}
 

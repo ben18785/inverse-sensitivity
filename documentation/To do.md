@@ -24,3 +24,9 @@
 * “output value is “singular”” clarify
 * Michaelis-Menten model of enzyme kinetics?
 * Make consistent use of inputs vs input parameters
+
+# Tu et al analysis
+
+* Take average of data at t=0
+* Non-dimensional time?
+* In Julia, fit a kernel density estimator to 3d output data at t=12 and t=72

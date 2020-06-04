@@ -1,0 +1,123 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}
+
+% amsmath and amssymb packages, useful for mathematical formulas and symbols
+\usepackage{amsmath,amssymb}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+% Use adjustwidth environment to exceed column width (see example table in text)
+\usepackage{changepage}
+\usepackage{tabularx}
+
+% Use Unicode characters when possible
+\usepackage{inputenc}
+
+% textcomp package and marvosym package for additional characters
+\usepackage{textcomp,marvosym}
+
+% cite package, to clean up citations in the main text. Do not remove.
+\usepackage{cite}
+
+% Use nameref to cite supporting information files (see Supporting Information section for more info)
+\usepackage{nameref,hyperref}
+
+% line numbers
+\usepackage[right]{lineno}
+
+\usepackage{tikz}
+
+% ligatures disabled
+\usepackage{microtype}
+\DisableLigatures[f]{encoding = *, family = * }
+
+
+% array package and thick rules for tables
+\usepackage{array}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{float}
+\usepackage{timestamp}
+\usepackage{xfrac}
+\usepackage{mathtools}
+\usepackage{xcolor}
+
+
+%% Include all macros below
+
+\newcommand{\lorem}{{\bf LOREM}}
+\newcommand{\ipsum}{{\bf IPSUM}}
+
+%% END MACROS SECTION
+\newcommand{\R}{\mathbb{R}}
+
+\begin{document}
+\vspace*{0.2in}
+
+% Title must be 250 characters or less.
+\begin{flushleft}
+{\Large
+\textbf\newline{A Monte Carlo method to estimate cell population heterogeneity}
+}
+\newline
+\\
+Ben Lambert\textsuperscript{1,2}*,
+David J. Gavaghan\textsuperscript{3},
+Simon Tavener\textsuperscript{4}.
+\\
+\bigskip
+\textbf{1} Department of Zoology, University of Oxford, Oxford, Oxfordshire, U.K.
+\\
+\textbf{2} MRC Centre for Global Infectious Disease Analysis, School of Public Health, Imperial College London, London W2 1PG, UK.
+\\
+\textbf{3} Department of Computer Science, University of Oxford, Oxford, U.K.
+\\
+\textbf{4} Department of Mathematics, Colorado State University, Fort Collins, Colorado, U.S.A.
+\\
+\bigskip
+
+% Use the asterisk to denote corresponding authorship and provide email address in note below.
+*ben.c.lambert@gmail.com.
+
+\end{flushleft}
+
+\hfill Revision date \& time: \timestamp
+\bigskip
+
+
+% Please keep the abstract below 300 words
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%                                                                                                                  %                                                                                                                      %
+%       ABSTRACT                                                                                                       %
+%                                                                                                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The Abstract of the paper should be succinct; it must not exceed 300 words. Authors should mention the techniques used without going into methodological detail and should summarize the most important results.
+
+% While the Abstract is conceptually divided into three sections (Background, Methodology/Principal Findings, and Conclusions/Significance), do not apply these distinct headings to the Abstract within the article file.
+
+% Do not include any citations. Avoid specialist abbreviations.
+\newpage
+\linenumbers
+\section{Abstract}
+Variation is characteristic of all living systems. Laboratory techniques such as flow cytometry can probe individual cells, and, after decades of experimentation, it is clear that even members of genetically identical cell populations can exhibit differences. To understand whether variation is biologically meaningful, it is essential to discern its source. Mathematical models of biological systems are tools that can be used to investigate causes of cell-to-cell variation. From mathematical analysis and simulation of these models, biological hypotheses can be posed and investigated, then parameter inference can determine which of these is compatible with experimental data. Data from laboratory experiments often consist of ``snapshots" representing distributions of cellular properties at different points in time, rather than individual cell trajectories. These data are not straightforward to fit using hierarchical Bayesian methods, which require the number of cell population clusters to be chosen \textit{a priori}. \textcolor{blue}{Nor are they amenable to standard nonlinear mixed effect methods, since a single observation per cell is typically too few to estimate parameter variability.} Here, we introduce a computational sampling method named ``Contour Monte Carlo" (CMC) for estimating mathematical model parameters from snapshot distributions, which is straightforward to implement and does not require cells be assigned to predefined categories. \textcolor{blue}{The CMC algorithm fits to snapshot probability distributions rather than raw data, which means its computational burden does not, like existing approaches, increase with the number of cells observed.} Our method is appropriate for \textcolor{blue}{underdetermined} systems, \textcolor{blue}{where there a fewer classes of observations than parameters to be determined, and}  where observed variation is mostly due to variability in cellular processes rather than experimental measurement error. \textcolor{blue}{This} may be the case for many systems due to continued improvements in resolution of laboratory techniques. In this paper, we apply our method to quantify cellular variation for three biological systems of interest and provide Julia code enabling others to use this method.
+
+\input{introduction}
+\input{method}
+\input{results}
+\input{discussion}
+
+
+\section{Author contributions}
+BL, DJG and SJT conceived the study. BL carried out the analysis. All authors helped to write and edit the manuscript.
+
+
+\nolinenumbers
+
+\bibliographystyle{unsrt}
+\bibliography{Bayes}
+\end{document}
+

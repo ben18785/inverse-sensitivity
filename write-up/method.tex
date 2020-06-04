@@ -1,7 +1,8 @@
 \section{Method}\label{sec:method}
 In this section, we first develop a probabilistic framework that describes our inverse problem, before introducing the CMC algorithm in pseudocode (Algorithm \ref{alg:cmc}). We also detail the workflow we have found helpful in using CMC to analyse cell snapshot data (Figure \ref{fig:workflow}), and suggest practical remedies to issues commonly encountered while using this approach. A glossary of variable names used in this paper is included as Table \ref{tab:variable_glossary}.
 
-Experimental methods such as flow cytometry measure single cell characteristics at a given time. Cells are typically destroyed by the measurement process, so the data consists of cross-sections or ``snapshots'' of sampled individuals from the population, rather than providing time series for each individual cell (Figure \ref{fig:time_series_v_snapshots}).
+Experimental methods such as flow cytometry measure single cell characteristics at a given time. Cells are typically destroyed by the measurement process, so the data consists of cross-sections or ``snapshots'' of sampled individuals from the population, rather than providing time series for each individual cell. The contrast between these two very different scenarios is highlighted in Figure \ref{fig:time_series_v_snapshots}. The cells at time $t_k$ are not the same as those at time $t_{k-1}$ and even if they are, there is no way of associating a particular cell at time $t_k$ with the same cell at time $t_{k-1}$. In other words, there is no sense of a ``trajectory'' of a specific cell, or of multiple observations assigned to a single cell.
+
 
 \begin{figure}[H]
   \centerline{\includegraphics[width=\textwidth]{../figures/time_series_v_snapshots.pdf}}
@@ -32,7 +33,8 @@ We assume the variation in snapshots arises due to heterogeneity in the underlyi
 \end{equation}
 where superscript $^{\{i\}}$ indicates the $i$th cell.
 %
-The traditional (non-hierarchical) state-space approach to modelling dynamic systems supposes that measurement error introduces stochastic variation in the output (Figure \ref{fig:data_generation}A). Our approach, by contrast, assumes any variation in outputs is solely due to variation in parameter values between cells (Figure \ref{fig:data_generation}B). Whether the assumption of ``perfect'' measurements is reasonable depends on experimental details of the system under investigation, but we argue our method nevertheless provides a useful approximation in cases where the signal to noise ratio is high.
+The traditional (non-hierarchical) state-space approach to modelling dynamic systems supposes that measurement error introduces stochastic variation in the output (Figure \ref{fig:data_generation}A). Our approach, by contrast, assumes any variation in outputs is solely due to variation in parameter values between cells (Figure \ref{fig:data_generation}B). Whether the assumption of ``perfect'' measurements is reasonable depends on experimental details of the system under investigation, but we argue our method nevertheless provides a useful approximation in cases where the signal to noise ratio is high. Once again we emphasize that we are considering distributions of quantities of interest with no sense of specific individual trajectories, making a mixed effects modeling approach problematic.
+
 
 \begin{figure}[H]
   \centerline{\includegraphics[width=\textwidth]{../figures/data_generation.pdf}}
@@ -81,10 +83,11 @@ $\boldsymbol{\theta}$                                     	& ODE parameters     
 $\boldsymbol{f}(\boldsymbol{x}(t); \, \boldsymbol{\theta})$	& ODE RHS                                      & $\R^k$ \\
 $\boldsymbol{x}^{\{i\}}(t)$                                 & ODE solution for cell $i$                    & $\R^k$ \\
 $q_j= q_j(\boldsymbol{x}(t_j);\boldsymbol{\theta}) = q_j(\boldsymbol{\theta})$                             & quantity of interest (QOI) $j$               & $\R^1$ \\
-$\boldsymbol{q}^\top= \left( q_1, \dots, q_m \right)$            & $m$ distinct QOIs                            & $\R^m$ \\
+$\boldsymbol{q}^\top= \left( q_1, \dots, q_m \right)$       & $m$ distinct QOIs                            & $\R^m$ \\
 $q_j^{\{i\}}= q_j(\boldsymbol{x}^{\{i\}}(t_j))$             & QOI $j$ for cell $i$                         & $\R^1$ \\
 $\boldsymbol{y}_j^\top=\left( q_j^{\{1\}}, \dots q_j^{\{n_j\}} \right)$  & QOI $j$ for cells $1, \dots, n_j$    & $\R^{n_j}$ \\
-$\boldsymbol{Y}=(\boldsymbol{y}_1,...,\boldsymbol{y}_m)$    & ``snapshot'' of all QOIs                      & $\R^{n_1} \times \R^{n_2}\times...\times\R^{n_m}$ \\
+$\boldsymbol{Y}=(\boldsymbol{y}_1,...,\boldsymbol{y}_m)$    & ``snapshot'' of all QOIs   & \\
+& \hfill $\left( \R^{n_1} \times \R^{n_2}\times \dots \times \right.$ & $\left. \R^{n_m} \right)$ \\
 $\Phi$ & parameters of output target distribution, $p(\boldsymbol{q}|\Phi)$              & $\R^m$ \\
 $\Xi$  & parameters of prior parameter distribution, $p(\boldsymbol{\theta}|\Xi)$        & $\R^p$ \\
 $\Psi$ & parameters of prior output distribution, $p(\boldsymbol{q}|\Psi)$               & $\R^p$ \\
@@ -105,7 +108,7 @@ $a^{[n]}$ & $n$th sample of any quantity $a$ & -\\
 \subsection{Theoretical development of CMC}
 We consider the under-determined case where there are fewer QOIs than model parameters ($m<p$). This means that, provided a given QOI can be generated by the model, it can be produced from any member of a subset of parameter space. Unlike the fully-determined case, these subsets (in general) have non-zero ``volume'', and we term them ``iso-output contour regions''. Symbolically, we represent the iso-output contour region for a given quantity of interest $\tilde{\boldsymbol{q}}$ (say) by $\Omega(\tilde{\boldsymbol{q}}) = \{\boldsymbol{\theta}: \boldsymbol{q}(\boldsymbol{\theta}) = \tilde{\boldsymbol{q}}\}$.
 
-In general,  contour ``volumes'' $\mathcal{V}(\tilde{\boldsymbol{q}})$  depend on the chosen output value $\tilde{\boldsymbol{q}}$ (Figure \ref{fig:contour_volumes}). Further, the interpretation of these ``volumes'' depends upon their dimensions. For a model with two parameters, iso-output contour regions are one-dimensional lines, whose size is a length; for a model with three parameters, contour regions are surfaces, whose size is an area; for four-dimensional parameter spaces, contour regions are three-dimensional and their size is a volume; and for models with $p>4$ parameters, iso-contour regions are $p-1$ dimensional manifolds, whose size is a hypervolume.
+In general,  contour ``volumes'' $\mathcal{V}(\tilde{\boldsymbol{q}})$  depend on the chosen output value $\tilde{\boldsymbol{q}}$ (Figure \ref{fig:contour_volumes}). Further, the interpretation of these ``volumes'' depends upon their dimensions. Considering cases with a single QOI: for a model with two parameters, iso-output contour regions are one-dimensional lines, whose size is a length; for a model with three parameters, the contour regions are surfaces, whose size is an area; for four-dimensional parameter spaces, the contour regions are three-dimensional and their size is a volume; and for models with $p>4$ parameters, the contour regions are $p-1$ dimensional manifolds, whose size is a hypervolume.
 
 MCMC methods aim to approximate a posterior parameter distribution by sampling from it. In this case, the resultant parameter samples, when pushed through the model, should approximate samples from the desired QOI distribution. Random Walk Metropolis \cite{lambert2018Student} is a ``vanilla'' MCMC sampler which chooses where next to step based on the ratio of probability densities at the proposed parameter value and current position. Using a vanilla sampler for our case, unfortunately, does not work because the Markov chains are biased towards those regions of parameter space with the largest iso-output contour volumes. This bias means that the stationary parameter distribution obtained, when fed through the model, does not recapitulate the target output distribution \cite{lambert2018inverse}.
 
@@ -132,8 +135,8 @@ p(\boldsymbol{\theta}|\hat{\Phi})
 = \frac{p(\boldsymbol{\theta}|\boldsymbol{q}, \hat{\Phi}) \times p(\boldsymbol{q}|\hat{\Phi})}{p(\boldsymbol{q}| \boldsymbol{\theta}, \hat{\Phi})}.
 \end{equation}
 %
-Since the mapping from parameters to outputs is deterministic,
-$p(\boldsymbol{q}| \boldsymbol{\theta}, \hat{\Phi})=\delta(\boldsymbol{q}(\boldsymbol{\theta}))$, i.e., the Dirac delta function centred at $\boldsymbol{q}=\boldsymbol{q}(\boldsymbol{\theta})$. Thus eq. \eqref{eq:posterior_mid} becomes,
+For a deterministic map, eq. \eqref{eq:posterior_mid} is only well defined when $\boldsymbol{q}=\boldsymbol{q}(\boldsymbol{\theta})$. (Since the mapping from parameters to outputs is deterministic, $p(\boldsymbol{q}| \boldsymbol{\theta}, \hat{\Phi})=\delta(\boldsymbol{q}(\boldsymbol{\theta}))$, i.e., the Dirac delta function centred at $\boldsymbol{q}=\boldsymbol{q}(\boldsymbol{\theta})$.)
+ Thus eq. \eqref{eq:posterior_mid} becomes,
 %
 \begin{equation}\label{eq:posterior_mid1}
 p(\boldsymbol{\theta}|\hat{\Phi})
@@ -181,7 +184,7 @@ The final step in CMC is to compare output samples generated by MCMC with the ta
 A graphical illustration of the complete CMC workflow is provided in Figure \ref{fig:workflow}. All variables are defined in Table \ref{tab:variable_glossary}. The CMC algorithm is provided in Algorithm \ref{alg:cmc}. In this implementation, MCMC sampling is performed via the Random Walk Metropolis algorithm, but for the examples in \S \ref{sec:results}, we use an adaptive MCMC algorithm \cite{johnstone2016uncertainty}.
 
 \begin{figure}[H]
-  \centerline{\includegraphics[width=1.5\textwidth]{../figures/workflow.pdf}}
+  \centerline{\includegraphics[width=1.0\textwidth]{../figures/workflow.pdf}}
   \caption{\textbf{Workflow for Contour Monte Carlo to estimate cell population heterogeneity.} The distribution targeted in (iii) is given by eq. (\ref{eq:posterior_input_estimated}). Here, $\tilde q$ is used to represent an output value resultant from applying the functional $q$ to parameter samples $(\theta_1,\theta_2)$.}
   \label{fig:workflow}
 \end{figure}
@@ -275,4 +278,4 @@ A graphical illustration of the complete CMC workflow is provided in Figure \ref
 
 To generate our results in \S\ref{sec:results}, we assumed for the contour volume estimation step sample sizes were sufficient if the output samples from MCMC provided a reasonable approximation to the target, although we recognise that future work should refine this process further. For the MCMC step, we used adaptive covariance MCMC (see SOM of \cite{johnstone2016uncertainty}) to sample from the target distribution, as it typically provides a considerable speed-up over Random Walk Metropolis \cite{metropolis1953equation,lambert2018Student}. We also used the Gelman-Rubin convergence statistic, $\hat{R}$, to diagnose convergence \cite{lambert2018Student,gelman1992inference}, with a convergence threshold of $\hat{R}\leq\sim 1.1$.
 
-To solve the forward model of each differential equation, we used Julia's inbuilt ``solve'' method for ODE models, which automatically chooses an efficient inbuilt solver \cite{bezanson2017julia}. To replicate the results in this section, we recommend readers execute the X Julia script at X. Note that, this script uses the ``\textit{RCall}'' library for Julia \cite{batesRCall}, which calls \textsf{R} from Julia. This package was necessary to use the ``\textit{kdevine}'' \textsf{R} package for vine copula kernel density estimation \cite{naglerkdevine2018}.
+To solve the forward model of each differential equation, we used Julia's inbuilt ``solve'' method for ODE models, which automatically chooses an efficient inbuilt solver \cite{bezanson2017julia}. To replicate the results in this section, we recommend readers execute the corresponding Julia scripts (one for each result section) at \url{https://github.com/ben18785/inverse-sensitivity/tree/master/examples}. Note that, these scripts use the ``\textit{RCall}'' library for Julia \cite{batesRCall}, which calls \textsf{R} from Julia. This package was necessary to use the ``\textit{kdevine}'' \textsf{R} package for vine copula kernel density estimation \cite{naglerkdevine2018}.
