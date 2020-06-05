@@ -99,48 +99,55 @@
 
 % Do not include any citations. Avoid specialist abbreviations.
 
-\section{Nondimensionalization}
 
-\subsection{Initial value problem}
+\section{Introduction}
 
+We consider a simple dynamical system model based on Michaelis-Menten reaction kinetics \cite{tu2019single} which seeks to explain a subset of the single-cell RNA-sequence data of  embryonic stem cell development reported by \cite{chu2016single}.
+
+\section{Mathematical model}
+
+%\subsection{Initial value problem}
+Let $C=$ [CDH1], $Z=$ [ZEB1] and $K=$ [KLF8] represent the time-dependent concentrations of three genes that have been recognized as key actors in embryonic stem cell development. Let
 \begin{eqnarray}
 \frac{dC}{d\tau} &=& \frac{k_1}{k_2 + Z^2} + \frac{k_3}{k_4 + K^2} - d_1 C  \label{eq:de_one} \\
 \frac{dZ}{d\tau} &=& \frac{a k_5 K^2}{k_6 + K^2} - d_2 Z \label{eq:de_two} \\
-\frac{dK}{d\tau} &=& \frac{r k_7}{k_8 + C^2} - d_3 K \label{eq:de_three} 
+\frac{dK}{d\tau} &=& \frac{r k_7}{k_8 + C^2} - d_3 K \label{eq:de_three}
 \end{eqnarray}
-
-Initial conditions
+subject to initial conditions
 \begin{equation}
-C(0) = 1, \quad Z(0) = 0, \quad K(0) = 0
+C(0) = C_0, \quad Z(0) = Z_0, \quad K(0) = K_0,
 \end{equation}
+where $k_1, k_3, k_5, k_7$ are rates of reaction, $k_2, k_4, k_6, k_8$ are Michaelis parameters, $d_1, d_2, d_3$ are decay rates and $a$ and $r$ are dimensionless constants.
 
+In order to dimensionalize this system of equations we introduce dimensionless variables and parameters.
 
+\section{Nondimensionalization}
 
 \subsection{Units of dimensional parameters}
 
-$C, K$ and $Z$ are concentrations with units $L^{-3}$ and therefore all the LHS terms e.g., $\frac{dC}{d\tau}$ have units $L^{-3}T^{-1}$
+$C, K$ and $Z$ are concentrations with units $L^{-3}$ and therefore all the LHS terms e.g., $\frac{dC}{d\tau}$ have units $L^{-3} T^{-1}$. To be consistent, therefore
 
 \begin{itemize}
   \item $d_1, d_2, d_3$ have units $T^{-1}$
   \item $k_2, k_4, k_6, k_8$ have units of $L^{-6}$ %so that the denominators have consistent units
   \item $k_1, k_3$ have units $L^{-9} T^{-1}$
-  \item $k_7$ has units $L^{-9} T^{-1}$ if $r$ is dimensionless
-  \item $k_5$ has units $L^{-3}T^{-1}$  if $a$ is dimensionless
+  \item $k_7$ has units $L^{-9} T^{-1}$ since $r$ is dimensionless
+  \item $k_5$ has units $L^{-3}T^{-1}$  since $a$ is dimensionless
 \end{itemize}
 
 
 \subsection{Nondimensional variables}
-The nondimensional variables are ...
+The nondimensional variables are
 \begin{equation}\label{eq:variables}
-y_1 = \frac{k_2 d_1}{k_1} C \qquad
-y_2 = \frac{k_6 d_1}{k_4 k_5} Z \qquad
-y_3 = \frac{1}{\sqrt{k_4}} K 
+y_1 = \left(\frac{k_2 d_1}{k_1}\right) C, \qquad
+y_2 = \left(\frac{k_6 d_1}{k_4 k_5}\right) Z, \qquad
+y_3 = \left(\frac{1}{\sqrt{k_4}}\right) K.
 \end{equation}
-
+We note that
 \begin{itemize}
-  \item $\dfrac{k_2 d_1}{k_1}$ has units $L^3$ therefore $y_1$ is dimensionless
-  \item $\dfrac{k_6 d_1}{k_4 k_5}$ has units $L^3$ therefore $y_2$ is dimensionless
-  \item $\dfrac{1}{\sqrt{k_4}}$ has units $L^3$ therefore $y_3$ is dimensionless
+  \item $\dfrac{k_2 d_1}{k_1}$ has units $L^3$ therefore $y_1$ is dimensionless,
+  \item $\dfrac{k_6 d_1}{k_4 k_5}$ has units $L^3$ therefore $y_2$ is dimensionless,
+  \item $\dfrac{1}{\sqrt{k_4}}$ has units $L^3$ therefore $y_3$ is dimensionless.
 \end{itemize}
 
 
@@ -150,72 +157,72 @@ The nondimensional groups (parameters) are ...
 \begin{equation}\label{eq:parameters}
 \left.
 \begin{gathered}\begin{aligned}
-p_1 &= \frac{k_4^2 k_5^2}{k_2 k_6^2 d_1^2}  \\
-p_3 &= \frac{k_4}{k_6} \\
-p_5 &= \frac{k_2^2 k_7 d_1}{k_1^2 \sqrt{k_4}} \\
-p_7 &= \frac{d_3}{d_1}
+p_1 &= \frac{k_4^2 k_5^2}{k_2 k_6^2 d_1^2},  \\
+p_3 &= \frac{k_4}{k_6}, \\
+p_5 &= \frac{k_2^2 k_7 d_1}{k_1^2 \sqrt{k_4}}, \\
+p_7 &= \frac{d_3}{d_1}.
 \end{aligned}\end{gathered}
 \qquad \qquad
 \begin{gathered}\begin{aligned}
-p_2 &= \frac{k_2 k_3}{k_1 k_4} \\
-p_4 &= \frac{d_2}{d_1} \\
-p_6 &= \frac{k_2^2 k_8 d_1^2}{k_1^2} \\
+p_2 &= \frac{k_2 k_3}{k_1 k_4}, \\
+p_4 &= \frac{d_2}{d_1}, \\
+p_6 &= \frac{k_2^2 k_8 d_1^2}{k_1^2}, \\
 & \\
 \end{aligned}\end{gathered}
 \qquad \right \}
 \end{equation}
 
-Parameters $p_3, p_4$ and $p_7$ are trivially dimensionless  since they are ratios of dimensional parameter with equal units. The remaining parameters are not so obviously dimensionless.
+Parameters $p_3, p_4$ and $p_7$ are trivially dimensionless  since they are ratios of dimensional parameter with equal units. The remaining parameters are not so obviously dimensionless. However,
 \begin{itemize}
-  \item $p_1$ has units $\dfrac{L^{-12}\cdot L^{-6}T^{-2}}               {L^{-6} \cdot L^{-12} \cdot T^{-2}}$
-  \item $p_2$ has units $\dfrac{L^{-6} \cdot L^{-9}T^{-1}}               {L^{-9} T^{-1} \cdot L^{-6}}$
-  \item $p_5$ has units $\dfrac{L^{-12}\cdot L^{-9}T^{-1} \cdot T^{-1} } {L^{-18} T^{-2} \cdot L^{-3}}$
-  \item $p_6$ has units $\dfrac{L^{-12}\cdot L^{-6} \cdot T^{-2}}        {L^{-18}\cdot T^{-2}}$
+  \item $p_1$ has units $\dfrac{L^{-12}\cdot L^{-6}T^{-2}}  {L^{-6} \cdot L^{-12} \cdot T^{-2}} = 1$,
+  \item $p_2$ has units $\dfrac{L^{-6} \cdot L^{-9}T^{-1}}  {L^{-9} T^{-1} \cdot L^{-6}} = 1$,
+  \item $p_5$ has units $\dfrac{L^{-12}\cdot L^{-9}T^{-1} \cdot T^{-1} }  {L^{-18} T^{-2} \cdot L^{-3}} = 1$,
+  \item $p_6$ has units $\dfrac{L^{-12}\cdot L^{-6} \cdot T^{-2}}  {L^{-18}\cdot T^{-2}} = 1$.
 \end{itemize}
 
 
 \subsection{Nondimensionalizing governing equations}
 
-The terms to multiply through by are most easily determined from the decay term. The time scale is $\dfrac{1}{d_1}$.
+The terms by which to multiply the LHS and RHS of equations \ref{eq:de_one}, \ref{eq:de_two} and \ref{eq:de_three} are most easily determined by considering the decay term. The time scale is $\dfrac{1}{d_1}$.
 
 \subsubsection{Equation \eqref{eq:de_one}}
-Multiply \eqref{eq:de_one} by $\dfrac{k_2}{k_1}$
-\begin{equation} \label{eq:nondim_de_one}
+Multiply \eqref{eq:de_one} by $\dfrac{k_2}{k_1}$.
+\begin{equation*} 
 \begin{gathered}\begin{aligned}
-{\rm LHS} &= \frac{1}{d_1} \frac{k_2 d_1}{k_1} \frac{dC}{d\tau} 
+{\rm LHS} &= \frac{1}{d_1} \frac{k_2 d_1}{k_1} \frac{dC}{d\tau}
            = \frac{1}{d_1} \frac{dy_1}{d\tau}
            = \frac{dy_1}{dt} \\
-{\rm RHS(1)} &= \frac{1}{1 + Z^2/k_2} 
-              = \frac{1}{1 + (k_4 k_5 y_2 / k_6 d_1)^2/k_2} 
+{\rm RHS(1)} &= \frac{1}{1 + Z^2/k_2}
+              = \frac{1}{1 + (k_4 k_5 y_2 / k_6 d_1)^2/k_2}
               = \frac{1}{1 + p_1 y_2^2} \\
 {\rm RHS(2)} &= \frac{k_2 k_3}{k_1 k_4} \left( \frac{1}{1 + k_4 y_3^2/k_4} \right)
               = \frac{p_2}{1 + y_3^2}  \\
 {\rm RHS(3)} &= \frac{k_2 d_1}{k_1} C = y_1
 \end{aligned}\end{gathered}
-\end{equation}
+\end{equation*}
 
 \subsubsection{Equation \eqref{eq:de_two}}
-Multiply \eqref{eq:de_two} by $\dfrac{k_6}{k_4 k_5}$
-\begin{equation}\label{eq:nondim_de_two}
+Multiply \eqref{eq:de_two} by $\dfrac{k_6}{k_4 k_5}$.
+\begin{equation*}
 \begin{gathered}\begin{aligned}
-{\rm LHS} &= \frac{1}{d_1} \frac{k_6 d_1}{k_4 k_5} \frac{dZ}{d\tau} 
-           = \frac{1}{d_1} \frac{dy_2}{d\tau} 
+{\rm LHS} &= \frac{1}{d_1} \frac{k_6 d_1}{k_4 k_5} \frac{dZ}{d\tau}
+           = \frac{1}{d_1} \frac{dy_2}{d\tau}
            = \frac{dy_2}{dt} \\
 {\rm RHS(1)} &= \frac{k_6}{k_4} \left( \frac{K^2}{k_6(1 + K^2/k_6)} \right)
               = \frac{K^2/k_4}{(1 + (k_4/k_6)(K^2/k_4))}
               = \frac{y_3^2}{1 + p_3 y_3^2} \\
-{\rm RHS(2)} &= \frac{d_2}{d_1}\left(\frac{k_6 d_1}{k_4 k_5}\right) Z 
+{\rm RHS(2)} &= \frac{d_2}{d_1}\left(\frac{k_6 d_1}{k_4 k_5}\right) Z
               = p_4 y_2
 \end{aligned}\end{gathered}
-\end{equation}
+\end{equation*}
 
 
 \subsubsection{Equation \eqref{eq:de_three}}
-Multiply \eqref{eq:de_three} multiply by $\dfrac{1}{d_1 \sqrt{k_4}}$
-\begin{equation} \label{eq:nondim_de_three}
+Multiply \eqref{eq:de_three} multiply by $\dfrac{1}{d_1 \sqrt{k_4}}$.
+\begin{equation*} 
 \begin{gathered}\begin{aligned}
-{\rm LHS} &= \frac{1}{d_1 \sqrt{k_4}} \frac{dK}{d\tau} 
-           = \frac{1}{d_1} \frac{dy_3}{d\tau} 
+{\rm LHS} &= \frac{1}{d_1 \sqrt{k_4}} \frac{dK}{d\tau}
+           = \frac{1}{d_1} \frac{dy_3}{d\tau}
            = \frac{dy_3}{dt} \\
 {\rm RHS(1)} &= \left( \frac{k_2^2 k_7 d_1}{d_1^2 \sqrt{k_4}} \right) \
               \left(  \frac{k_1^2}{k_2^2 d_1^2} \frac{1}{k_8 + C^2} \right)
@@ -223,9 +230,23 @@ Multiply \eqref{eq:de_three} multiply by $\dfrac{1}{d_1 \sqrt{k_4}}$
               = \frac{p_5}{ p_6 + y_1^2}  \\
 {\rm RHS(2)} &= \left( \frac{d_3}{d_1 \sqrt{k_4}} \right) K = \frac{d_3}{d_1} y_3 = p_7 y_2
 \end{aligned}\end{gathered}
+\end{equation*}
+
+
+\section{Nondimensional model}
+The resulting non-dimensional system of equations is
+\begin{eqnarray}
+\frac{dy_1}{dt} &=& \frac{1}{1 + p_1 y^2} + \frac{p_2}{1 + y_3^2} - y_1  \label{nondim_de_one} \\
+\frac{dy_2}{dt} &=& \frac{a y_3^2}{1 + p_3 y^2} - p_4 y_2 \label{nondim_de_two} \\
+\frac{dy_3}{dt} &=& \frac{r p_5}{p_6 + y_1^2} - p_7 y_3 \label{nondim_de_three}
+\end{eqnarray}
+subject to initial conditions
+\begin{equation}
+y_1(0) = y_{1,0}, \quad y_2(0) = y_{2,0}, \quad y_3(0) = y_{3,0}.
 \end{equation}
 
-
+\bibliographystyle{unsrt}
+\bibliography{stem_cell}
 
 
 \end{document}
