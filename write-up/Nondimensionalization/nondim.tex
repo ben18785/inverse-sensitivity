@@ -103,13 +103,11 @@
 
 \subsection{Initial value problem}
 
-\begin{equation}
-\begin{aligned}
-\frac{dC}{d\tau} &= \frac{k_1}{k_2 + Z^2} + \frac{k_3}{k_4 + K^2} - d_1 C \\
-\frac{dZ}{d\tau} &= \frac{a k_5 K^2}{k_6 + K^2} - d_2 Z \\
-\frac{dK}{d\tau} &= \frac{r k_7}{k_8 + C^2} - d_3 K
-\end{aligned}
-\end{equation}
+\begin{eqnarray}
+\frac{dC}{d\tau} &=& \frac{k_1}{k_2 + Z^2} + \frac{k_3}{k_4 + K^2} - d_1 C  \label{eq:de_one} \\
+\frac{dZ}{d\tau} &=& \frac{a k_5 K^2}{k_6 + K^2} - d_2 Z \label{eq:de_two} \\
+\frac{dK}{d\tau} &=& \frac{r k_7}{k_8 + C^2} - d_3 K \label{eq:de_three} 
+\end{eqnarray}
 
 Initial conditions
 \begin{equation}
@@ -133,12 +131,10 @@ $C, K$ and $Z$ are concentrations with units $L^{-3}$ and therefore all the LHS 
 
 \subsection{Nondimensional variables}
 The nondimensional variables are ...
-\begin{equation}
-\begin{aligned}
-y_1 = \frac{k_2 d_1}{k_1} C \\
-y_2 = \frac{k_6 d_1}{k_4 k_5} Z \\
-y_3 = \frac{1}{\sqrt{k_4}} K \\
-\end{aligned}
+\begin{equation}\label{eq:variables}
+y_1 = \frac{k_2 d_1}{k_1} C \qquad
+y_2 = \frac{k_6 d_1}{k_4 k_5} Z \qquad
+y_3 = \frac{1}{\sqrt{k_4}} K 
 \end{equation}
 
 \begin{itemize}
@@ -151,27 +147,27 @@ y_3 = \frac{1}{\sqrt{k_4}} K \\
 \subsection{Nondimensional groups (parameters)}
 
 The nondimensional groups (parameters) are ...
-\begin{equation}
-\begin{aligned}
-p_1 &= \frac{k_4^2 k_5^2}{k_2 k_6^2 d_1} \\
-p_2 &= \frac{k_2 k_3}{k_1 k_4} \\
+\begin{equation}\label{eq:parameters}
+\left.
+\begin{gathered}\begin{aligned}
+p_1 &= \frac{k_4^2 k_5^2}{k_2 k_6^2 d_1^2}  \\
 p_3 &= \frac{k_4}{k_6} \\
-p_4 &= \frac{d_2}{d_1} \\
 p_5 &= \frac{k_2^2 k_7 d_1}{k_1^2 \sqrt{k_4}} \\
+p_7 &= \frac{d_3}{d_1}
+\end{aligned}\end{gathered}
+\qquad \qquad
+\begin{gathered}\begin{aligned}
+p_2 &= \frac{k_2 k_3}{k_1 k_4} \\
+p_4 &= \frac{d_2}{d_1} \\
 p_6 &= \frac{k_2^2 k_8 d_1^2}{k_1^2} \\
-p_7 &= \frac{d_3}{d_1} 
-\end{aligned}
+& \\
+\end{aligned}\end{gathered}
+\qquad \right \}
 \end{equation}
 
-The following parameters are dimensionless trivially since they are ratios of dimensional parameter with equal units
+Parameters $p_3, p_4$ and $p_7$ are trivially dimensionless  since they are ratios of dimensional parameter with equal units. The remaining parameters are not so obviously dimensionless.
 \begin{itemize}
-  \item $p_3$ is dimensionless
-  \item $p_4$ is dimensionless
-  \item $p_7$ is dimensionless
-\end{itemize}
-The remaining parameters are not so obviously dimensionless
-\begin{itemize}
-  \item $p_1$ has units $\dfrac{L^{-12}\cdot L^{-6}T^{-2}}               {L^{-6} \cdot L^{-12} \cdot T^{-2}}$ 
+  \item $p_1$ has units $\dfrac{L^{-12}\cdot L^{-6}T^{-2}}               {L^{-6} \cdot L^{-12} \cdot T^{-2}}$
   \item $p_2$ has units $\dfrac{L^{-6} \cdot L^{-9}T^{-1}}               {L^{-9} T^{-1} \cdot L^{-6}}$
   \item $p_5$ has units $\dfrac{L^{-12}\cdot L^{-9}T^{-1} \cdot T^{-1} } {L^{-18} T^{-2} \cdot L^{-3}}$
   \item $p_6$ has units $\dfrac{L^{-12}\cdot L^{-6} \cdot T^{-2}}        {L^{-18}\cdot T^{-2}}$
@@ -180,43 +176,53 @@ The remaining parameters are not so obviously dimensionless
 
 \subsection{Nondimensionalizing governing equations}
 
-The terms to multiply through by are most easily determined from the decay term.
+The terms to multiply through by are most easily determined from the decay term. The time scale is $\dfrac{1}{d_1}$.
 
-\begin{itemize}
-  \item Equation One -- multiply by $\dfrac{k_2}{k_1}$
-  \item Equation Two -- multiply by $\dfrac{k_6}{k_4 k_5}$
-  \item Equation Three -- multiply by $\dfrac{1}{d_1 \sqrt{k_4}}$
-\end{itemize}
-
-\subsubsection{Equation One}
-\begin{equation}
-\begin{aligned}
-LHS &= \frac{1}{d_1} \frac{k_2 d_1}{k_1} \frac{dD}{d\tau} = \frac{1}{d_1} \frac{dy_1}{d\tau} \\
-RHS(1) &= \frac{1}{1 + Z^2/k_2} = \frac{1}{1 + (k_4 k_5 y_2 / k_6 d_1)^2/k_2} = \frac{1}{1 + p_1 y_2^2} \\
-RHS(2) &= \frac{k_2 k_3}{k_1 k_4} \frac{1}{1 + k_4 y_3^2/k_4} = \frac{p_2}{1 + y_3^2}  \\
-RHS(3) &= \frac{k_2 d_1}{k_1} C = y_1
-\end{aligned}
+\subsubsection{Equation \eqref{eq:de_one}}
+Multiply \eqref{eq:de_one} by $\dfrac{k_2}{k_1}$
+\begin{equation} \label{eq:nondim_de_one}
+\begin{gathered}\begin{aligned}
+{\rm LHS} &= \frac{1}{d_1} \frac{k_2 d_1}{k_1} \frac{dC}{d\tau} 
+           = \frac{1}{d_1} \frac{dy_1}{d\tau}
+           = \frac{dy_1}{dt} \\
+{\rm RHS(1)} &= \frac{1}{1 + Z^2/k_2} 
+              = \frac{1}{1 + (k_4 k_5 y_2 / k_6 d_1)^2/k_2} 
+              = \frac{1}{1 + p_1 y_2^2} \\
+{\rm RHS(2)} &= \frac{k_2 k_3}{k_1 k_4} \left( \frac{1}{1 + k_4 y_3^2/k_4} \right)
+              = \frac{p_2}{1 + y_3^2}  \\
+{\rm RHS(3)} &= \frac{k_2 d_1}{k_1} C = y_1
+\end{aligned}\end{gathered}
 \end{equation}
 
-\subsubsection{Equation Two}
-\begin{equation}
-\begin{aligned}
-LHS &= \frac{1}{d_1} \frac{k_6 d_1}{k_4 k_5} \frac{dZ}{d\tau} = \frac{1}{d_1} \frac{dy_2}{d\tau} \\
-RHS(1) &= \frac{k_6}{k_4} \frac{K^2}{k_6(1 + K^2/k_6)} = \frac{K^2/k_4}{(1 + k_4/k_6*K^2/k_4)} = \frac{y_3^2}{1 + p_3 y_3^2} \\
-RHS(2) &= \frac{d_2}{d_1} * \frac{k_6 d_1}{k_4 k_5} Z = p_4 y_2
-\end{aligned}
+\subsubsection{Equation \eqref{eq:de_two}}
+Multiply \eqref{eq:de_two} by $\dfrac{k_6}{k_4 k_5}$
+\begin{equation}\label{eq:nondim_de_two}
+\begin{gathered}\begin{aligned}
+{\rm LHS} &= \frac{1}{d_1} \frac{k_6 d_1}{k_4 k_5} \frac{dZ}{d\tau} 
+           = \frac{1}{d_1} \frac{dy_2}{d\tau} 
+           = \frac{dy_2}{dt} \\
+{\rm RHS(1)} &= \frac{k_6}{k_4} \left( \frac{K^2}{k_6(1 + K^2/k_6)} \right)
+              = \frac{K^2/k_4}{(1 + (k_4/k_6)(K^2/k_4))}
+              = \frac{y_3^2}{1 + p_3 y_3^2} \\
+{\rm RHS(2)} &= \frac{d_2}{d_1}\left(\frac{k_6 d_1}{k_4 k_5}\right) Z 
+              = p_4 y_2
+\end{aligned}\end{gathered}
 \end{equation}
 
 
-\subsubsection{Equation Three}
-\begin{equation}
-\begin{aligned}
-LHS &= \frac{1}{d_1 \sqrt{k_4}} \frac{dK}{d\tau} = \frac{1}{d_1} \frac{dy_3}{d\tau} \\
-RHS(1) &= \frac{k_2^2 k_7 d_1}{d_1^2 \sqrt{k_4}} * \left(  \frac{k_1^2}{k_2^2 d_1^2} \frac{1}{k_8 + C^2} \right)
-  = p_5 \left( \frac{1}{ k_2^2 d_1^2 / k_1^2 (k_8+C^2)}\right) 
-  = p_5 \frac{1}{ p_6 + y_1^2}  \\
-RHS(2) &= \frac{d_3}{d_1 \sqrt{k_4}}K = \frac{d_3}{d_1} y_3 = p_7 y_2
-\end{aligned}
+\subsubsection{Equation \eqref{eq:de_three}}
+Multiply \eqref{eq:de_three} multiply by $\dfrac{1}{d_1 \sqrt{k_4}}$
+\begin{equation} \label{eq:nondim_de_three}
+\begin{gathered}\begin{aligned}
+{\rm LHS} &= \frac{1}{d_1 \sqrt{k_4}} \frac{dK}{d\tau} 
+           = \frac{1}{d_1} \frac{dy_3}{d\tau} 
+           = \frac{dy_3}{dt} \\
+{\rm RHS(1)} &= \left( \frac{k_2^2 k_7 d_1}{d_1^2 \sqrt{k_4}} \right) \
+              \left(  \frac{k_1^2}{k_2^2 d_1^2} \frac{1}{k_8 + C^2} \right)
+              = p_5 \left( \frac{1}{ k_2^2 d_1^2 / k_1^2 (k_8+C^2)}\right)
+              = \frac{p_5}{ p_6 + y_1^2}  \\
+{\rm RHS(2)} &= \left( \frac{d_3}{d_1 \sqrt{k_4}} \right) K = \frac{d_3}{d_1} y_3 = p_7 y_2
+\end{aligned}\end{gathered}
 \end{equation}
 
 
