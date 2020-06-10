@@ -27,7 +27,7 @@ full_df <- full_df %>%
   mutate(time=as.numeric(time)) %>% 
   mutate_if(function(x) !is.numeric(x), as.numeric)
 
-write.csv(full_df, "../data/tu_et_al_2019/GSE75748_sc_time_course_ec_processed.csv")
+# write.csv(full_df, "../data/tu_et_al_2019/GSE75748_sc_time_course_ec_processed.csv")
 ```
 
 Plot data at each time
@@ -55,4 +55,48 @@ full_df %>%
   facet_wrap(~time)
 ```
 
+Look only at 12 and 72 hours
+```{r}
+full_df %>% 
+  filter((time==12|time==72)) %>% 
+  ggplot(aes(x=CDH1, y=KLF8)) +
+  geom_point() +
+  geom_density_2d(h=200) +
+  facet_wrap(~time) +
+  facet_wrap(~time, scales="free")
+
+full_df %>% 
+  filter((time==12|time==72)) %>%
+  ggplot(aes(x=CDH1, y=ZEB1)) +
+  geom_point() +
+  geom_density_2d(h=200) +
+  facet_wrap(~time) +
+  facet_wrap(~time, scales="free")
+
+full_df %>% 
+  filter((time==12|time==72)) %>%
+  ggplot(aes(x=KLF8, y=ZEB1)) +
+  geom_point() +
+  geom_density_2d(h=200) +
+  facet_wrap(~time, scales="free")
+```
+
+Fit using multivariate normal
+```{r}
+df_12 <- full_df %>% 
+  select(CDH1, KLF8, time) %>% 
+  filter((time==12)) %>% 
+  select(-time) %>%
+  mutate_all(.funs=function(x) x/100)
+cov_12 <- cov(df_12)
+mu_12 <- colMeans(df_12)
+
+df_72 <- full_df %>% 
+  select(CDH1, KLF8, time) %>%
+  filter((time==72)) %>% 
+  select(-time) %>%
+  mutate_all(.funs=function(x) x/100)
+cov_72 <- cov(df_72)
+mu_72 <- colMeans(df_72)
+```
 
