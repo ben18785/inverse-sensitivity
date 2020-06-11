@@ -1,3 +1,5 @@
+
+
 ## Big things
 
 * Make clear that the theory isn't necessarily novel but it is new for this audience
@@ -30,3 +32,37 @@
 * Take average of data at t=0
 * Non-dimensional time?
 * In Julia, fit a kernel density estimator to 3d output data at t=12 and t=72
+
+
+
+### Results
+
+* mBounds = [[40 60]; [4 6]; [0.5 15]; [0 0.5]; [2 4]; [2 20]; [0 0.2]];
+
+  * ```
+    4.84356  0.558021  0.862116  3.21376
+    ```
+
+    ```
+    0.263702   -0.0422736    0.0687865  -0.0513065
+     -0.0422736   0.00934229  -0.0179715   0.0314511
+      0.0687865  -0.0179715    0.15016    -0.294149 
+      -0.0513065   0.0314511   -0.294149    0.944201 
+    ```
+
+  * See screenshot on 10th June 2020 in "old_figs"
+
+* mBounds = [[40 60]; [4 8]; [0.5 16]; [0 0.7]; [2 4]; [2 20]; [0 0.2]];
+
+  * ```
+    4.90413  0.570053  1.13278  2.68944
+    ```
+
+    ```
+    1.10002    -0.0950675  -0.126812    0.437985 
+     -0.0950675   0.0142869  -0.0136173   0.0150131
+     -0.126812   -0.0136173   0.315512   -0.537052 
+      0.437985    0.0150131  -0.537052    1.25463  
+    ```
+
+  * See first screenshot on 11th June 2020 in "old_figs"

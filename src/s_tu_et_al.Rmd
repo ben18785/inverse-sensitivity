@@ -23,7 +23,7 @@ colnames(full_df) <- lnames
 full_df <- full_df %>% 
   rownames_to_column(var = "temp") %>% 
   mutate(time=substr(temp, 4, 5)) %>% 
-  select(-temp) %>% 
+  dplyr::select(-temp) %>% 
   mutate(time=as.numeric(time)) %>% 
   mutate_if(function(x) !is.numeric(x), as.numeric)
 
@@ -80,6 +80,40 @@ full_df %>%
   geom_density_2d(h=200) +
   facet_wrap(~time, scales="free")
 ```
+
+
+```{r}
+library(fitdistrplus)
+tmp1 <- full_df %>% 
+  filter(time==12) %>%
+  pull(CDH1)
+hist(tmp1)
+descdist(tmp1)
+fit <- fitdist(tmp1/100, "unif")
+fit
+
+tmp <- full_df %>% 
+  filter(time==72) %>%
+  pull(CDH1)
+qplot(tmp)
+
+descdist(tmp)
+
+fit <- fitdist(tmp/100, "gamma")
+
+hist(rgamma(10000, 1.7, 0.84))
+
+tmp <- full_df %>% 
+  filter(time==36) %>%
+  pull(CDH1)
+qplot(tmp)
+
+descdist(tmp)
+
+fit <- fitdist(tmp/100, "gamma")
+fit
+```
+
 
 Fit using multivariate normal
 ```{r}
