@@ -89,7 +89,7 @@ tmp1 <- full_df %>%
   pull(CDH1)
 hist(tmp1)
 descdist(tmp1)
-fit <- fitdist(tmp1/100, "unif")
+fit <- fitdist(tmp1/100, "norm")
 fit
 
 tmp <- full_df %>% 
@@ -112,16 +112,27 @@ descdist(tmp)
 
 fit <- fitdist(tmp/100, "gamma")
 fit
+
+tmp1 <- full_df %>% 
+  filter(time==72) %>%
+  pull(KLF8)
+hist(tmp1/100)
+descdist(tmp1)
+fit <- fitdist(tmp1/100, "norm")
+fit
 ```
 
 
 Fit using multivariate normal
 ```{r}
 df_12 <- full_df %>% 
-  select(CDH1, KLF8, time) %>% 
-  filter((time==12)) %>% 
-  select(-time) %>%
-  mutate_all(.funs=function(x) x/100)
+  select(time, CDH1)%>% 
+  filter(time==12)
+df_72 <- full_df %>% 
+  select(time, KLF8)%>% 
+  filter(time==72)
+df_tot <- df_12
+
 cov_12 <- cov(df_12)
 mu_12 <- colMeans(df_12)
 

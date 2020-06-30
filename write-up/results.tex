@@ -311,7 +311,7 @@ where the target distributions for $\boldsymbol{q}_2(2.0)$ and $\boldsymbol{q}_2
 \begin{adjustwidth}{0in}{0in}%
 \begin{tabularx}{1.0\textwidth}{llclcc}
 Model	& Target  & Parameter & Prior    & Prior  & Prior  \\
-        & density &           & density  & $p_1$  & $p_2$  \\
+        & density &           & density  & $\theta_1$  & $\theta_2$  \\
 \toprule
 Growth  & 2D     & $R_T$       & uniform & $2.5 \times 10^5$ &  $8 \times 10^5$\\
 factor  & Gaussian & $k_1$       & uniform & 0.25 & 3.0\\
@@ -356,8 +356,69 @@ signalling& Gaussian & $a_2$ & uniform & 0.1 & 0.3\\
 && $b_3$ & uniform & 0.2 & 0.4\\
 && $b_4$ & uniform & 0.4 & 0.6\\
 && $b_5$ & uniform & 0.3 & 0.5\\
+\toprule
+hESC & 1D-2D & $p_1$ & uniform & 40.0 & 60.0\\
+differentiation & Gaussian & $p_2$ & uniform & 2.0 & 10.0\\
+&& $p_3$ & uniform & 0.5 & 16\\
+&& $p_4$ & uniform & 0.0 & 0.7\\
+&& $p_5$ & uniform & 2.0 & 4.0\\
+&& $p_6$ & uniform & 2.0 & 20.0\\
+&& $p_7$ & uniform & 0.0 & 0.2\\
 \end{tabularx}
-\caption{\textbf{Priors used for each example in \S\ref{sec:results}.} The parameters $p_1$ and $p_2$ indicate the prior hyperparameters: for uniform priors, these correspond to the lower and upper limits; for Gaussian priors, they correspond to the mean and standard deviation.}
+\caption{\textbf{Priors used for each example in \S\ref{sec:results}.} The parameters $\theta_1$ and $\theta_2$ indicate the prior hyperparameters: for uniform priors, these correspond to the lower and upper limits; for Gaussian priors, they correspond to the mean and standard deviation.}
 \label{tab:priors}
 \end{adjustwidth}
 \end{table}
+
+\subsection{Embryonic stem cell differentiation}\label{sec:hesc}
+We now demonstrate how CMC can be applied to real data generated from experiments investigating human embryonic stem cell (hESC) differentiation. Specifically, we use a model derived from the ODE system presented in \cite{tu2019single}, which seeks to explain regulation of three transcription factors involved in hESC fate: CDH1 ($C$), ZEB1 ($Z$) and KLF8 ($K$). This system was modelled by the following system, involving a number of Michaelis-Menten-type terms,
+%
+\begin{equation}
+\begin{aligned}
+\frac{d C}{d t} &= \frac{k_1}{k_2 + Z^2} + \frac{k_3}{k_4 + K^2} - d_1 C\\
+\frac{d Z}{d t} &= \frac{a k_5 K^2}{k_6 + K^2} - d_2 Z\\
+\frac{d K}{d t} &= \frac{r k_7}{k_8 + C^2} - d_3 K,
+\end{aligned}
+\end{equation}
+%
+subject to initial conditions: $C(0) = C_0, Z(0)=Z_0, K(0) = K_0$ and $a=1$ and $r=1$ are nondimensional parameters. We recast this system, using the following nondimensional variables (see supplementary files for further details):
+%
+\begin{equation}
+y_1 = \frac{k_2 d_1}{k_1} C, \; y_2 = \frac{k_6 d_1}{k_4 k_5} Z, \; y_3 = \frac{1}{\sqrt{k_4}} K,
+\end{equation}
+%
+which results in the following system,
+%
+\begin{equation}\label{eq:tu_nondimensional}
+\begin{aligned}
+\frac{d y_1}{ d\tau} &= \frac{1}{1 + p_1 y_2^2} + \frac{p_2}{1 + y_3^2} - y_1\\
+\frac{d y_2}{ d\tau} &= \frac{y_3^2}{1 + p_3 y_3^2} - p_4 y_2\\
+\frac{d y_3}{d\tau} &= \frac{p_5}{p_6 + y_1^2} - p_7 y_3,
+\end{aligned}
+\end{equation}
+%
+with initial states $y_1(0) = y_{1,0}, y_2(0) = y_{2,0}, y_3(0) = y_{3,0}$.
+
+In what follows, we perform parameter inference for eq. \eqref{eq:tu_nondimensional} on single-cell RNA-seq data obtained and processed as described in \cite{tu2019single} from NCBI's Gene Expression Omnibus. The dataset has single-cell gene expression data for 758 cells collected at six times during the course of experiment (0 h, 12 h, 24 h, 36 h, 72h, 96 h) for CDH1, ZEB1 and KLF8.
+
+Here, we consider estimating the posterior parameter distributions using data obtained at $t=12 \text{h}$ for CDH1 and $t=72 \text{h}$ for KLF8. Across the three cases described below, we use CMC with priors for parameters in eq. \eqref{eq:tu_nondimensional} as given in Table \ref{tab:priors}. We also assume the initial values of each variable are given by: $y_1(0) = 1.5, y_2(0) = 0.0, y_3(0) = 0.0$.
+
+We first consider the CDH1 data in isolation: to do so, we fit a Gaussian distribution to these data and obtain $q_1=y_3(72)  \sim \mathcal{N}(5.50, 1.05)$. CMC produces samples that closely approximate this distribution (Figure \ref{fig:tu_outputs}A; blue lines). The joint posterior distribution for two model parameters, $(p_2, p_5)$, is shown in the leftmost panel of Figure \ref{fig:tu_inputs} and shows a concentrated distribution.
+
+Next we consider the KLF8 data: we fit a Gaussian distribution to these and obtain $q_2=y_1(12)  \sim \mathcal{N}(3.77, 1.37)$.  Again, using CMC, we obtain samples that closely approximates this target (Figure \ref{fig:tu_outputs}A; orange lines). The posterior distribution for $(p_2, p_5)$ is, however, now quite different to previously (Figure \ref{fig:tu_inputs} middle panel) hinting that it may be quite difficult to determine a posterior distribution where we target both $q_1$ and $q_2$.
+
+Finally, we attempt to target the distribution described by both $q_1$ and $q_2$: here, we assume that there is no correlation between these targets because we have no cells with observations for both $t=12$ and $t=72$ since the measurement process is destructive. In Figure \ref{fig:tu_outputs}B, we plot the joint target distribution and samples from CMC. In this plot, it is clear that there is a disjunction between the target distribution and the samples. In particular, the target distribution for $q_2$ has a mean that is far below the target value.
+
+The rightmost panel of Figure \ref{fig:tu_inputs} shows the posterior parameter distribution for $(p_2, p_5)$ when targeting this bivariate output distribution. In comparing it to the other panels in the same figure, it is clear that the posterior distribution when targeting $(q_1,q_2)$ is somewhere between the distribution for $q_1$ and $q_2$ alone; unfortunately, this midway house is not suited to either case, however. Indeed, this failure to target both $q_1$ and $q_2$ simultaneously suggests that the model does not actually cohere with the data. By ``model'' here, it could either be that the ODE system described in eq. \eqref{eq:tu_nondimensional} is inappropriate; it is also possible that this could be due to failure to include noise in the measurement process. These results illustrate how CMC can be used to determine when a model is inconsistent with data and also suggest that extending CMC to handle noisy measurement is likely worthwhile.
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=1\textwidth]{../figures/tu_outputs.png}}
+	\caption{\textbf{Embryonic stem cell differentiation model: output targets.} In A., we show the output target distributions described in \S\ref{sec:hesc} and kernel density estimates of the distributions reconstructed from the CMC samples. In B., we show the joint target distribution (contour lines) for the case where we target both $q_1$ and $q_2$ simultaneously; above and to the right of the plot, we show the target marginals (solid lines) and the marginals reconstructed from the samples (dashed lines). In CMC, 50,000 independent samples were used in the ``ContourVolumeEstimator'' step, and 50,000 MCMC samples across each of 4 Markov chains were used in the second, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}. Mathematica's ``SmoothKernelDistribution'' function, using a Gaussian kernel \cite{mathematica} and default bandwidths were used to reconstruct marginal densities.}
+	\label{fig:tu_outputs}
+\end{figure}
+
+\begin{figure}[H]
+	\centerline{\includegraphics[width=1\textwidth]{../figures/tu_inputs.png}}
+	\caption{\textbf{Embryonic stem cell differentiation model: posterior parameter distribution.} In the left panel, we show the posterior distribution for $(p_2, p_5)$ when targeting $q_1$; in the middle, we show the same when targeting $q_2$; and in the right panel, we show the same when targeting $(q_1, q_2)$. In CMC, 50,000 independent samples were used in the ``ContourVolumeEstimator'' step, and 50,000 MCMC samples across each of 4 Markov chains were used in the second, with the first half of the chains discarded as ``warm-up'' \cite{lambert2018Student}.}
+	\label{fig:tu_inputs}
+\end{figure}
