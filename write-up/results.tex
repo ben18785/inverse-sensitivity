@@ -371,7 +371,7 @@ differentiation & Gaussian & $p_2$ & uniform & 2.0 & 10.0\\
 \end{table}
 
 \subsection{Embryonic stem cell differentiation}\label{sec:hesc}
-We now demonstrate how CMC can be applied to real data generated from experiments investigating human embryonic stem cell (hESC) differentiation. Specifically, we use a model derived from the ODE system presented in \cite{tu2019single}, which seeks to explain regulation of three transcription factors involved in hESC fate: CDH1 ($C$), ZEB1 ($Z$) and KLF8 ($K$). This system was modelled by the following system, involving a number of Michaelis-Menten-type terms,
+We now demonstrate how CMC can be applied to real data generated from experiments investigating human embryonic stem cell (hESC) differentiation. Specifically, we use a reaction kinetics-based model derived from the ODE system presented in \cite{tu2019single}, which seeks to explain regulation of three transcription factors involved in hESC fate: CDH1, ZEB1 and KLF8. This system was modelled by the following system, involving a number of Michaelis-Menten-type terms,
 %
 \begin{equation}
 \begin{aligned}
@@ -381,13 +381,13 @@ We now demonstrate how CMC can be applied to real data generated from experiment
 \end{aligned}
 \end{equation}
 %
-subject to initial conditions: $C(0) = C_0, Z(0)=Z_0, K(0) = K_0$ and $a=1$ and $r=1$ are nondimensional parameters. We recast this system, using the following nondimensional variables (see supplementary files for further details):
+where $C=[\text{CDH1}]$, $Z=[\text{ZEB1}]$ and $K=[\text{KLF8}]$, subject to initial conditions: $C(0) = C_0, Z(0)=Z_0, K(0) = K_0$, and $a=1$ and $r=1$ are nondimensional parameters. We recast this system, using the following nondimensional variables (see supplementary files for further details):
 %
 \begin{equation}
 y_1 = \frac{k_2 d_1}{k_1} C, \; y_2 = \frac{k_6 d_1}{k_4 k_5} Z, \; y_3 = \frac{1}{\sqrt{k_4}} K,
 \end{equation}
 %
-which results in the following system,
+and time scale $\frac{1}{d_1}$, so that $\tau = d_1 t$, which results in the following system,
 %
 \begin{equation}\label{eq:tu_nondimensional}
 \begin{aligned}
@@ -399,13 +399,14 @@ which results in the following system,
 %
 with initial states $y_1(0) = y_{1,0}, y_2(0) = y_{2,0}, y_3(0) = y_{3,0}$.
 
-In what follows, we perform parameter inference for eq. \eqref{eq:tu_nondimensional} on single-cell RNA-seq data obtained and processed as described in \cite{tu2019single} from NCBI's Gene Expression Omnibus. The dataset has single-cell gene expression data for 758 cells collected at six times during the course of experiment (0 h, 12 h, 24 h, 36 h, 72h, 96 h) for CDH1, ZEB1 and KLF8.
+In what follows, we perform parameter inference for eq. \eqref{eq:tu_nondimensional} on single-cell RNA-seq data obtained and processed as described in \cite{tu2019single} from NCBI's Gene Expression Omnibus. The dataset has single-cell gene expression data for 758 cells collected at six times during the course of experiment (0 h, 12 h, 24 h, 36 h, 72h, 96 h) for [CDH1], [ZEB1] and [KLF8] with 92, 102, 66, 172, 138 and 188 measurements at each time point respectively.
 
-Here, we consider estimating the posterior parameter distributions using data obtained at $t=12 \text{h}$ for CDH1 and $t=72 \text{h}$ for KLF8. Across the three cases described below, we use CMC with priors for parameters in eq. \eqref{eq:tu_nondimensional} as given in Table \ref{tab:priors}. We also assume the initial values of each variable are given by: $y_1(0) = 1.5, y_2(0) = 0.0, y_3(0) = 0.0$.
 
-We first consider the CDH1 data in isolation: to do so, we fit a Gaussian distribution to these data and obtain $q_1=y_3(72)  \sim \mathcal{N}(5.50, 1.05)$. CMC produces samples that closely approximate this distribution (Figure \ref{fig:tu_outputs}A; blue lines). The joint posterior distribution for two model parameters, $(p_2, p_5)$, is shown in the leftmost panel of Figure \ref{fig:tu_inputs} and shows a concentrated distribution.
+Here, we consider estimating the posterior parameter distributions using data obtained at $t=12 \text{h}$ for CDH1 and $t=72 \text{h}$ for KLF8. Across the three cases described below, we use CMC with priors for parameters in eq. \eqref{eq:tu_nondimensional} as given in Table \ref{tab:priors}. We assume the initial values of each variable are given by: $y_1(0) = 1.5, y_2(0) = 0.0, y_3(0) = 0.0$.
 
-Next we consider the KLF8 data: we fit a Gaussian distribution to these and obtain $q_2=y_1(12)  \sim \mathcal{N}(3.77, 1.37)$.  Again, using CMC, we obtain samples that closely approximates this target (Figure \ref{fig:tu_outputs}A; orange lines). The posterior distribution for $(p_2, p_5)$ is, however, now quite different to previously (Figure \ref{fig:tu_inputs} middle panel) hinting that it may be quite difficult to determine a posterior distribution where we target both $q_1$ and $q_2$.
+We first consider the CDH1 data in isolation: to do so, we fit a Gaussian distribution to these data and obtain $q_1=y_1(12)  \sim \mathcal{N}(5.50, 1.05)$. CMC produces samples that closely approximate this distribution (Figure \ref{fig:tu_outputs}A; blue lines). The joint posterior distribution for two model parameters, $(p_2, p_5)$, is shown in the leftmost panel of Figure \ref{fig:tu_inputs} and shows a concentrated distribution.
+
+Next we consider the KLF8 data: we fit a Gaussian distribution to these and obtain $q_2=y_3(72)  \sim \mathcal{N}(3.77, 1.37)$.  Again, using CMC, we obtain samples that closely approximates this target (Figure \ref{fig:tu_outputs}A; orange lines). The posterior distribution for $(p_2, p_5)$ is, however, now quite different to previously (Figure \ref{fig:tu_inputs} middle panel) hinting that it may be quite difficult to determine a posterior distribution where we target both $q_1$ and $q_2$.
 
 Finally, we attempt to target the distribution described by both $q_1$ and $q_2$: here, we assume that there is no correlation between these targets because we have no cells with observations for both $t=12$ and $t=72$ since the measurement process is destructive. In Figure \ref{fig:tu_outputs}B, we plot the joint target distribution and samples from CMC. In this plot, it is clear that there is a disjunction between the target distribution and the samples. In particular, the target distribution for $q_2$ has a mean that is far below the target value.
 
