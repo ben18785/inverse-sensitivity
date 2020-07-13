@@ -163,7 +163,7 @@ in B.}
 \label{fig:mm_bimodal_inputs_outputs}
 \end{figure}
 
-\subsubsection{Four-dimensional output distribution}
+\subsubsection{Four-dimensional output distribution}\label{sec:4D}
 Loos et al. (2018) consider a multidimensional output distribution, with correlations between system characteristics that evolve over time. Our approach allows arbitrary covariance structure between measurements, and to exemplify this, we now target a four-dimensional output distribution, with paired measurements of enzyme and substrate at $t=1$ and $t=2$,
 %
 \begin{equation}\label{eq:MM_4d_output}
@@ -410,7 +410,7 @@ Next we consider the KLF8 data: we fit a Gaussian distribution to these and obta
 
 Finally, we attempt to target the distribution described by both $q_1$ and $q_2$: here, we assume that there is no correlation between these targets because we have no cells with observations for both $t=12$ and $t=72$ since the measurement process is destructive. In Figure \ref{fig:tu_outputs}B, we plot the joint target distribution and samples from CMC. In this plot, it is clear that there is a disjunction between the target distribution and the samples. In particular, the target distribution for $q_2$ has a mean that is far below the target value.
 
-The rightmost panel of Figure \ref{fig:tu_inputs} shows the posterior parameter distribution for $(p_2, p_5)$ when targeting this bivariate output distribution. In comparing it to the other panels in the same figure, it is clear that the posterior distribution when targeting $(q_1,q_2)$ is somewhere between the distribution for $q_1$ and $q_2$ alone; unfortunately, this midway house is not suited to either case, however. Indeed, this failure to target both $q_1$ and $q_2$ simultaneously suggests that the model does not actually cohere with the data. By ``model'' here, it could either be that the ODE system described in eq. \eqref{eq:tu_nondimensional} is inappropriate; it is also possible that this could be due to failure to include noise in the measurement process. These results illustrate how CMC can be used to determine when a model is inconsistent with data and also suggest that extending CMC to handle noisy measurement is likely worthwhile.
+The rightmost panel of Figure \ref{fig:tu_inputs} shows the posterior parameter distribution for $(p_2, p_5)$ when targeting this bivariate output distribution. In comparing it to the other panels in the same figure, it is clear that the posterior distribution when targeting $(q_1,q_2)$ is somewhere between the distribution for $q_1$ and $q_2$ alone; unfortunately, this midway house is not suited to either case, however. Indeed, this failure to target both $q_1$ and $q_2$ simultaneously suggests that the model does not actually cohere with the data. By ``model'' here, it could either be that the ODE system described in eq. \eqref{eq:tu_nondimensional} is inappropriate; it is also possible that this could be due to failure to include noise in the measurement process. Given the extent of the discrepancy between the ODE means and the target contours, we suggest that it's most likely that the ODE model misses or misrepresents key processes. These results illustrate how CMC can be used to determine when a model is inconsistent with data and also suggest that extending CMC to handle noisy measurement is likely worthwhile.
 
 \begin{figure}[H]
 	\centerline{\includegraphics[width=1\textwidth]{../figures/tu_outputs.png}}
