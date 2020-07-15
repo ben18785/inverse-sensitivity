@@ -57,34 +57,12 @@
 \vspace*{0.2in}
 
 %% Title must be 250 characters or less.
-%\begin{flushleft}
-%{\Large
-%\textbf\newline{A Monte Carlo method to estimate cell population heterogeneity}
-%}
-%\newline
-%\\
-%Ben Lambert\textsuperscript{1,2}*,
-%David J. Gavaghan\textsuperscript{3},
-%Simon Tavener\textsuperscript{4}.
-%\\
-%\bigskip
-%\textbf{1} Department of Zoology, University of Oxford, Oxford, Oxfordshire, U.K.
-%\\
-%\textbf{2} MRC Centre for Global Infectious Disease Analysis, School of Public Health, Imperial College London, London W2 1PG, UK.
-%\\
-%\textbf{3} Department of Computer Science, University of Oxford, Oxford, U.K.
-%\\
-%\textbf{4} Department of Mathematics, Colorado State University, Fort Collins, Colorado, U.S.A.
-%\\
-%\bigskip
-%
-%% Use the asterisk to denote corresponding authorship and provide email address in note below.
-%*ben.c.lambert@gmail.com.
-%
-%\end{flushleft}
+\begin{center}\begin{LARGE}\begin{bf}
+Supplemental material
+\end{bf}\end{LARGE}\end{center}
 
-\hfill Revision date \& time: \timestamp
-\bigskip
+%\hfill Revision date \& time: \timestamp
+%\bigskip
 
 
 % Please keep the abstract below 300 words
@@ -102,37 +80,39 @@
 
 \section{Introduction}
 
-We consider a simple dynamical system model based on Michaelis-Menten reaction kinetics \cite{tu2019single} which seeks to explain a subset of the single-cell RNA-sequence data of  embryonic stem cell development reported by \cite{chu2016single}.
+We consider a simple dynamical system model based on Michaelis-Menten reaction kinetics \cite{tu2019single} which seeks to explain a subset of the single-cell RNA-sequencing data from experiments of embryonic stem cell development reported by \cite{chu2016single}. We show the nondimensionalization in considerable detail since we arrive at a slightly different result from \cite{tu2019single}.
 
 \section{Mathematical model}
 
 %\subsection{Initial value problem}
-Let $C=$ [CDH1], $Z=$ [ZEB1] and $K=$ [KLF8] represent the time-dependent concentrations of three genes that have been recognized as key actors in embryonic stem cell development. Let
+Let $C=$ [CDH1], $Z=$ [ZEB1] and $K=$ [KLF8] represent the time-dependent concentrations of these three genes and let
 \begin{eqnarray}
-\frac{dC}{d\tau} &=& \frac{k_1}{k_2 + Z^2} + \frac{k_3}{k_4 + K^2} - d_1 C  \label{eq:de_one} \\
-\frac{dZ}{d\tau} &=& \frac{a k_5 K^2}{k_6 + K^2} - d_2 Z \label{eq:de_two} \\
-\frac{dK}{d\tau} &=& \frac{r k_7}{k_8 + C^2} - d_3 K \label{eq:de_three}
+\frac{dC}{dt} &=& \frac{k_1}{k_2 + Z^2} + \frac{k_3}{k_4 + K^2} - d_1 C  \label{eq:de_one} \\
+\frac{dZ}{dt} &=& \frac{a k_5 K^2}{k_6 + K^2} - d_2 Z \label{eq:de_two} \\
+\frac{dK}{dt} &=& \frac{r k_7}{k_8 + C^2} - d_3 K \label{eq:de_three}
 \end{eqnarray}
 subject to initial conditions
 \begin{equation}
+\label{eq:de_ics}
 C(0) = C_0, \quad Z(0) = Z_0, \quad K(0) = K_0,
 \end{equation}
 where $k_1, k_3, k_5, k_7$ are rates of reaction, $k_2, k_4, k_6, k_8$ are Michaelis parameters, $d_1, d_2, d_3$ are decay rates and $a$ and $r$ are dimensionless constants.
 
-In order to dimensionalize this system of equations we introduce dimensionless variables and parameters.
 
 \section{Nondimensionalization}
 
+In order to dimensionalize equations \eqref{eq:de_one}--\eqref{eq:de_three} we introduce dimensionless variables and parameters.
+
 \subsection{Units of dimensional parameters}
 
-$C, K$ and $Z$ are concentrations with units $L^{-3}$ and therefore all the LHS terms e.g., $\frac{dC}{d\tau}$ have units $L^{-3} T^{-1}$. To be consistent, therefore
+We first need to determine the dimensions of parameters in equations \eqref{eq:de_one}--\eqref{eq:de_three}. $C, K$ and $Z$ are concentrations with units $L^{-3}$ and therefore all the LHS terms e.g., $\frac{dC}{d\tau}$ have units $L^{-3} T^{-1}$. To be consistent,
 
 \begin{itemize}
-  \item $d_1, d_2, d_3$ have units $T^{-1}$
-  \item $k_2, k_4, k_6, k_8$ have units of $L^{-6}$ %so that the denominators have consistent units
-  \item $k_1, k_3$ have units $L^{-9} T^{-1}$
-  \item $k_7$ has units $L^{-9} T^{-1}$ since $r$ is dimensionless
-  \item $k_5$ has units $L^{-3}T^{-1}$  since $a$ is dimensionless
+  \item $d_1, d_2, d_3$ have units $T^{-1}$,
+  \item $k_2, k_4, k_6, k_8$ have units of $L^{-6}$, %so that the denominators have consistent units
+  \item $k_1, k_3$ have units $L^{-9} T^{-1}$,
+  \item $k_7$ has units $L^{-9} T^{-1}$ since $r$ is dimensionless,
+  \item $k_5$ has units $L^{-3}T^{-1}$  since $a$ is dimensionless.
 \end{itemize}
 
 
@@ -149,11 +129,13 @@ We note that
   \item $\dfrac{k_6 d_1}{k_4 k_5}$ has units $L^3$ therefore $y_2$ is dimensionless,
   \item $\dfrac{1}{\sqrt{k_4}}$ has units $L^3$ therefore $y_3$ is dimensionless.
 \end{itemize}
-
+ The time scale is $\dfrac{1}{d_1}$, hence
+\begin{equation}
+\tau = d_1 t.
+\end{equation}
 
 \subsection{Nondimensional groups (parameters)}
-
-The nondimensional groups (parameters) are ...
+The nondimensional groups (parameters) are
 \begin{equation}\label{eq:parameters}
 \left.
 \begin{gathered}\begin{aligned}
@@ -171,7 +153,6 @@ p_6 &= \frac{k_2^2 k_8 d_1^2}{k_1^2}, \\
 \end{aligned}\end{gathered}
 \qquad \right \}
 \end{equation}
-
 Parameters $p_3, p_4$ and $p_7$ are trivially dimensionless  since they are ratios of dimensional parameter with equal units. The remaining parameters are not so obviously dimensionless. However,
 \begin{itemize}
   \item $p_1$ has units $\dfrac{L^{-12}\cdot L^{-6}T^{-2}}  {L^{-6} \cdot L^{-12} \cdot T^{-2}} = 1$,
@@ -183,15 +164,15 @@ Parameters $p_3, p_4$ and $p_7$ are trivially dimensionless  since they are rati
 
 \subsection{Nondimensionalizing governing equations}
 
-The terms by which to multiply the LHS and RHS of equations \ref{eq:de_one}, \ref{eq:de_two} and \ref{eq:de_three} are most easily determined by considering the decay term. The time scale is $\dfrac{1}{d_1}$.
+The terms by which to multiply the LHS and RHS of equations \ref{eq:de_one}, \ref{eq:de_two} and \ref{eq:de_three} are most easily determined by considering the decay term (LHS).
 
 \subsubsection{Equation \eqref{eq:de_one}}
 Multiply \eqref{eq:de_one} by $\dfrac{k_2}{k_1}$.
-\begin{equation*} 
+\begin{equation*}
 \begin{gathered}\begin{aligned}
-{\rm LHS} &= \frac{1}{d_1} \frac{k_2 d_1}{k_1} \frac{dC}{d\tau}
-           = \frac{1}{d_1} \frac{dy_1}{d\tau}
-           = \frac{dy_1}{dt} \\
+{\rm LHS} &= \frac{1}{d_1} \frac{k_2 d_1}{k_1} \frac{dC}{dt}
+           = \frac{1}{d_1} \frac{dy_1}{dt}
+           = \frac{dy_1}{d\tau} \\
 {\rm RHS(1)} &= \frac{1}{1 + Z^2/k_2}
               = \frac{1}{1 + (k_4 k_5 y_2 / k_6 d_1)^2/k_2}
               = \frac{1}{1 + p_1 y_2^2} \\
@@ -205,9 +186,9 @@ Multiply \eqref{eq:de_one} by $\dfrac{k_2}{k_1}$.
 Multiply \eqref{eq:de_two} by $\dfrac{k_6}{k_4 k_5}$.
 \begin{equation*}
 \begin{gathered}\begin{aligned}
-{\rm LHS} &= \frac{1}{d_1} \frac{k_6 d_1}{k_4 k_5} \frac{dZ}{d\tau}
-           = \frac{1}{d_1} \frac{dy_2}{d\tau}
-           = \frac{dy_2}{dt} \\
+{\rm LHS} &= \frac{1}{d_1} \frac{k_6 d_1}{k_4 k_5} \frac{dZ}{dt}
+           = \frac{1}{d_1} \frac{dy_2}{dt}
+           = \frac{dy_2}{d\tau} \\
 {\rm RHS(1)} &= \frac{k_6}{k_4} \left( \frac{K^2}{k_6(1 + K^2/k_6)} \right)
               = \frac{K^2/k_4}{(1 + (k_4/k_6)(K^2/k_4))}
               = \frac{y_3^2}{1 + p_3 y_3^2} \\
@@ -219,11 +200,11 @@ Multiply \eqref{eq:de_two} by $\dfrac{k_6}{k_4 k_5}$.
 
 \subsubsection{Equation \eqref{eq:de_three}}
 Multiply \eqref{eq:de_three} multiply by $\dfrac{1}{d_1 \sqrt{k_4}}$.
-\begin{equation*} 
+\begin{equation*}
 \begin{gathered}\begin{aligned}
-{\rm LHS} &= \frac{1}{d_1 \sqrt{k_4}} \frac{dK}{d\tau}
-           = \frac{1}{d_1} \frac{dy_3}{d\tau}
-           = \frac{dy_3}{dt} \\
+{\rm LHS} &= \frac{1}{d_1 \sqrt{k_4}} \frac{dK}{dt}
+           = \frac{1}{d_1} \frac{dy_3}{dt}
+           = \frac{dy_3}{d\tau} \\
 {\rm RHS(1)} &= \left( \frac{k_2^2 k_7 d_1}{d_1^2 \sqrt{k_4}} \right) \
               \left(  \frac{k_1^2}{k_2^2 d_1^2} \frac{1}{k_8 + C^2} \right)
               = p_5 \left( \frac{1}{ k_2^2 d_1^2 / k_1^2 (k_8+C^2)}\right)
@@ -236,9 +217,9 @@ Multiply \eqref{eq:de_three} multiply by $\dfrac{1}{d_1 \sqrt{k_4}}$.
 \section{Nondimensional model}
 The resulting non-dimensional system of equations is
 \begin{eqnarray}
-\frac{dy_1}{dt} &=& \frac{1}{1 + p_1 y^2} + \frac{p_2}{1 + y_3^2} - y_1  \label{nondim_de_one} \\
-\frac{dy_2}{dt} &=& \frac{a y_3^2}{1 + p_3 y^2} - p_4 y_2 \label{nondim_de_two} \\
-\frac{dy_3}{dt} &=& \frac{r p_5}{p_6 + y_1^2} - p_7 y_3 \label{nondim_de_three}
+\frac{dy_1}{d\tau} &=& \frac{1}{1 + p_1 y_2^2} + \frac{p_2}{1 + y_3^2} - y_1  \label{nondim_de_one} \\
+\frac{dy_2}{d\tau} &=& \frac{a y_3^2}{1 + p_3 y_3^2} - p_4 y_2 \label{nondim_de_two} \\
+\frac{dy_3}{d\tau} &=& \frac{r p_5}{p_6 + y_1^2} - p_7 y_3 \label{nondim_de_three}
 \end{eqnarray}
 subject to initial conditions
 \begin{equation}
