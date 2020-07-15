@@ -57,9 +57,9 @@
 \vspace*{0.2in}
 
 %% Title must be 250 characters or less.
-\begin{center}\begin{LARGE}\begin{bf}
-Supplemental material
-\end{bf}\end{LARGE}\end{center}
+\begin{center}\begin{Large}\begin{bf}
+Supplementary material
+\end{bf}\end{Large}\end{center}
 
 %\hfill Revision date \& time: \timestamp
 %\bigskip
@@ -78,11 +78,13 @@ Supplemental material
 % Do not include any citations. Avoid specialist abbreviations.
 
 
-\section{Introduction}
+\bigskip
+\noindent{\bf Introduction}
 
 We consider a simple dynamical system model based on Michaelis-Menten reaction kinetics \cite{tu2019single} which seeks to explain a subset of the single-cell RNA-sequencing data from experiments of embryonic stem cell development reported by \cite{chu2016single}. We show the nondimensionalization in considerable detail since we arrive at a slightly different result from \cite{tu2019single}.
 
-\section{Mathematical model}
+\bigskip
+\noindent{\bf Mathematical model}
 
 %\subsection{Initial value problem}
 Let $C=$ [CDH1], $Z=$ [ZEB1] and $K=$ [KLF8] represent the time-dependent concentrations of these three genes and let
@@ -99,11 +101,13 @@ C(0) = C_0, \quad Z(0) = Z_0, \quad K(0) = K_0,
 where $k_1, k_3, k_5, k_7$ are rates of reaction, $k_2, k_4, k_6, k_8$ are Michaelis parameters, $d_1, d_2, d_3$ are decay rates and $a$ and $r$ are dimensionless constants.
 
 
-\section{Nondimensionalization}
+\bigskip
+\noindent{\bf Nondimensionalization}
 
 In order to dimensionalize equations \eqref{eq:de_one}--\eqref{eq:de_three} we introduce dimensionless variables and parameters.
 
-\subsection{Units of dimensional parameters}
+\bigskip
+\noindent{\em Units of dimensional parameters}
 
 We first need to determine the dimensions of parameters in equations \eqref{eq:de_one}--\eqref{eq:de_three}. $C, K$ and $Z$ are concentrations with units $L^{-3}$ and therefore all the LHS terms e.g., $\frac{dC}{d\tau}$ have units $L^{-3} T^{-1}$. To be consistent,
 
@@ -116,7 +120,9 @@ We first need to determine the dimensions of parameters in equations \eqref{eq:d
 \end{itemize}
 
 
-\subsection{Nondimensional variables}
+\bigskip
+\noindent{\em Nondimensional variables}
+
 The nondimensional variables are
 \begin{equation}\label{eq:variables}
 y_1 = \left(\frac{k_2 d_1}{k_1}\right) C, \qquad
@@ -134,7 +140,10 @@ We note that
 \tau = d_1 t.
 \end{equation}
 
-\subsection{Nondimensional groups (parameters)}
+
+\bigskip
+\noindent{\em Nondimensional groups (parameters)}
+
 The nondimensional groups (parameters) are
 \begin{equation}\label{eq:parameters}
 \left.
@@ -162,12 +171,13 @@ Parameters $p_3, p_4$ and $p_7$ are trivially dimensionless  since they are rati
 \end{itemize}
 
 
-\subsection{Nondimensionalizing governing equations}
+\bigskip
+\noindent{\bf The nondimensional equations}
 
 The terms by which to multiply the LHS and RHS of equations \ref{eq:de_one}, \ref{eq:de_two} and \ref{eq:de_three} are most easily determined by considering the decay term (LHS).
 
-\subsubsection{Equation \eqref{eq:de_one}}
-Multiply \eqref{eq:de_one} by $\dfrac{k_2}{k_1}$.
+\medskip
+\noindent\underline{Equation \eqref{eq:de_one}} \enskip Multiply by $\dfrac{k_2}{k_1}$.
 \begin{equation*}
 \begin{gathered}\begin{aligned}
 {\rm LHS} &= \frac{1}{d_1} \frac{k_2 d_1}{k_1} \frac{dC}{dt}
@@ -182,8 +192,8 @@ Multiply \eqref{eq:de_one} by $\dfrac{k_2}{k_1}$.
 \end{aligned}\end{gathered}
 \end{equation*}
 
-\subsubsection{Equation \eqref{eq:de_two}}
-Multiply \eqref{eq:de_two} by $\dfrac{k_6}{k_4 k_5}$.
+\medskip
+\noindent\underline{Equation \eqref{eq:de_two}} \enskip Multiply by $\dfrac{k_6}{k_4 k_5}$.
 \begin{equation*}
 \begin{gathered}\begin{aligned}
 {\rm LHS} &= \frac{1}{d_1} \frac{k_6 d_1}{k_4 k_5} \frac{dZ}{dt}
@@ -197,9 +207,8 @@ Multiply \eqref{eq:de_two} by $\dfrac{k_6}{k_4 k_5}$.
 \end{aligned}\end{gathered}
 \end{equation*}
 
-
-\subsubsection{Equation \eqref{eq:de_three}}
-Multiply \eqref{eq:de_three} multiply by $\dfrac{1}{d_1 \sqrt{k_4}}$.
+\medskip
+\noindent\underline{Equation \eqref{eq:de_three}} \enskip Multiply  multiply by $\dfrac{1}{d_1 \sqrt{k_4}}$.
 \begin{equation*}
 \begin{gathered}\begin{aligned}
 {\rm LHS} &= \frac{1}{d_1 \sqrt{k_4}} \frac{dK}{dt}
@@ -213,8 +222,7 @@ Multiply \eqref{eq:de_three} multiply by $\dfrac{1}{d_1 \sqrt{k_4}}$.
 \end{aligned}\end{gathered}
 \end{equation*}
 
-
-\section{Nondimensional model}
+\bigskip
 The resulting non-dimensional system of equations is
 \begin{eqnarray}
 \frac{dy_1}{d\tau} &=& \frac{1}{1 + p_1 y_2^2} + \frac{p_2}{1 + y_3^2} - y_1  \label{nondim_de_one} \\
